@@ -866,7 +866,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
 .ichat-body::-webkit-scrollbar{display:none}
 
 /* الرسائل */
-.im{max-width:84%;padding:11px 16px;border-radius:18px;font-size:.98rem;line-height:1.85;opacity:0;will-change:transform,opacity;flex:none}
+.im{max-width:84%;padding:11px 16px;border-radius:18px;font-size:.98rem;line-height:1.85;opacity:0;will-change:transform,opacity;flex:none;white-space:pre-line}
 .im-ai{align-self:flex-start;background:rgba(255,255,255,.07);color:#EEF3FC;border:1px solid rgba(228,193,121,.13);border-end-start-radius:6px}
 .im-user{align-self:flex-end;background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#0F2350;font-weight:700;border-end-end-radius:6px;box-shadow:0 10px 26px rgba(199,154,75,.25)}
 .im-cursor::after{content:"";display:inline-block;width:2px;height:1em;vertical-align:-.15em;margin-inline-start:2px;background:var(--gold-2);animation:iBlink .75s steps(1) infinite}
@@ -2063,10 +2063,16 @@ async function typingDots(ms){
   el.remove();
 }
 async function typeInto(el, text){
+  // عقدة نصية واحدة تكبر تدريجيًا (لا نضيف عقدة Text منفصلة لكل حرف):
+  // بعض المتصفحات (WebKit/Safari) تُشكّل كل عقدة Text ككتلة عزل مستقلة،
+  // فتخرج الحروف العربية بصيغتها المعزولة غير المتصلة إذا صار كل حرف
+  // بعقدته الخاصة. عقدة واحدة تنمو = تشكيل عربي متصل مضمون بكل المتصفحات.
+  // الأسطر الجديدة تُترك كـ"\n" حرفية ويتكفّل بها white-space:pre-line.
+  const node = document.createTextNode('');
+  el.appendChild(node);
   el.classList.add('im-cursor');
   for (const ch of text){
-    if (ch === '\n') el.appendChild(document.createElement('br'));
-    else el.appendChild(document.createTextNode(ch));
+    node.data += ch;
     await wait(22); ck();
   }
   el.classList.remove('im-cursor');
