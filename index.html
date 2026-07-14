@@ -2037,15 +2037,12 @@ setTimeout(() => { if (!finished) skip(); }, 45000); // صمام أمان
 
 /* ---- أدوات المحادثة ---- */
 function scrollChat(){ g.to(chatBody, {scrollTop: chatBody.scrollHeight, duration:.5, ease:'power2.out'}); }
-function bubbleIn(el, opts){
-  // فقاعات يُكتب فيها النص حرفًا بحرف بعد الظهور (aiMsg) تتجاهل البلور:
-  // تحريك filter:blur() أثناء طفرات متكررة في محتوى النص يسبب تمزّق/تقطّع
-  // مرئي في الحروف على معالجات الجوال — البلور آمن فقط للمحتوى الثابت.
-  const withBlur = !(opts && opts.noBlur);
+function bubbleIn(el){
+  // بدون فلتر blur: تمويه الخط العربي المتصل يفكّك الوصلات الرفيعة بين
+  // الحروف قبل جسم الحرف نفسه، فتبدو الكلمة أثناء الحركة مقطّعة ومنفصلة —
+  // ملحوظة خصوصًا على الجوال حيث تلتقط العين لحظة التمويه بوضوح أكبر.
   chatBody.appendChild(el);
-  g.fromTo(el,
-    {opacity:0, y:16, scale:.96, filter: withBlur ? 'blur(6px)' : 'blur(0px)'},
-    {opacity:1, y:0, scale:1, filter:'blur(0px)', duration:.55, ease:'power3.out'});
+  g.fromTo(el, {opacity:0, y:16, scale:.96}, {opacity:1, y:0, scale:1, duration:.5, ease:'power3.out'});
   scrollChat();
   return el;
 }
@@ -2077,7 +2074,7 @@ async function typeInto(el, text){
 async function aiMsg(text){
   const el = document.createElement('div');
   el.className = 'im im-ai';
-  bubbleIn(el, {noBlur: true});
+  bubbleIn(el);
   await typeInto(el, text);
   return el;
 }
