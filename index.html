@@ -43,7 +43,7 @@
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;overflow-x:clip}
+html{scroll-behavior:smooth;overflow-x:clip;scroll-padding-top:96px}
 body{
   font-family:var(--ff-body);
   color:var(--ink);
@@ -509,6 +509,9 @@ section{padding:96px 0}
 .f-m7md .txt{font-family:var(--ff-num);font-weight:400;color:#FAFAFA;font-size:calc(var(--s,58px)*.26);letter-spacing:.02em}
 .f-m7md .sub{color:#9C9C9C;font-size:calc(var(--s,58px)*.088);letter-spacing:.28em}
 /* استوديو OS — الشعار الرسمي */
+.f-drift{background:#F5EDE0}
+.f-drift .txt{color:#1A1208;font-size:calc(var(--s,58px)*.22);font-family:Georgia,serif;font-style:italic}
+.f-drift .sub{color:#8B7355;font-size:calc(var(--s,58px)*.085);letter-spacing:.14em}
 .f-os{background:var(--paper)}
 .core{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:50%}
 .core::before{
@@ -1016,6 +1019,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
         <div class="fcard" style="--i:3"><img src="assets/card-mohammed.jpg" alt="موقع محمد بديري — فيلم ميكر"></div>
         <div class="fcard" style="--i:4"><img src="assets/card-os.jpg" alt="بوستر استوديو OS لتصميم المواقع"></div>
         <div class="fcard" style="--i:5"><img src="assets/card-offer.jpg" alt="باقات تبدأ من 1000 ريال"></div>
+        <div class="fcard" style="--i:6"><img src="assets/card-drift.jpg" alt="موقع Drift — منصة تخطيط هادئة للإنتاجية"></div>
       </div>
 
       <!-- شارات الشاشة الأولى -->
@@ -1065,6 +1069,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
           <img src="assets/full-raghad.jpg" alt="موقع وكالة رغد للتسويق الرقمي">
           <img src="assets/full-veldara.jpg" alt="موقع أسامة — مونتير ومصمم موشن جرافيك">
           <img src="assets/full-mohammed.jpg" alt="موقع محمد بديري — فيلم ميكر">
+          <img src="assets/full-drift.jpg" alt="موقع Drift — منصة إنتاجية هادئة">
         </div>
       </div>
       <button class="sc-arrow sc-prev" id="scPrev" aria-label="العمل السابق">
@@ -1079,7 +1084,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
           <span id="scTags">عقارات · متعدد الأقسام · وضع ليل/نهار</span>
         </div>
         <div class="sc-cta">
-          <span class="sc-dots" id="scDots"><i class="on"></i><i></i><i></i><i></i></span>
+          <span class="sc-dots" id="scDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
           <a class="work-link" id="scWa" href="https://wa.me/966572929651?text=%D8%B9%D8%AC%D8%A8%D9%86%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20%D9%86%D8%A8%D8%B1%D8%A7%D8%B3%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D9%83%D9%86%20%D9%88%D8%A3%D8%A8%D8%BA%D9%89%20%D9%85%D8%AB%D9%84%D9%87" target="_blank" rel="noopener">أبغى موقع مثل هذا ←</a>
         </div>
       </div>
@@ -1200,6 +1205,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
 
         <div class="orbit o4">
           <div class="chip" style="--a:30deg;--r:398px;--s:58px"><span class="unspin"><span class="face f-raghad" style="--d:1.7s;--glow:rgba(180,72,95,.5)"><span class="lg"><span class="txt">رغد <i>•</i></span></span></span></span></div>
+          <div class="chip" style="--a:160deg;--r:398px;--s:78px"><span class="unspin"><span class="face f-drift" style="--d:2.1s;--glow:rgba(199,154,75,.4)"><span class="lg"><span class="txt" style="font-style:italic;font-family:Georgia,serif">Drift<span style="color:var(--gold)">.</span></span><span class="sub">AI PLANNER</span></span></span></span></div>
           <div class="chip" style="--a:95deg;--r:398px;--s:90px"><span class="unspin"><span class="face f-nibras" style="--d:2s;--glow:rgba(200,155,75,.55)"><span class="lg"><svg class="ico" viewBox="0 0 48 48" fill="none"><rect x="2" y="2" width="44" height="44" rx="6" stroke="#C9A84C" stroke-width="2"/><path d="M14 12L24 24L34 12" stroke="#C0C0C0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 24L24 38" stroke="#C0C0C0" stroke-width="3" stroke-linecap="round"/><rect x="8" y="28" width="7" height="10" rx="1.5" fill="#C9A84C"/><rect x="33" y="28" width="7" height="10" rx="1.5" fill="#C9A84C"/></svg><span class="txt">نبراس المساكن</span></span></span></span></div>
           <div class="chip" style="--a:220deg;--r:398px;--s:88px"><span class="unspin"><span class="face f-osama" style="--d:2.3s;--glow:rgba(90,140,255,.5)"><span class="lg"><span class="txt">OSAMA<i>.</i></span><span class="sub">VIDEO EDITOR</span></span></span></span></div>
           <div class="chip" style="--a:320deg;--r:398px;--s:58px"><span class="unspin"><span class="face sq f-os" style="--d:1.4s;--glow:rgba(228,193,121,.55)"><img class="fit" src="assets/logo.png" alt="شعار استوديو OS"></span></span></div>
@@ -1239,6 +1245,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
         <span class="tk-item latin">OSAMA · VIDEO EDITOR</span>
         <span class="tk-item latin">M7MD BEDEIRY · FILMMAKER</span>
         <span class="tk-item">استوديو OS <small>تصميم مواقع</small></span>
+        <span class="tk-item latin">DRIFT · AI PLANNER</span>
       </div>
       <div class="tk">
         <span class="tk-item">نبراس المساكن <small>خدمات عقارية</small></span>
@@ -1246,6 +1253,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
         <span class="tk-item latin">OSAMA · VIDEO EDITOR</span>
         <span class="tk-item latin">M7MD BEDEIRY · FILMMAKER</span>
         <span class="tk-item">استوديو OS <small>تصميم مواقع</small></span>
+        <span class="tk-item latin">DRIFT · AI PLANNER</span>
       </div>
       <div class="tk">
         <span class="tk-item">نبراس المساكن <small>خدمات عقارية</small></span>
@@ -1253,6 +1261,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
         <span class="tk-item latin">OSAMA · VIDEO EDITOR</span>
         <span class="tk-item latin">M7MD BEDEIRY · FILMMAKER</span>
         <span class="tk-item">استوديو OS <small>تصميم مواقع</small></span>
+        <span class="tk-item latin">DRIFT · AI PLANNER</span>
       </div>
       <div class="tk">
         <span class="tk-item">نبراس المساكن <small>خدمات عقارية</small></span>
@@ -1260,6 +1269,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
         <span class="tk-item latin">OSAMA · VIDEO EDITOR</span>
         <span class="tk-item latin">M7MD BEDEIRY · FILMMAKER</span>
         <span class="tk-item">استوديو OS <small>تصميم مواقع</small></span>
+        <span class="tk-item latin">DRIFT · AI PLANNER</span>
       </div>
     </div>
   </div>
@@ -1272,7 +1282,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
     <div class="craft-veil" aria-hidden="true"></div>
     <div class="container craft-in">
       <div class="craft-copy">
-        <a class="craft-badge reveal" href="#works">+7 مواقع مُسلَّمة لعملاء حقيقيين <span class="arr">←</span></a>
+        <a class="craft-badge reveal" href="#works">+8 مواقع مُسلَّمة لعملاء حقيقيين <span class="arr">←</span></a>
         <h2 class="rv">ما نلمس قوالب جاهزة — كل موقع *يُصنع* بأيدينا، بكسل بكسل، ليشبه *علامتك*.</h2>
         <p class="craft-sub reveal">موقعك القادم يبدأ من رسالة واحدة.</p>
         <a class="craft-cta reveal" href="https://wa.me/966572929651?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9" target="_blank" rel="noopener">اطلب تصميم موقعك <span class="arr">←</span></a>
@@ -1427,16 +1437,18 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
         <img src="assets/card-raghad.jpg" alt=""><span class="pillw g">وكالة رغد</span>
         <img src="assets/card-osama.jpg" alt=""><span class="pillw">OSAMA</span>
         <img src="assets/card-mohammed.jpg" alt=""><span class="pillw g">M7MD Bedeiry</span>
+        <img src="assets/card-drift.jpg" alt=""><span class="pillw">Drift</span>
         <img src="assets/card-os.jpg" alt=""><span class="pillw">استوديو OS</span>
-        <img src="assets/card-offer.jpg" alt=""><span class="pillw">+7 مواقع مُسلَّمة</span>
+        <img src="assets/card-offer.jpg" alt=""><span class="pillw">+8 مواقع مُسلَّمة</span>
       </div>
       <div class="tg">
         <img src="assets/card-nibras.jpg" alt=""><span class="pillw">نبراس المساكن</span>
         <img src="assets/card-raghad.jpg" alt=""><span class="pillw g">وكالة رغد</span>
         <img src="assets/card-osama.jpg" alt=""><span class="pillw">OSAMA</span>
         <img src="assets/card-mohammed.jpg" alt=""><span class="pillw g">M7MD Bedeiry</span>
+        <img src="assets/card-drift.jpg" alt=""><span class="pillw">Drift</span>
         <img src="assets/card-os.jpg" alt=""><span class="pillw">استوديو OS</span>
-        <img src="assets/card-offer.jpg" alt=""><span class="pillw">+7 مواقع مُسلَّمة</span>
+        <img src="assets/card-offer.jpg" alt=""><span class="pillw">+8 مواقع مُسلَّمة</span>
       </div>
     </div>
   </div>
@@ -1486,6 +1498,18 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
           <div>
             <b>محمد بديري</b>
             <span>مخرج وصانع أفلام — جدة</span>
+          </div>
+        </div>
+        <span class="stars" aria-label="تقييم 5 من 5">★★★★★</span>
+      </div>
+      <div class="t-card reveal">
+        <span class="quote-mark" aria-hidden="true">"</span>
+        <p>أبغى موقع لتطبيق SaaS يعكس الهدوء والأناقة اللي نبنيه عليهم — جاء التصميم بالضبط بهذا الشعور، هادئ ومريح ومقنع. النسخ التجريبية تحولت لعملاء بعد إطلاق الموقع مباشرة.</p>
+        <div class="t-who">
+          <span class="avatar" style="background:#1A1208;font-family:Georgia,serif;font-style:italic">D</span>
+          <div>
+            <b>Drift Inc.</b>
+            <span>منصة إنتاجية هادئة — AI Planner</span>
           </div>
         </div>
         <span class="stars" aria-label="تقييم 5 من 5">★★★★★</span>
@@ -1651,8 +1675,9 @@ const P_A = [
   {x:-382, y:20,   r:-20},
   {x:-476, y:98,   r:-26},
   {x:-560, y:182,  r:-32},
+  {x:-638, y:260,  r:-38},
 ];
-const Z_A = [11, 10, 9, 8, 7, 6], S_A = .92;
+const Z_A = [11, 10, 9, 8, 7, 6, 5], S_A = .92;
 /* الرزمة الوسطية — البطاقات تنلمّ فوق بعض */
 const P_ST = [
   {x:-14, y:32, r:-10},
@@ -1661,18 +1686,20 @@ const P_ST = [
   {x:6,   y:34, r:10},
   {x:-8,  y:30, r:-6},
   {x:12,  y:24, r:4},
+  {x:4,   y:36, r:-8},
 ];
-const Z_ST = [5, 7, 10, 8, 6, 9], S_ST = .58;
+const Z_ST = [5, 7, 10, 8, 6, 9, 11], S_ST = .58;
 /* المروحة المركزية تحت العنوان الثاني */
 const P_B = [
-  {x:-330, y:214, r:-21},
-  {x:-198, y:186, r:-12},
-  {x:-66,  y:166, r:-4},
-  {x:66,   y:166, r:4},
-  {x:198,  y:186, r:12},
-  {x:330,  y:214, r:21},
+  {x:-396, y:238, r:-27},
+  {x:-264, y:204, r:-16},
+  {x:-132, y:176, r:-6},
+  {x:0,    y:166, r:0},
+  {x:132,  y:176, r:6},
+  {x:264,  y:204, r:16},
+  {x:396,  y:238, r:27},
 ];
-const Z_B = [5, 6, 8, 8, 6, 5], S_B = .95;
+const Z_B = [5, 6, 8, 9, 8, 6, 5], S_B = .95;
 function poseDeck(p){
   const sw = Math.min(1, innerWidth / 1240);
   const mob = innerWidth < 900;
@@ -1715,7 +1742,7 @@ requestAnimationFrame(() => {
 const pileEl = document.querySelector('.rv-pile');
 const pileImgs = [...document.querySelectorAll('.rv-pile img')];
 // تكديس 6 بطاقات في هيئة الكومة الصغيرة (إزاحات بالبكسل حول مركزها)
-const FLY_DX = [-34,-20,-7,7,20,34], FLY_DY = [5,-3,2,-4,3,0], FLY_ROT = [-13,-7,-2,3,8,13], FLY_Z = [4,5,7,6,5,4];
+const FLY_DX = [-34,-20,-7,7,20,34,46], FLY_DY = [5,-3,2,-4,3,0,-2], FLY_ROT = [-13,-7,-2,3,8,13,17], FLY_Z = [4,5,7,6,5,4,3];
 function poseFly(t){
   if (!pileEl) return;
   const vw = innerWidth, vh = innerHeight;
@@ -1778,6 +1805,8 @@ const SITES = [
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع البورتفوليو وأبغى مثله')},
   {name:'M7MD Bedeiry — فيلم ميكر', tags:'بورتفوليو مخرج · فيديو سينمائي · عرض أعمال', url:'m7mdbedeiry.com',
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع محمد بديري وأبغى مثله')},
+  {name:'Drift — منصة إنتاجية هادئة', tags:'SaaS · تطبيق ويب · ADHD-Friendly · تصميم هادئ', url:'drift-os.ai.studio',
+   wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع Drift وأبغى مثله')},
 ];
 const scImgs = [...document.querySelectorAll('#scShots img')];
 const scName = document.getElementById('scName');
@@ -1836,12 +1865,12 @@ const clientsSec = document.getElementById('clients');
 const coreNum = document.getElementById('coreNum');
 let clientsOn = false;
 function runCounter(){
-  if (reduced){ coreNum.textContent = '+7'; return; }
+  if (reduced){ coreNum.textContent = '+8'; return; }
   const t0 = performance.now() + 300, DUR = 2000;
   requestAnimationFrame(function step(t){
     if (t < t0){ requestAnimationFrame(step); return; }
     const p = clamp((t - t0) / DUR, 0, 1);
-    coreNum.textContent = '+' + Math.round((1 - Math.pow(1 - p, 3)) * 7);
+    coreNum.textContent = '+' + Math.round((1 - Math.pow(1 - p, 3)) * 8);
     if (p < 1) requestAnimationFrame(step);
   });
 }
