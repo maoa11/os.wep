@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zain:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Marcellus&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zain:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Marcellus&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <style>
 /* ============ TOKENS ============ */
 :root{
@@ -828,6 +828,26 @@ footer{background:#071120;border-top:1px solid var(--line-d);padding:44px 0 34px
 }
 .wa-float:hover{transform:scale(1.1)}
 .wa-float svg{width:30px;height:30px;fill:#fff}
+
+/* ============ LANG TOGGLE ============ */
+.lang-btn{
+  background:none;border:1.5px solid rgba(255,255,255,.28);border-radius:30px;
+  color:var(--txt-d);cursor:pointer;font-family:var(--ff-num);font-size:.76rem;
+  font-weight:600;letter-spacing:.1em;padding:3px 10px;transition:border-color .2s,color .2s;
+  flex-shrink:0;line-height:1.6
+}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ============ ENGLISH MODE ============ */
+html[lang="en"]{
+  --ff-display:'Instrument Serif',Georgia,serif;
+  --ff-body:'Inter',system-ui,-apple-system,sans-serif;
+}
+html[lang="en"] body{direction:ltr;text-align:left}
+html[lang="en"] .eyebrow{flex-direction:row-reverse}
+html[lang="en"] .rv-pile{inset-inline-start:auto;inset-inline-end:0}
+html[lang="en"] .craft-copy{text-align:left}
+html[lang="en"] .craft-cta .arr,html[lang="en"] .craft-badge .arr{display:inline-block;transform:scaleX(-1)}
 </style>
 <style id="os-intro-css">
 /* ============ OS INTRO — تجربة «الموقع يبني نفسه» ============ */
@@ -963,16 +983,17 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
       <img src="assets/logo.png" alt="شعار OS">
     </a>
     <div class="nav-pill links-pill">
+      <button class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
       <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
       <nav class="nav-links" id="navLinks" aria-label="التنقل الرئيسي">
-        <a href="#works">أعمالنا</a>
-        <a href="#features">لماذا نحن</a>
-        <a href="#clients">عملاؤنا</a>
-        <a href="#pricing">الباقات</a>
-        <a href="#faq">الأسئلة</a>
-        <a href="#contact" class="btn btn-gold btn-sm">اطلب موقعك</a>
+        <a href="#works" data-i18n="nav.works">أعمالنا</a>
+        <a href="#features" data-i18n="nav.why">لماذا نحن</a>
+        <a href="#clients" data-i18n="nav.clients">عملاؤنا</a>
+        <a href="#pricing" data-i18n="nav.pricing">الباقات</a>
+        <a href="#faq" data-i18n="nav.faq">الأسئلة</a>
+        <a href="#contact" class="btn btn-gold btn-sm" data-i18n="nav.cta">اطلب موقعك</a>
       </nav>
     </div>
   </div>
@@ -1227,7 +1248,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
           <div class="core">
             <div class="core-inner">
               <span class="core-num" id="coreNum">+0</span>
-              <span class="core-lbl">مواقع مُسلَّمة</span>
+              <span class="core-lbl" id="coreLabel">مواقع مُسلَّمة</span>
             </div>
           </div>
           <div class="chip" style="--a:270deg;--r:176px;--s:56px"><span class="unspin"><span class="face f-nibras" style="--d:.6s;--glow:rgba(200,155,75,.55)"><span class="lg"><svg class="ico" viewBox="0 0 48 48" fill="none" style="width:calc(var(--s)*.52);height:calc(var(--s)*.52)"><rect x="2" y="2" width="44" height="44" rx="6" stroke="#C9A84C" stroke-width="2"/><path d="M14 12L24 24L34 12" stroke="#C0C0C0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 24L24 38" stroke="#C0C0C0" stroke-width="3" stroke-linecap="round"/><rect x="8" y="28" width="7" height="10" rx="1.5" fill="#C9A84C"/><rect x="33" y="28" width="7" height="10" rx="1.5" fill="#C9A84C"/></svg></span></span></span></div>
@@ -1792,7 +1813,7 @@ function splitWords(el){
   });
   return words;
 }
-const rvGroups = [...document.querySelectorAll('.rv')].map(el => ({el, words: splitWords(el)}));
+let rvGroups = [...document.querySelectorAll('.rv')].map(el => ({el, words: splitWords(el)}));
 if (reduced) rvGroups.forEach(g => g.words.forEach(w => w.classList.add('on')));
 
 /* ===== معرض الأعمال (سلايدر بتمرير بطيء) ===== */
@@ -2003,18 +2024,456 @@ if (reduced){
 document.getElementById('quoteForm').addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target;
+  const isEn = document.documentElement.lang === 'en';
   const lines = [
-    'مرحبا، أبغى أطلب تصميم موقع 👋',
-    'الاسم: ' + f.name.value.trim(),
-    'النشاط: ' + f.biz.value.trim(),
-    'الباقة: ' + f.plan.value
+    isEn ? 'Hi, I want to request a website design 👋' : 'مرحبا، أبغى أطلب تصميم موقع 👋',
+    (isEn ? 'Name: ' : 'الاسم: ') + f.name.value.trim(),
+    (isEn ? 'Business: ' : 'النشاط: ') + f.biz.value.trim(),
+    (isEn ? 'Package: ' : 'الباقة: ') + f.plan.value
   ];
-  if (f.msg.value.trim()) lines.push('تفاصيل: ' + f.msg.value.trim());
+  if (f.msg.value.trim()) lines.push((isEn ? 'Details: ' : 'تفاصيل: ') + f.msg.value.trim());
   open('https://wa.me/966572929651?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
 });
 
 /* ===== السنة ===== */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ===== i18n: ثنائي اللغة (عربي / إنجليزي) ===== */
+(function(){
+const T={
+ar:{
+  nav:{works:'أعمالنا',why:'لماذا نحن',clients:'عملاؤنا',pricing:'الباقات',faq:'الأسئلة',cta:'اطلب موقعك'},
+  heroAEye:'استوديو تصميم مواقع · OS',
+  heroAH1:'نعرض شغلك،<br>نبني ثقتك،<br>ونحوّل الزائر إلى <em>عميل</em>.',
+  heroASub:'نصمّم لك موقعًا احترافيًا يعكس هويتك ويجذب عملاءك — سريع، متوافق مع الجوال، ويشمل الدومين والاستضافة لسنة كاملة. باقات تبدأ من <b class="num">1,000</b> ر.س.',
+  heroCta1:'اطلب موقعك الآن',heroCta2:'شاهد أعمالنا',
+  heroBEye:'من أعمالنا الحقيقية',
+  heroBH1:'مكانٌ يليق بأعمالك —<br>مواقع تُصمَّم <em>لتبيع عنك</em>.',
+  rv1Before:'سواء كنت صاحب نشاط يبغى موقعًا *يبيع* عنه،',
+  rv1Mid:'أو مشروعًا جديدًا يبغى حضورًا يليق فيه —',
+  rv1Badge:'استوديو OS',
+  rv1After:'يوصلك لموقعٍ يشتغل لك *24/7* ويحوّل زوّارك إلى *عملاء*.',
+  rv2:'موثوقين من *الأفضل* في مجالاتهم.',
+  craftRv:'ما نلمس قوالب جاهزة — كل موقع *يُصنع* بأيدينا، بكسل بكسل، ليشبه *علامتك*.',
+  worksEye:'أعمالنا',worksH2:'مواقع حقيقية، لعملاء حقيقيين',
+  worksSub:'تصفّح كل موقع وهو يتحرك أمامك من أوله لآخره — هذا مستوى الشغل اللي بتستلمه.',
+  workLink:'أبغى موقع مثل هذا ←',
+  featEye:'لماذا نحن',featH2:'تفاصيل تفرّق بين موقع… وموقع يشتغل',
+  featSub:'ما نسلّمك "صفحة على الإنترنت" — نسلّمك أداة تسويق كاملة مبنية على أساس صح.',
+  feats:[
+    {h3:'سرعة تحميل عالية',p:'كود نظيف وصور مضغوطة — لأن كل ثانية تأخير تخسّرك زائر، وقوقل يحب المواقع السريعة.'},
+    {h3:'الجوال أولًا',p:'أغلب زوّارك من الجوال — نصمم التجربة عليه أولًا، وتطلع مثالية على كل المقاسات.'},
+    {h3:'جاهز لمحركات البحث',p:'بنية سليمة وعناوين ووصف مضبوط لكل صفحة — عشان عملاءك يلقونك لما يبحثون.'},
+    {h3:'تصميم مخصص — مو قالب',p:'هويتك وألوانك وشخصية نشاطك — ما نبيع قوالب جاهزة تشوفها عند غيرك.'},
+    {h3:'دومين واستضافة سنة كاملة',p:'كل الباقات الأساسية تشمل حجز الدومين والاستضافة لسنة — تستلم موقعك شغّال، مو ملفات.'},
+    {h3:'دعم بعد التسليم',p:'تعديلات مضمونة ضمن باقتك، ودعم فني شهر كامل مع الباقة الاحترافية — ما نختفي بعد الاستلام.'},
+  ],
+  featDarkH3:'تبغى دليل على مستوى شغلنا؟',featDarkP:'أنت تتصفحه الآن — هذا الموقع من تصميمنا وتطويرنا.',featDarkBtn:'اطلب موقعك الآن',
+  procEye:'خطوات العمل',procH2:'من أول رسالة… إلى موقع منشور',
+  procSub:'طريقة عمل واضحة تعرف فيها وش يصير في كل مرحلة — بدون غموض وبدون مفاجآت.',
+  steps:[
+    {h3:'نسمع منك',p:'ترسل لنا على واتساب: وش نشاطك، وش هدفك من الموقع، وأمثلة تعجبك إن وجدت.',em:'المدة: جلسة واحدة'},
+    {h3:'نتفق بوضوح',p:'نرسل لك عرض سعر مفصّل: الباقة، المدة، طريقة الدفع — كل شيء مكتوب قبل بداية أي شغل.',em:'بدون أي التزام مسبق'},
+    {h3:'نصمّم ونراجع معك',p:'نبني الموقع ونرسل لك نسخة للمراجعة، وتعديلاتك محسوبة ضمن الباقة حتى ترضى عن النتيجة.',em:'أنت شريك في كل خطوة'},
+    {h3:'نطلق ونسلّم',p:'نرفع الموقع، نربط الدومين، ونسلّمك كل شيء جاهز وشغّال — مع دعم بعد التسليم حسب باقتك.',em:'موقعك صار على الهواء'},
+  ],
+  clientsEye:'عملاؤنا',clientsH2:'علامات وثقت فينا… ومواقعها تشتغل لها',
+  clientsSub:'من العقارات إلى التسويق وصناعة المحتوى — كل شعار يدور هنا وراه موقع حقيقي سلّمناه وصاحبه راضٍ عنه.',
+  coreLabel:'مواقع مُسلَّمة',
+  craftBadge:'+8 مواقع مُسلَّمة لعملاء حقيقيين',craftSub:'موقعك القادم يبدأ من رسالة واحدة.',craftCta:'اطلب تصميم موقعك',
+  priceEye:'باقات وأسعار 2026',priceH2:'باقات واضحة… تعرف وش تدفع ووش تستلم',
+  priceSub:'كل الباقات الأساسية تشمل دومين واستضافة لسنة كاملة. الأسعار نطاقات تقديرية ويُحدد السعر النهائي حسب متطلبات مشروعك.',
+  plans:[
+    {name:'باقة البداية',who:'مناسبة للأفراد والمستقلين (فريلانسرز)',note:null,
+     items:['موقع احترافي كامل','من 3 إلى 5 صفحات','تصميم مخصص','متوافق مع الجوال والكمبيوتر','نموذج تواصل','ربط وسائل التواصل','دومين لمدة سنة','استضافة لمدة سنة','تعديلان بعد التسليم'],btn:'اطلب باقة البداية'},
+    {name:'باقة الأعمال',who:'مناسبة للشركات الصغيرة',note:'تشمل كل مزايا باقة البداية، بالإضافة إلى:',
+     items:['حتى 8 صفحات','تصميم Premium أكثر تميزًا','حركات (Animations) احترافية','معرض أعمال','قسم خدمات','قسم آراء العملاء','قسم الأسئلة الشائعة','نموذج طلب خدمة','3 تعديلات بعد التسليم'],btn:'اطلب باقة الأعمال'},
+    {name:'الباقة الاحترافية',who:'مناسبة للشركات والعلامات التجارية',note:'تشمل كل مزايا باقة الأعمال، بالإضافة إلى:',
+     items:['صفحات حسب الحاجة','تصميم UI مخصص بالكامل','أنيميشن مخصص للموقع','أقسام تفاعلية أكثر','دعم اللغتين (عربي / إنجليزي)','نموذج طلب عرض سعر','رفع الموقع بالكامل وتسليمه جاهزًا','شهر دعم فني','5 تعديلات بعد التسليم'],btn:'اطلب الباقة الاحترافية'},
+    {name:'الباقة الخاصة',who:'لأي طلبات خارج الباقات',note:'حلول مصمّمة خصيصًا لنشاطك، مثل:',
+     items:['موقع مخصص بالكامل','تصميم فريد 100%','عدد صفحات كبير','أفكار وأقسام خاصة حسب نشاطك','أي مزايا إضافية حسب الاتفاق'],btn:'كلّمنا عن مشروعك'},
+  ],
+  extrasH3:'خدمات إضافية (اختيارية)',
+  extrasRows:[
+    {left:'صفحة إضافية',right:'<span class="num">150 – 250</span> ر.س'},
+    {left:'لغة إضافية',right:'<span class="num">300 – 500</span> ر.س'},
+    {left:'كتابة المحتوى',right:'حسب الاتفاق',flex:true},
+    {left:'مونتاج فيديو للموقع',right:'حسب الاتفاق',flex:true},
+    {left:'تعديل بعد انتهاء فترة التعديلات',right:'<span class="num">100</span> ر.س / تعديل'},
+  ],
+  notesH3:'ملاحظات مهمة',
+  notes:['جميع الباقات الأساسية تشمل دومينًا واستضافة لمدة سنة كاملة.','الأسعار نطاقات تقديرية، ويُحدَّد السعر النهائي حسب متطلبات المشروع.','تُتَّفق مدة التنفيذ وطريقة الدفع قبل بدء العمل.'],
+  ribbon:['نصمّم مواقع تبيع','هوية تليق باسمك','تسليم ملتزم بالموعد','دعم بعد الإطلاق','دومين واستضافة سنة مجانًا'],
+  testiEye:'آراء العملاء',testiH2:'بتلقى نفسك معنا',testiSub:'اللي جرّبوا الشغل… هم أفضل من يتكلم عنه.',
+  testis:[
+    {p:'احترافية بالتفاصيل من أول تواصل — فهموا طبيعة السوق العقاري وطلع الموقع أفخم من توقعي، والعملاء صاروا يوصلوننا من الموقع مباشرة.',name:'نبراس المساكن',role:'مكتب خدمات عقارية — جدة'},
+    {p:'أبغى هوية جريئة تشبهنا كوكالة تسويق، ومن أول نسخة حسّيت إن الموقع "يتكلم بلساننا". التسليم كان بالموعد والتعديلات سريعة.',name:'وكالة رغد',role:'وكالة تسويق رقمي'},
+    {p:'طلبت بورتفوليو يعرض شغلي بشكل سينمائي يليق بمجال المونتاج — النتيجة فاقت الخيال، صار الموقع نفسه جزء من أعمالي اللي أفتخر فيها.',name:'أسامة',role:'مونتير ومصمم موشن جرافيك'},
+    {p:'كنت أبغى موقع يليق بشغلي كمخرج ويعرض أعمالي بأسلوب سينمائي — طلع الموقع تحفة، بصفحة استقبال بالفيديو ومعرض أعمال يخطف النظر. صار كرت تعريفي أرسله لأي عميل.',name:'محمد بديري',role:'مخرج وصانع أفلام — جدة'},
+    {p:'أبغى موقع لتطبيق SaaS يعكس الهدوء والأناقة اللي نبنيه عليهم — جاء التصميم بالضبط بهذا الشعور، هادئ ومريح ومقنع. النسخ التجريبية تحولت لعملاء بعد إطلاق الموقع مباشرة.',name:'Drift Inc.',role:'منصة إنتاجية هادئة — AI Planner'},
+  ],
+  faqs:[
+    {q:'كم يستغرق تصميم الموقع؟',a:'يعتمد على حجم الباقة ومتطلباتك — المواقع التعريفية غالبًا تجهز خلال أيام إلى أسابيع قليلة. المهم: نتفق على مدة واضحة قبل بدء العمل ونلتزم فيها.'},
+    {q:'هل الأسعار المعروضة نهائية؟',a:'الأسعار نطاقات تقديرية تعطيك صورة واضحة من البداية، والسعر النهائي يُحدَّد بعد فهم متطلبات مشروعك بالضبط — وتستلم عرض سعر مكتوب قبل أي التزام.'},
+    {q:'هل السعر يشمل الدومين والاستضافة؟',a:'نعم — جميع الباقات الأساسية تشمل حجز الدومين والاستضافة لمدة سنة كاملة. تستلم موقعك شغّال على رابطه الرسمي، مو مجرد ملفات تصميم.'},
+    {q:'كيف تكون طريقة الدفع؟',a:'نتفق على طريقة الدفع ومراحله قبل بدء العمل، وكل شيء يكون مكتوبًا وواضحًا في الاتفاق — بدون أي مفاجآت.'},
+    {q:'ماذا لو احتجت تعديلًا بعد انتهاء التعديلات المجانية؟',a:'كل باقة تشمل عددًا من التعديلات المجانية بعد التسليم (من تعديلين حتى 5 حسب الباقة). بعد انتهائها، أي تعديل إضافي بـ 100 ر.س فقط.'},
+    {q:'عندي طلب خاص ما يدخل تحت أي باقة — تقدرون تنفذونه؟',a:'أكيد — الباقة الخاصة موجودة لهذا الغرض بالضبط: موقع مخصص بالكامل بتصميم فريد وأقسام مبنية حسب نشاطك. كلّمنا على واتساب واشرح لنا فكرتك.'},
+  ],
+  faqEye:'الأسئلة الشائعة',faqH2:'كل اللي تحتاج تعرفه قبل ما تبدأ',
+  contactEye:'تواصل معنا',contactH2:'جاهز تبدأ مشروعك؟',
+  contactLead:'اختر الباقة المناسبة أو خلّنا نصمم لك باقة خاصة — أول استشارة مجانية وبدون أي التزام.',
+  selfProof:'تبغى دليل على مستوى شغلنا؟ <b>أنت تتصفحه الآن</b> — هذا الموقع من تصميمنا.',
+  waLabel:'واتساب — الأسرع للرد',emailLabel:'البريد الإلكتروني',instaLabel:'إنستغرام',
+  formH3:'اطلب عرض سعر',formP:'عبّي النموذج ويوصلنا طلبك على واتساب مباشرة — نرد عليك بعرض واضح.',
+  fName:'اسمك',fNamePH:'مثال: محمد العتيبي',
+  fBiz:'نوع نشاطك',fBizPH:'مثال: مكتب عقاري، متجر عطور، بورتفوليو شخصي…',
+  fPlan:'الباقة اللي تفكر فيها',
+  fPlanOpts:['ما حددت بعد — أبغى استشارة','باقة البداية (1,000 – 2,000 ر.س)','باقة الأعمال (2,000 – 3,000 ر.س)','الباقة الاحترافية (3,000 – 4,000 ر.س)','الباقة الخاصة (تبدأ من 4,000 ر.س)'],
+  fMsg:'احكِ لنا عن مشروعك (اختياري)',fMsgPH:'وش تبغى يكون في موقعك؟ عندك أمثلة تعجبك؟',
+  submitBtn:'أرسل الطلب عبر واتساب',
+  formHint:'يفتح واتساب برسالة جاهزة — تقدر تعدلها قبل الإرسال',
+  footBrand:'استوديو تصميم المواقع',
+  footLinks:['أعمالنا','الباقات','خطوات العمل','الأسئلة الشائعة','تواصل معنا'],
+  footCopy:'© {y} استوديو OS لتصميم المواقع — جميع الحقوق محفوظة · <b>هذا الموقع من تصميمنا وتطويرنا</b>',
+},
+en:{
+  nav:{works:'Portfolio',why:'Why Us',clients:'Clients',pricing:'Pricing',faq:'FAQ',cta:'Start Your Site'},
+  heroAEye:'Web Design Studio · OS',
+  heroAH1:'We showcase your work,<br>build your trust,<br>and turn visitors into <em>clients</em>.',
+  heroASub:'We craft a professional website that reflects your identity and attracts your clients — fast, mobile-ready, and includes domain & hosting for a full year. Packages starting from <b class="num">1,000</b> SAR.',
+  heroCta1:'Start Your Site Now',heroCta2:'See Our Work',
+  heroBEye:'From Our Real Portfolio',
+  heroBH1:'A place worthy of your work —<br>sites designed <em>to sell for you</em>.',
+  rv1Before:"Whether you're a business owner who needs a site that *sells* for you,",
+  rv1Mid:'or a new venture ready for a presence that fits —',
+  rv1Badge:'OS Studio',
+  rv1After:'gets you a site that works *24/7* and turns visitors into *clients*.',
+  rv2:'Trusted by the *best* in their fields.',
+  craftRv:'No templates touched — every site is *crafted* by hand, pixel by pixel, to match *your brand*.',
+  worksEye:'Our Work',worksH2:'Real sites, for real clients',
+  worksSub:"Browse each site as it scrolls from start to finish — this is the quality you'll receive.",
+  workLink:'I want a site like this →',
+  featEye:'Why Us',featH2:'Details that separate a site… from a site that works',
+  featSub:"We don't hand you 'a page on the internet' — we hand you a complete marketing tool built on a solid foundation.",
+  feats:[
+    {h3:'Fast Loading Speed',p:'Clean code and compressed assets — every second of delay costs you a visitor, and Google loves fast sites.'},
+    {h3:'Mobile First',p:'Most of your visitors are on mobile — we design for mobile first, and it looks perfect on every screen size.'},
+    {h3:'SEO Ready',p:'Sound structure, proper titles and descriptions for every page — so your clients find you when they search.'},
+    {h3:'Custom Design — No Templates',p:"Your identity, your colors, your business personality — we don't sell ready-made templates seen elsewhere."},
+    {h3:'Domain & Hosting — Full Year',p:'All core packages include domain registration and hosting for a year — you receive a live site, not just files.'},
+    {h3:'Post-Launch Support',p:"Revisions guaranteed within your package, plus a full month of technical support with the Pro package — we don't disappear after delivery."},
+  ],
+  featDarkH3:'Want proof of our quality?',featDarkP:"You're browsing it right now — this site is our own design and build.",featDarkBtn:'Start Your Site Now',
+  procEye:'How We Work',procH2:'From first message… to a live website',
+  procSub:'A clear workflow where you know what happens at every stage — no ambiguity, no surprises.',
+  steps:[
+    {h3:'We listen',p:'Send us a WhatsApp message: your business type, your site goals, and any examples you like.',em:'Duration: one session'},
+    {h3:'We agree clearly',p:'We send you a detailed quote: package, timeline, payment terms — everything written before any work begins.',em:'No upfront commitment'},
+    {h3:'We design & review together',p:"We build the site and send you a review copy; revisions are included in your package until you're satisfied.",em:"You're a partner at every step"},
+    {h3:'We launch & deliver',p:'We deploy the site, connect the domain, and hand over everything live and ready — with post-launch support per your package.',em:'Your site is now live'},
+  ],
+  clientsEye:'Our Clients',clientsH2:'Brands that trusted us… with sites that work for them',
+  clientsSub:'From real estate to marketing and content creation — every logo here is a real site we delivered, with a happy client behind it.',
+  coreLabel:'Sites Delivered',
+  craftBadge:'+8 Sites Delivered to Real Clients',craftSub:'Your next site starts with a single message.',craftCta:'Request Your Site Design',
+  priceEye:'Packages & Pricing 2026',priceH2:'Clear packages… you know what you pay and what you get',
+  priceSub:'All core packages include domain & hosting for a full year. Prices are indicative ranges; the final price is set per your project requirements.',
+  plans:[
+    {name:'Starter Package',who:'For freelancers & individuals',note:null,
+     items:['Professional full website','3 to 5 pages','Custom design','Mobile & desktop compatible','Contact form','Social media links','Domain for 1 year','Hosting for 1 year','2 revisions after delivery'],btn:'Get Starter Package'},
+    {name:'Business Package',who:'For small businesses',note:'Includes all Starter features, plus:',
+     items:['Up to 8 pages','Premium design','Professional animations','Portfolio gallery','Services section','Client testimonials','FAQ section','Service request form','3 revisions after delivery'],btn:'Get Business Package'},
+    {name:'Pro Package',who:'For companies & brands',note:'Includes all Business features, plus:',
+     items:['Pages as needed','Fully custom UI design','Custom site animations','More interactive sections','Bilingual support (Arabic / English)','Quote request form','Full site deployment & handover','1 month technical support','5 revisions after delivery'],btn:'Get Pro Package'},
+    {name:'Custom Package',who:'For requests outside standard packages',note:'Tailored solutions for your business, such as:',
+     items:['Fully custom site','100% unique design','Large page count','Custom sections per your business','Any extra features by agreement'],btn:'Talk to us about your project'},
+  ],
+  extrasH3:'Add-on Services (Optional)',
+  extrasRows:[
+    {left:'Extra page',right:'<span class="num">150 – 250</span> SAR'},
+    {left:'Extra language',right:'<span class="num">300 – 500</span> SAR'},
+    {left:'Content writing',right:'By agreement',flex:true},
+    {left:'Video editing',right:'By agreement',flex:true},
+    {left:'Revision after included ones',right:'<span class="num">100</span> SAR / revision'},
+  ],
+  notesH3:'Important Notes',
+  notes:['All core packages include domain & hosting for a full year.','Prices are indicative ranges; the final price is set per project requirements.','Timeline and payment terms are agreed upon before work begins.'],
+  ribbon:['Sites that sell','An identity worthy of your name','On-time delivery','Post-launch support','Domain & hosting — free for a year'],
+  testiEye:'Client Reviews',testiH2:"You'll feel at home with us",testiSub:"Those who've experienced our work are the best to speak about it.",
+  testis:[
+    {p:'Professional in every detail from first contact — they understood the real estate market and the site exceeded my expectations; clients now reach us directly through the website.',name:'Nibras Al-Masakin',role:'Real Estate Services — Jeddah'},
+    {p:'I wanted a bold identity that speaks for us as a marketing agency, and from the very first version I felt the site "spoke our language". Delivery was on time and revisions were quick.',name:'Raghad Agency',role:'Digital Marketing Agency'},
+    {p:"I asked for a portfolio showcasing my work cinematically, fitting for the editing field — the result exceeded all imagination; the site itself became part of my work I'm proud of.",name:'Osama',role:'Video Editor & Motion Designer'},
+    {p:"I wanted a site worthy of my work as a director, showcasing my projects cinematically — the result was a masterpiece, with a video welcome page and a portfolio that captures the eye. It became my calling card for every client.",name:'Mohammed Bedeiry',role:'Director & Filmmaker — Jeddah'},
+    {p:"I wanted a SaaS site reflecting the calm and elegance we built it on — the design came with exactly that feeling: calm, comfortable, and convincing. Trial users converted to clients right after the site launched.",name:'Drift Inc.',role:'Calm Productivity Platform — AI Planner'},
+  ],
+  faqs:[
+    {q:'How long does site design take?',a:'Depends on the package and your requirements — informational sites are typically ready within days to a few weeks. What matters: we agree on a clear timeline before starting and we commit to it.'},
+    {q:'Are the listed prices final?',a:'The prices are indicative ranges giving you a clear picture from the start; the final price is set after understanding your project requirements exactly — and you receive a written quote before any commitment.'},
+    {q:'Does the price include domain and hosting?',a:'Yes — all core packages include domain registration and hosting for a full year. You receive a live site on its official domain, not just design files.'},
+    {q:'How does payment work?',a:'We agree on payment method and milestones before work begins, and everything is written and clear in the agreement — no surprises.'},
+    {q:'What if I need a revision after the included ones are used?',a:'Each package includes free revisions after delivery (from 2 to 5 depending on the package). After that, any extra revision is just 100 SAR.'},
+    {q:"I have a special request that doesn't fit any package — can you do it?",a:"Absolutely — the Custom Package exists exactly for this: a fully custom site with a unique design and sections built for your business. Message us on WhatsApp and describe your idea."},
+  ],
+  faqEye:'FAQ',faqH2:'Everything you need to know before you start',
+  contactEye:'Contact Us',contactH2:'Ready to start your project?',
+  contactLead:'Choose a suitable package or let us design a custom one — your first consultation is free and with no commitment.',
+  selfProof:"Want proof of our quality? <b>You're browsing it right now</b> — this site is our own design.",
+  waLabel:'WhatsApp — Fastest Response',emailLabel:'Email',instaLabel:'Instagram',
+  formH3:'Request a Quote',formP:'Fill the form and your request arrives on WhatsApp directly — we reply with a clear quote.',
+  fName:'Your Name',fNamePH:'Example: Mohammed Al-Otaibi',
+  fBiz:'Your Business Type',fBizPH:'Example: real estate office, perfume store, personal portfolio…',
+  fPlan:"Package you're considering",
+  fPlanOpts:['Not decided yet — I want a consultation','Starter Package (1,000 – 2,000 SAR)','Business Package (2,000 – 3,000 SAR)','Pro Package (3,000 – 4,000 SAR)','Custom Package (starting from 4,000 SAR)'],
+  fMsg:'Tell us about your project (optional)',fMsgPH:'What do you want in your site? Any examples you like?',
+  submitBtn:'Send Request via WhatsApp',
+  formHint:'Opens WhatsApp with a ready message — you can edit before sending',
+  footBrand:'Web Design Studio',
+  footLinks:['Portfolio','Pricing','How We Work','FAQ','Contact Us'],
+  footCopy:'© {y} OS Web Design Studio — All rights reserved · <b>This site is our own design and build</b>',
+}
+};
+
+const SITES_T={
+  ar:[
+    {name:'نبراس المساكن — للخدمات العقارية',tags:'عقارات · متعدد الأقسام · وضع ليل/نهار'},
+    {name:'وكالة رغد — للتسويق الرقمي',tags:'وكالة تسويق · هوية جريئة · أرقام ونتائج'},
+    {name:'Osama — بورتفوليو مونتير',tags:'بورتفوليو شخصي · ستايل سينمائي · معرض فيديو'},
+    {name:'M7MD Bedeiry — فيلم ميكر',tags:'بورتفوليو مخرج · فيديو سينمائي · عرض أعمال'},
+    {name:'Drift — منصة إنتاجية هادئة',tags:'SaaS · تطبيق ويب · ADHD-Friendly · تصميم هادئ'},
+  ],
+  en:[
+    {name:'Nibras Al-Masakin — Real Estate Services',tags:'Real Estate · Multi-section · Dark/Light Mode'},
+    {name:'Raghad Agency — Digital Marketing',tags:'Marketing Agency · Bold Identity · Numbers & Results'},
+    {name:'Osama — Video Editor Portfolio',tags:'Personal Portfolio · Cinematic Style · Video Gallery'},
+    {name:'M7MD Bedeiry — Filmmaker',tags:'Director Portfolio · Cinematic Video · Project Showcase'},
+    {name:'Drift — Calm Productivity Platform',tags:'SaaS · Web App · ADHD-Friendly · Calm Design'},
+  ]
+};
+
+function setLang(lang){
+  const t=T[lang];
+  const html=document.documentElement;
+  html.lang=lang; html.dir=lang==='ar'?'rtl':'ltr';
+
+  /* lang btn */
+  const lb=document.getElementById('langBtn');
+  if(lb) lb.textContent=lang==='ar'?'EN':'عر';
+
+  /* nav toggle aria */
+  const nt=document.getElementById('navToggle');
+  if(nt) nt.setAttribute('aria-label',lang==='ar'?'فتح القائمة':'Open menu');
+
+  /* data-i18n nav links */
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const[sec,k]=el.dataset.i18n.split('.');
+    if(t[sec]&&t[sec][k]!==undefined) el.textContent=t[sec][k];
+  });
+
+  /* hero A */
+  const ca=document.getElementById('copyA');
+  if(ca){
+    ca.querySelector('.eyebrow').textContent=t.heroAEye;
+    ca.querySelector('h1').innerHTML=t.heroAH1;
+    ca.querySelector('.hero-sub').innerHTML=t.heroASub;
+    const as=ca.querySelectorAll('.hero-ctas a');
+    if(as[0]){const lb=as[0].querySelector('.lbl');(lb||as[0]).textContent=t.heroCta1;}
+    if(as[1]) as[1].textContent=t.heroCta2;
+  }
+
+  /* hero B */
+  const cb=document.getElementById('copyB');
+  if(cb){
+    cb.querySelector('.eyebrow').textContent=t.heroBEye;
+    cb.querySelector('h1').innerHTML=t.heroBH1;
+    const bs=cb.querySelectorAll('.hero-ctas a');
+    if(bs[0]){const lb=bs[0].querySelector('.lbl');(lb||bs[0]).textContent=t.heroCta1;}
+    if(bs[1]) bs[1].textContent=t.heroCta2;
+  }
+
+  /* rv1 — rebuild DOM then re-split via rvGroups rebuild below */
+  const rv1El=document.getElementById('rv1');
+  if(rv1El){
+    const pile=rv1El.querySelector('.rv-pile');
+    rv1El.innerHTML='';
+    rv1El.appendChild(document.createTextNode(' '+t.rv1Before+' '));
+    if(pile) rv1El.appendChild(pile);
+    rv1El.appendChild(document.createTextNode(' '+t.rv1Mid+' '));
+    const badge=document.createElement('span');badge.className='rv-badge';badge.textContent=t.rv1Badge;
+    rv1El.appendChild(badge);
+    rv1El.appendChild(document.createTextNode(' '+t.rv1After));
+  }
+
+  /* rv2 */
+  const rv2El=document.getElementById('rv2');
+  if(rv2El) rv2El.innerHTML=t.rv2;
+
+  /* works */
+  const ws=document.getElementById('works');
+  if(ws){
+    ws.querySelector('.eyebrow').textContent=t.worksEye;
+    ws.querySelector('.sec-title').textContent=t.worksH2;
+    ws.querySelector('.sec-sub').textContent=t.worksSub;
+    const wl=document.getElementById('scWa');if(wl) wl.textContent=t.workLink;
+    const prev=document.getElementById('scPrev'),nxt=document.getElementById('scNext');
+    if(prev) prev.setAttribute('aria-label',lang==='ar'?'العمل السابق':'Previous work');
+    if(nxt) nxt.setAttribute('aria-label',lang==='ar'?'العمل التالي':'Next work');
+    SITES_T[lang].forEach((s,i)=>{if(SITES[i]){SITES[i].name=s.name;SITES[i].tags=s.tags;}});
+    const nm=document.getElementById('scName'),tg=document.getElementById('scTags');
+    if(nm&&SITES[scIdx]) nm.textContent=SITES[scIdx].name;
+    if(tg&&SITES[scIdx]) tg.textContent=SITES[scIdx].tags;
+  }
+
+  /* features */
+  const fe=document.getElementById('features');
+  if(fe){
+    fe.querySelector('.eyebrow').textContent=t.featEye;
+    fe.querySelector('.sec-title').textContent=t.featH2;
+    fe.querySelector('.sec-sub').textContent=t.featSub;
+    [...fe.querySelectorAll('.feat:not(.dark)')].forEach((el,i)=>{
+      if(t.feats[i]){el.querySelector('h3').textContent=t.feats[i].h3;el.querySelector('p').textContent=t.feats[i].p;}
+    });
+    const dk=fe.querySelector('.feat.dark');
+    if(dk){dk.querySelector('h3').textContent=t.featDarkH3;dk.querySelector('p').textContent=t.featDarkP;dk.querySelector('.btn').textContent=t.featDarkBtn;}
+  }
+
+  /* process */
+  const pr=document.getElementById('process');
+  if(pr){
+    pr.querySelector('.eyebrow').textContent=t.procEye;
+    pr.querySelector('.sec-title').textContent=t.procH2;
+    pr.querySelector('.sec-sub').textContent=t.procSub;
+    [...pr.querySelectorAll('.step')].forEach((el,i)=>{
+      if(t.steps[i]){el.querySelector('h3').textContent=t.steps[i].h3;el.querySelector('p').textContent=t.steps[i].p;el.querySelector('em').textContent=t.steps[i].em;}
+    });
+  }
+
+  /* clients */
+  const cl=document.getElementById('clients');
+  if(cl){cl.querySelector('.eyebrow').textContent=t.clientsEye;cl.querySelector('.sec-title').textContent=t.clientsH2;cl.querySelector('.sec-sub').textContent=t.clientsSub;}
+  const clbl=document.getElementById('coreLabel');if(clbl) clbl.textContent=t.coreLabel;
+
+  /* craft */
+  const craftEl=document.getElementById('craft');
+  let craftRvEl=null;
+  if(craftEl){
+    const cbadge=craftEl.querySelector('.craft-badge');
+    if(cbadge){const arr=cbadge.querySelector('.arr');cbadge.innerHTML=t.craftBadge+' '+(arr?arr.outerHTML:'<span class="arr">←</span>');}
+    const csub=craftEl.querySelector('.craft-sub');if(csub) csub.textContent=t.craftSub;
+    const ccta=craftEl.querySelector('.craft-cta');
+    if(ccta){const arr=ccta.querySelector('.arr');ccta.innerHTML=t.craftCta+' '+(arr?arr.outerHTML:'<span class="arr">←</span>');}
+    craftRvEl=craftEl.querySelector('h2.rv');
+    if(craftRvEl) craftRvEl.innerHTML=t.craftRv;
+  }
+
+  /* pricing */
+  const pe=document.getElementById('pricing');
+  if(pe){
+    pe.querySelector('.eyebrow').textContent=t.priceEye;
+    pe.querySelector('.sec-title').textContent=t.priceH2;
+    pe.querySelector('.sec-sub').textContent=t.priceSub;
+    [...pe.querySelectorAll('.plan')].forEach((pl,i)=>{
+      const pt=t.plans[i];if(!pt)return;
+      pl.querySelector('h3').textContent=pt.name;
+      const who=pl.querySelector('.who');if(who)who.textContent=pt.who;
+      const note=pl.querySelector('.plan-note');if(note&&pt.note)note.textContent=pt.note;
+      [...pl.querySelectorAll('li')].forEach((li,j)=>{if(pt.items[j])li.textContent=pt.items[j];});
+      const btn=pl.querySelector('.btn');if(btn)btn.textContent=pt.btn;
+    });
+    const exH=pe.querySelector('.extras h3');if(exH)exH.textContent=t.extrasH3;
+    [...pe.querySelectorAll('.extras tr')].forEach((tr,i)=>{
+      const row=t.extrasRows[i];if(!row)return;
+      const tds=[...tr.querySelectorAll('td')];
+      if(tds[0])tds[0].textContent=row.left;
+      if(tds[1]){if(row.flex){tds[1].className='flex-price';tds[1].textContent=row.right;}else{tds[1].className='';tds[1].innerHTML=row.right;}}
+    });
+    const nH=pe.querySelector('.notes h3');if(nH)nH.textContent=t.notesH3;
+    [...pe.querySelectorAll('.notes li')].forEach((li,i)=>{if(t.notes[i])li.textContent=t.notes[i];});
+  }
+
+  /* ribbon */
+  [...document.querySelectorAll('.rb span')].forEach((sp,i)=>sp.textContent=t.ribbon[i%t.ribbon.length]);
+
+  /* testimonials */
+  const te=document.getElementById('testi');
+  if(te){
+    te.querySelector('.eyebrow').textContent=t.testiEye;
+    te.querySelector('.sec-title').textContent=t.testiH2;
+    te.querySelector('.sec-sub').textContent=t.testiSub;
+    [...te.querySelectorAll('.t-card')].forEach((card,i)=>{
+      const tt=t.testis[i];if(!tt)return;
+      const p=card.querySelector('p');if(p)p.textContent=tt.p;
+      const b=card.querySelector('.t-who b');if(b)b.textContent=tt.name;
+      const sp=card.querySelector('.t-who span');if(sp)sp.textContent=tt.role;
+    });
+  }
+
+  /* FAQ */
+  const fq=document.getElementById('faq');
+  if(fq){
+    fq.querySelector('.eyebrow').textContent=t.faqEye;
+    fq.querySelector('.sec-title').textContent=t.faqH2;
+    [...fq.querySelectorAll('details')].forEach((d,i)=>{
+      const fi=t.faqs[i];if(!fi)return;
+      const s=d.querySelector('summary');if(s)s.textContent=fi.q;
+      const a=d.querySelector('.answer');if(a)a.textContent=fi.a;
+    });
+  }
+
+  /* contact */
+  const ct=document.getElementById('contact');
+  if(ct){
+    ct.querySelector('.eyebrow').textContent=t.contactEye;
+    ct.querySelector('.sec-title').textContent=t.contactH2;
+    const lead=ct.querySelector('.lead');if(lead)lead.textContent=t.contactLead;
+    const sp=ct.querySelector('.self-proof p');if(sp)sp.innerHTML=t.selfProof;
+    const chs=[...ct.querySelectorAll('.channel b')];
+    [t.waLabel,t.emailLabel,t.instaLabel].forEach((lbl,i)=>{if(chs[i])chs[i].textContent=lbl;});
+    const fc=ct.querySelector('.form-card');
+    if(fc){
+      fc.querySelector('h3').textContent=t.formH3;
+      const fp=fc.querySelector('p');if(fp)fp.textContent=t.formP;
+      const fnL=fc.querySelector('label[for="fName"]');if(fnL)fnL.textContent=t.fName;
+      const fnI=document.getElementById('fName');if(fnI)fnI.placeholder=t.fNamePH;
+      const fbL=fc.querySelector('label[for="fBiz"]');if(fbL)fbL.textContent=t.fBiz;
+      const fbI=document.getElementById('fBiz');if(fbI)fbI.placeholder=t.fBizPH;
+      const fpL=fc.querySelector('label[for="fPlan"]');if(fpL)fpL.textContent=t.fPlan;
+      const fpS=document.getElementById('fPlan');
+      if(fpS)[...fpS.options].forEach((o,i)=>{if(t.fPlanOpts[i]){o.textContent=t.fPlanOpts[i];o.value=t.fPlanOpts[i];}});
+      const fmL=fc.querySelector('label[for="fMsg"]');if(fmL)fmL.textContent=t.fMsg;
+      const fmI=document.getElementById('fMsg');if(fmI)fmI.placeholder=t.fMsgPH;
+      const sb=fc.querySelector('[type="submit"]');if(sb)sb.textContent=t.submitBtn;
+      const fh=fc.querySelector('.form-hint');if(fh)fh.textContent=t.formHint;
+    }
+  }
+
+  /* footer */
+  const foot=document.querySelector('footer');
+  if(foot){
+    const bn=foot.querySelector('.brand-name');
+    if(bn){const tn=[...bn.childNodes].find(n=>n.nodeType===3);if(tn)tn.data=t.footBrand;}
+    [...foot.querySelectorAll('.foot-nav a')].forEach((a,i)=>{if(t.footLinks[i])a.textContent=t.footLinks[i];});
+    const cp=foot.querySelector('.foot-copy');
+    if(cp){const yr=document.getElementById('year');cp.innerHTML=t.footCopy.replace('{y}',yr?yr.textContent:new Date().getFullYear());}
+  }
+
+  /* rebuild rvGroups (splitWords re-runs on reset innerHTML) */
+  rvGroups=[...document.querySelectorAll('.rv')].map(el=>({el,words:splitWords(el)}));
+  lWords=rvGroups.map((_,i)=>lWords[i]||0);
+  if(reduced) rvGroups.forEach(g=>g.words.forEach(w=>w.classList.add('on')));
+
+  localStorage.setItem('os-lang',lang);
+}
+
+document.getElementById('langBtn').addEventListener('click',()=>{
+  setLang(document.documentElement.lang==='ar'?'en':'ar');
+});
+
+/* init from localStorage */
+(function(){const saved=localStorage.getItem('os-lang');if(saved&&saved!=='ar')setLang(saved);})();
+
+})();
 </script>
 <script src="assets/gsap.min.js"></script>
 <script>
