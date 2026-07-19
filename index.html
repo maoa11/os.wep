@@ -10,6 +10,17 @@
 <meta property="og:image" content="assets/logo.png">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="assets/logo.png">
+<!-- ===== Google Analytics 4 — استبدل G-XXXXXXXXXX بمعرّفك ===== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', {
+    page_title: document.title,
+    send_page_view: true
+  });
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zain:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Marcellus&family=Amiri:wght@700&display=swap" rel="stylesheet">
@@ -133,7 +144,7 @@ section{padding:96px 0}
 .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
 .nav-toggle span{display:block;width:24px;height:2.5px;background:var(--navy);margin:5px 0;border-radius:2px;transition:transform .3s,opacity .3s}
 @media(max-width:960px){
-  .links-pill{width:54px;justify-content:center;padding:0;gap:0}
+  .links-pill{width:auto;justify-content:center;padding:7px 10px;gap:8px}
   .nav-links{
     position:fixed;top:80px;inset-inline:14px;flex-direction:column;gap:6px;
     background:rgba(250,248,242,.98);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -831,12 +842,12 @@ footer{background:#071120;border-top:1px solid var(--line-d);padding:44px 0 34px
 
 /* ============ LANG TOGGLE ============ */
 .lang-btn{
-  background:none;border:1.5px solid rgba(255,255,255,.28);border-radius:30px;
-  color:var(--txt-d);cursor:pointer;font-family:var(--ff-num);font-size:.76rem;
-  font-weight:600;letter-spacing:.1em;padding:3px 10px;transition:border-color .2s,color .2s;
+  background:none;border:1.5px solid var(--line-l);border-radius:30px;
+  color:var(--navy);cursor:pointer;font-family:var(--ff-num);font-size:.76rem;
+  font-weight:600;letter-spacing:.1em;padding:5px 13px;transition:border-color .2s,color .2s,background .2s;
   flex-shrink:0;line-height:1.6
 }
-.lang-btn:hover{border-color:var(--gold);color:var(--gold)}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(199,154,75,.07)}
 
 /* ============ ENGLISH MODE ============ */
 html[lang="en"]{
