@@ -416,6 +416,13 @@ section{padding:96px 0}
 .sc-dots{display:flex;gap:7px}
 .sc-dots i{width:9px;height:9px;border-radius:50%;background:#D9D2C3;cursor:pointer;transition:background .25s,transform .25s}
 .sc-dots i.on{background:var(--gold);transform:scale(1.25)}
+.visit-link{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--ff-display);font-weight:800;font-size:.95rem;color:#fff;
+  background:var(--gold);padding:9px 22px;border-radius:999px;
+  transition:background .25s,transform .25s,box-shadow .25s;
+}
+.visit-link:hover{background:var(--navy);box-shadow:0 4px 18px rgba(15,35,80,.18);transform:translateY(-1px)}
 .work-link{
   display:inline-flex;align-items:center;gap:9px;
   font-family:var(--ff-display);font-weight:800;color:var(--navy);
@@ -1175,6 +1182,7 @@ html[dir="ltr"] .step.reveal{transform:translateX(-48px)}
         </div>
         <div class="sc-cta">
           <span class="sc-dots" id="scDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+          <a class="visit-link" id="scVisit" href="https://nibras-almasakin.com" target="_blank" rel="noopener">زيارة الموقع ↗</a>
           <a class="work-link" id="scWa" href="https://wa.me/966572929651?text=%D8%B9%D8%AC%D8%A8%D9%86%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20%D9%86%D8%A8%D8%B1%D8%A7%D8%B3%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D9%83%D9%86%20%D9%88%D8%A3%D8%A8%D8%BA%D9%89%20%D9%85%D8%AB%D9%84%D9%87" target="_blank" rel="noopener">أبغى موقع مثل هذا ←</a>
         </div>
       </div>
@@ -1888,14 +1896,19 @@ if (reduced) rvGroups.forEach(g => g.words.forEach(w => w.classList.add('on')));
 /* ===== معرض الأعمال (سلايدر بتمرير بطيء) ===== */
 const SITES = [
   {name:'نبراس المساكن — للخدمات العقارية', tags:'عقارات · متعدد الأقسام · وضع ليل/نهار', url:'nibras-almasakin.com',
+   live:'https://nibras-almasakin.com',
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع نبراس المساكن وأبغى مثله')},
   {name:'وكالة رغد — للتسويق الرقمي', tags:'وكالة تسويق · هوية جريئة · أرقام ونتائج', url:'raghad-agency.com',
+   live:'https://raghad-agency.com',
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع وكالة رغد وأبغى مثله')},
   {name:'Osama — بورتفوليو مونتير', tags:'بورتفوليو شخصي · ستايل سينمائي · معرض فيديو', url:'osama-editor.com',
+   live:'https://osama-editor.com',
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع البورتفوليو وأبغى مثله')},
   {name:'M7MD Bedeiry — فيلم ميكر', tags:'بورتفوليو مخرج · فيديو سينمائي · عرض أعمال', url:'m7mdbedeiry.com',
+   live:'https://m7mdbedeiry.com',
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع محمد بديري وأبغى مثله')},
   {name:'Drift — منصة إنتاجية هادئة', tags:'SaaS · تطبيق ويب · ADHD-Friendly · تصميم هادئ', url:'drift-os.ai.studio',
+   live:'https://drift-os.ai.studio',
    wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع Drift وأبغى مثله')},
 ];
 const scImgs = [...document.querySelectorAll('#scShots img')];
@@ -1903,6 +1916,7 @@ const scName = document.getElementById('scName');
 const scTags = document.getElementById('scTags');
 const scUrl  = document.getElementById('scUrl');
 const scWa   = document.getElementById('scWa');
+const scVisit= document.getElementById('scVisit');
 const scDots = [...document.querySelectorAll('#scDots i')];
 let scIdx = 0, scSeq = 0;
 function scrollDist(img){
@@ -1925,11 +1939,12 @@ function showSite(i){
   scTags.textContent = s.tags;
   scUrl.textContent  = s.url;
   scWa.href = s.wa;
+  scVisit.href = s.live;
   scDots.forEach((d, n) => d.classList.toggle('on', n === scIdx));
   const img = scImgs[scIdx];
   // انتقال سينمائي: النص يتدرج والشاشة الجديدة تنكشف بمسح من الأعلى
   if (window.gsap && !reduced){
-    gsap.fromTo([scName, scTags, scUrl], {opacity:0, y:14},
+    gsap.fromTo([scName, scTags, scUrl, scVisit], {opacity:0, y:14},
       {opacity:1, y:0, duration:.55, ease:'power3.out', stagger:.06, overwrite:'auto', clearProps:'opacity,transform'});
     gsap.fromTo(img, {clipPath:'inset(0 0 100% 0)'},
       {clipPath:'inset(0 0 0% 0)', duration:.85, ease:'power4.out', overwrite:'auto',
@@ -2134,6 +2149,7 @@ ar:{
   craftRv:'ما نلمس قوالب جاهزة — كل موقع *يُصنع* بأيدينا، بكسل بكسل، ليشبه *علامتك*.',
   worksEye:'أعمالنا',worksH2:'مواقع حقيقية، لعملاء حقيقيين',
   worksSub:'تصفّح كل موقع وهو يتحرك أمامك من أوله لآخره — هذا مستوى الشغل اللي بتستلمه.',
+  visitLink:'زيارة الموقع ↗',
   workLink:'أبغى موقع مثل هذا ←',
   featEye:'لماذا نحن',featH2:'تفاصيل تفرّق بين موقع… وموقع يشتغل',
   featSub:'ما نسلّمك "صفحة على الإنترنت" — نسلّمك أداة تسويق كاملة مبنية على أساس صح.',
@@ -2230,6 +2246,7 @@ en:{
   craftRv:'No templates touched — every site is *crafted* by hand, pixel by pixel, to match *your brand*.',
   worksEye:'Our Work',worksH2:'Real sites, for real clients',
   worksSub:"Browse each site as it scrolls from start to finish — this is the quality you'll receive.",
+  visitLink:'Visit Website ↗',
   workLink:'I want a site like this →',
   featEye:'Why Us',featH2:'Details that separate a site… from a site that works',
   featSub:"We don't hand you 'a page on the internet' — we hand you a complete marketing tool built on a solid foundation.",
@@ -2392,6 +2409,7 @@ function setLang(lang){
     ws.querySelector('.eyebrow').textContent=t.worksEye;
     ws.querySelector('.sec-title').textContent=t.worksH2;
     ws.querySelector('.sec-sub').textContent=t.worksSub;
+    const vl=document.getElementById('scVisit');if(vl) vl.textContent=t.visitLink;
     const wl=document.getElementById('scWa');if(wl) wl.textContent=t.workLink;
     const prev=document.getElementById('scPrev'),nxt=document.getElementById('scNext');
     if(prev) prev.setAttribute('aria-label',lang==='ar'?'العمل السابق':'Previous work');
@@ -2687,7 +2705,7 @@ if (fine && !reduced2 && g){
 
 /* ---------- 4) أزرار مغناطيسية ---------- */
 if (fine && !reduced2 && g){
-  document.querySelectorAll('.btn,.sc-arrow,.lang-btn,.wa-float,.craft-cta,.craft-badge,.work-link').forEach(el => {
+  document.querySelectorAll('.btn,.sc-arrow,.lang-btn,.wa-float,.craft-cta,.craft-badge,.work-link,.visit-link').forEach(el => {
     const str = el.classList.contains('sc-arrow') ? .32 : .2;
     const qx = g.quickTo(el, 'x', {duration:.35, ease:'power3.out'});
     const qy = g.quickTo(el, 'y', {duration:.35, ease:'power3.out'});
