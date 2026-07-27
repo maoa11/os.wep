@@ -223,20 +223,17 @@ section{padding:96px 0}
 .btn-fill:hover::after{transform:translateX(0)}
 .btn-fill:hover .lbl{color:var(--gold-2)}
 
-/* ============ HERO: مسرح البطاقات (متتالية ← رزمة ← مروحة) ============ */
+/* ============ HERO: شاشة واحدة، نصّية ============ */
 .hero-c{
-  position:relative;height:320svh;
+  position:relative;min-height:100svh;display:flex;align-items:center;
+  padding:120px 0 90px;
   background:
     radial-gradient(900px 480px at 50% -8%,rgba(199,154,75,.14),transparent 60%),
     radial-gradient(700px 420px at 4% 30%,rgba(30,58,138,.08),transparent 55%),
     var(--paper);
 }
-.hero-sticky{
-  position:sticky;top:0;height:100svh;overflow:clip;
-  display:flex;align-items:stretch;
-}
-.hstage{position:relative;width:100%;max-width:var(--container);margin-inline:auto;padding-inline:24px}
-.hcopy{position:absolute;z-index:8;will-change:opacity,transform}
+.hero-in{position:relative;width:100%;text-align:center}
+.hcopy{position:relative;z-index:8}
 .hcopy .eyebrow{animation:riseIn .8s .1s var(--ease) both}
 .hcopy h1{
   font-family:var(--ff-display);font-weight:900;color:var(--navy);
@@ -248,90 +245,31 @@ section{padding:96px 0}
   background:linear-gradient(120deg,var(--gold-2) 10%,var(--gold) 80%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.hcopy .hero-sub{color:var(--muted);font-size:1.04rem;max-width:46ch;animation:riseIn .8s .3s var(--ease) both}
+.hcopy h1{font-size:clamp(2.1rem,5.2vw,4rem);max-width:17ch;margin-inline:auto}
+.hcopy .hero-sub{color:var(--muted);font-size:1.06rem;max-width:56ch;margin-inline:auto;animation:riseIn .8s .3s var(--ease) both}
 .hero-ctas{
-  display:flex;gap:14px;flex-wrap:wrap;align-items:center;
-  margin-top:26px;animation:riseIn .8s .45s var(--ease) both;
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;
+  margin-top:30px;animation:riseIn .8s .45s var(--ease) both;
 }
 @keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-/* الشاشة الأولى: النص يمين والبطاقات تتتالى يسارًا */
-.hcopy-a{
-  top:50%;transform:translateY(-50%);
-  inset-inline-start:24px;width:min(46%,560px);text-align:start;
+/* مؤشّر النزول — خيط ذهبي ينبض نحو الأعمال */
+.hero-cue{
+  display:block;width:1px;height:56px;margin:56px auto 0;
+  background:rgba(15,35,80,.13);overflow:hidden;
+  animation:riseIn .8s .7s var(--ease) both;
 }
-.hcopy-a h1{font-size:clamp(2rem,3.8vw,3.3rem)}
-/* الشاشة الثانية: عنوان مركزي فوق المروحة */
-.hcopy-b{
-  inset-inline:24px;top:12%;text-align:center;opacity:0;visibility:hidden;
+.hero-cue i{
+  display:block;width:100%;height:40%;
+  background:linear-gradient(180deg,var(--gold-2),var(--gold));
+  animation:cueRun 2.1s var(--ease) infinite;
 }
-.hcopy-b h1{font-size:clamp(2.2rem,4.6vw,3.9rem);max-width:19ch;margin-inline:auto}
-.hcopy-b .hero-ctas{justify-content:center}
-/* مجموعة البطاقات — fixed لتُكمل رحلتها من المروحة إلى كومة الجملة */
-.deck{position:fixed;top:50%;left:50%;z-index:40;pointer-events:none;opacity:0;will-change:opacity}
-.fcard{
-  position:absolute;top:0;left:0;translate:-50% -50%;
-  width:clamp(140px,16vw,225px);aspect-ratio:3/4;
-  border-radius:20px;overflow:hidden;
-  border:5px solid #fff;background:#fff;
-  box-shadow:0 24px 60px rgba(15,35,80,.22);
-  opacity:0;will-change:transform;
-}
-.hstage.go .fcard{
-  opacity:1;
-  transition:opacity .9s var(--ease);
-  transition-delay:calc(var(--i)*95ms);
-}
-.fcard img{width:100%;height:100%;object-fit:cover;object-position:top}
-.fcard::after{content:"";position:absolute;inset:0;border-radius:15px;box-shadow:inset 0 0 0 1px rgba(15,35,80,.08)}
-/* الشارات: مجموعة لكل شاشة */
-.fbadge{
-  position:absolute;z-index:9;pointer-events:none;
-  font-family:var(--ff-display);font-weight:800;font-size:.9rem;
-  padding:7px 18px;border-radius:999px;white-space:nowrap;
-  box-shadow:0 10px 26px rgba(15,35,80,.25);
-  opacity:0;transform:translateY(14px) scale(.85);
-  transition:opacity .5s var(--ease),transform .5s var(--ease);
-  animation:bFloat 5s ease-in-out infinite;
-}
-.fbadge.b1{background:var(--navy);color:#fff;top:20%;inset-inline-start:34%}
-.fbadge.b2{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:var(--navy);top:62%;inset-inline-start:9%;animation-delay:1.4s}
-.fbadge.b3{background:var(--navy);color:#fff;top:38%;inset-inline-start:12%;animation-delay:.6s}
-.fbadge.b4{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:var(--navy);top:35%;inset-inline-end:11%;animation-delay:1.8s}
-.hstage.go.pa .ba{opacity:1;transform:none}
-.hstage.pb .bb{opacity:1;transform:none}
-@keyframes bFloat{0%,100%{margin-top:0}50%{margin-top:-9px}}
-.fpointer{
-  position:absolute;z-index:9;bottom:13%;inset-inline-start:27%;pointer-events:none;
-  display:flex;flex-direction:column;align-items:flex-start;
-  opacity:0;transition:opacity .5s .2s var(--ease);
-  animation:bFloat 6s ease-in-out infinite;animation-delay:.8s;
-}
-.hstage.pb .fpointer{opacity:1}
-.fpointer svg{width:22px;height:22px;fill:var(--gold);transform:scaleX(-1)}
-.fpointer b{
-  font-family:var(--ff-display);font-weight:800;font-size:.88rem;
-  background:linear-gradient(135deg,var(--gold-2),var(--gold));color:var(--navy);
-  border-radius:999px;padding:5px 15px;margin-inline-start:14px;margin-top:-2px;
-  box-shadow:0 8px 22px rgba(199,154,75,.4);
-}
-@media(max-width:900px){
-  .hcopy-a{inset-inline:24px;width:auto;top:11%;transform:none;text-align:center}
-  .hcopy-a .hero-sub{margin-inline:auto}
-  .hcopy-a .hero-ctas{justify-content:center}
-  .hcopy-b{top:10%}
-  .fcard{width:clamp(120px,24vw,180px);border-width:4px}
-  .fbadge.b1{top:67%;inset-inline-start:6%}
-  .fbadge.b2{top:88%;inset-inline-start:8%}
-  .fbadge.b3{top:42%;inset-inline-start:5%}
-  .fbadge.b4{top:39%;inset-inline-end:5%}
-  .fpointer{bottom:7%}
-}
+@keyframes cueRun{0%{transform:translateY(-100%)}60%,100%{transform:translateY(250%)}}
 @media(max-width:760px){
-  .hcopy-a h1{font-size:clamp(1.7rem,7vw,2.3rem)}
-  .hcopy-b h1{font-size:clamp(1.8rem,7.6vw,2.4rem)}
+  .hero-c{padding:104px 0 64px}
+  .hero-cue{height:42px;margin-top:38px}
 }
 @media(prefers-reduced-motion:reduce){
-  .hero-c{height:auto;min-height:100svh}
+  .hero-cue i{animation:none;transform:none;height:100%}
 }
 
 /* ============ جملة تنكشف مع التمرير ============ */
@@ -351,7 +289,6 @@ section{padding:96px 0}
 .rv-pile img{
   position:absolute;width:48px;aspect-ratio:3/4;object-fit:cover;object-position:top;
   border-radius:9px;border:2.5px solid #fff;box-shadow:0 8px 20px rgba(15,35,80,.22);
-  opacity:0; /* مخفية حتى تصلها البطاقات الطائرة */
 }
 .rv-pile img:nth-child(1){inset-inline-start:0;transform:rotate(-10deg);top:2px}
 .rv-pile img:nth-child(2){inset-inline-start:31px;transform:rotate(2deg);z-index:2;top:0}
@@ -368,69 +305,73 @@ section{padding:96px 0}
 .works-head{text-align:center;max-width:640px;margin:0 auto 46px}
 .works-head .eyebrow{justify-content:center}
 .works-head .sec-sub{margin-inline:auto}
-.showcase{position:relative;max-width:1020px;margin-inline:auto}
-.browser{
-  position:relative;border-radius:18px;overflow:hidden;
-  background:var(--navy-2);
-  border:1px solid rgba(15,35,80,.12);
-  box-shadow:0 30px 70px rgba(15,35,80,.18);
+/* ---- شبكة الأعمال: كل موقع بطاقة بمعاينة حقيقية ---- */
+.wgrid{display:grid;gap:22px;grid-template-columns:repeat(3,1fr)}
+.wcard{
+  border:1px solid var(--line-l);border-radius:18px;overflow:hidden;background:var(--card);
+  transition:opacity .7s var(--ease),transform .45s var(--ease),
+             border-color .35s var(--ease),box-shadow .45s var(--ease);
 }
-.browser-bar{
-  display:flex;align-items:center;gap:12px;
-  padding:11px 16px;background:var(--navy);
-  border-bottom:1px solid rgba(159,179,214,.14);
+.wcard:hover{border-color:rgba(199,154,75,.55);box-shadow:0 22px 50px rgba(15,35,80,.15)}
+.wlink{display:block;color:inherit}
+/* شريط المتصفح — لغة الاستوديو نفسها */
+.wbar{
+  display:flex;align-items:center;gap:6px;padding:10px 13px;
+  background:var(--navy);border-bottom:1px solid rgba(159,179,214,.14);
 }
-.dots{display:flex;gap:7px}
-.dots i{width:11px;height:11px;border-radius:50%;background:#2E4A7E}
-.dots i:first-child{background:var(--gold)}
-.url{
-  flex:1;text-align:center;font-family:var(--ff-num);font-size:.72rem;letter-spacing:1.5px;
-  color:var(--sub-d);background:rgba(159,179,214,.08);border-radius:999px;padding:5px 14px;
-  direction:ltr;
+.wbar i{width:9px;height:9px;border-radius:50%;background:#2E4A7E;flex:none}
+.wbar i:first-child{background:var(--gold)}
+.wurl{
+  flex:1;min-width:0;text-align:center;direction:ltr;
+  font-family:var(--ff-num);font-size:.64rem;letter-spacing:.6px;color:var(--sub-d);
+  background:rgba(159,179,214,.08);border-radius:999px;padding:4px 10px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.shots{position:relative;aspect-ratio:16/9.4;background:#0B1D3E;overflow:hidden}
-.shots img{position:absolute;top:0;left:0;width:100%;height:auto;opacity:0;transition:opacity .8s ease;will-change:transform}
-.shots img.active{opacity:1}
-.sc-arrow{
-  position:absolute;top:40%;transform:translateY(-50%);z-index:5;
-  width:52px;height:52px;border-radius:50%;border:1px solid var(--line-l);
-  background:#fff;color:var(--navy);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 14px 34px rgba(15,35,80,.18);
-  transition:background .25s,color .25s,transform .25s;
-  font-size:0;
+/* المعاينة: قصّ 16:10 من رأس الصفحة — وبالمرور تنزل لتكشف الصفحة كاملة */
+.wshot{display:block;position:relative;aspect-ratio:16/10;overflow:hidden;background:#0B1D3E}
+.wshot img{
+  position:absolute;left:0;top:0;width:100%;height:auto;
+  transition:top 3.6s cubic-bezier(.25,.6,.35,1),transform 3.6s cubic-bezier(.25,.6,.35,1);
 }
-.sc-arrow:hover{background:var(--navy);color:var(--gold-2);transform:translateY(-50%) scale(1.06)}
-.sc-arrow svg{width:22px;height:22px;stroke:currentColor}
-.sc-prev{inset-inline-start:-26px}
-.sc-next{inset-inline-end:-26px}
-.sc-info{
-  display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
-  background:var(--card);border:1px solid var(--line-l);border-top:none;
-  border-radius:0 0 18px 18px;padding:18px 26px;margin-top:-1px;
-  position:relative;z-index:2;
+@media(hover:hover) and (pointer:fine){
+  .wcard:hover{transform:translateY(-4px)}
+  .wcard:hover .wshot img{top:100%;transform:translateY(-100%)}
 }
-.sc-meta b{display:block;font-family:var(--ff-display);font-weight:900;font-size:1.2rem;color:var(--navy)}
-.sc-meta span{color:var(--muted);font-size:.88rem}
-.sc-cta{display:flex;align-items:center;gap:16px}
-.sc-dots{display:flex;gap:7px}
-.sc-dots i{width:9px;height:9px;border-radius:50%;background:#D9D2C3;cursor:pointer;transition:background .25s,transform .25s}
-.sc-dots i.on{background:var(--gold);transform:scale(1.25)}
-.visit-link{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--ff-display);font-weight:800;font-size:.95rem;color:#fff;
-  background:var(--gold);padding:9px 22px;border-radius:999px;
-  transition:background .25s,transform .25s,box-shadow .25s;
+/* بيانات البطاقة */
+.wmeta{display:block;padding:16px 18px 18px}
+.wname{display:block;font-family:var(--ff-display);font-weight:900;font-size:1.04rem;color:var(--navy);line-height:1.45}
+.wtag{display:block;color:var(--muted);font-size:.81rem;line-height:1.65;margin-top:5px}
+.wgo{
+  display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+  font-family:var(--ff-display);font-weight:800;font-size:.9rem;color:var(--navy);
+  transition:color .25s var(--ease),gap .25s var(--ease);
 }
-.visit-link:hover{background:var(--navy);box-shadow:0 4px 18px rgba(15,35,80,.18);transform:translateY(-1px)}
-.work-link{
-  display:inline-flex;align-items:center;gap:9px;
-  font-family:var(--ff-display);font-weight:800;color:var(--navy);
-  border-bottom:2px solid var(--gold);padding-bottom:3px;transition:color .25s,gap .25s;
+.wgo em{font-style:normal;color:var(--gold)}
+.wcard:hover .wgo{color:var(--gold);gap:11px}
+/* البطاقة السادسة: مكان موقعك القادم */
+.wcard-cta{
+  border-style:dashed;border-color:rgba(199,154,75,.5);
+  background:linear-gradient(165deg,rgba(199,154,75,.08),transparent 62%),var(--card);
 }
-.work-link:hover{color:var(--gold);gap:13px}
-@media(max-width:1120px){.sc-prev{inset-inline-start:8px}.sc-next{inset-inline-end:8px}}
-@media(max-width:640px){.shots{aspect-ratio:16/12}.sc-info{padding:14px 18px}}
+.wcard-cta:hover{border-style:solid}
+.wcard-cta .wlink{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;height:100%;min-height:270px;padding:34px 26px;
+}
+.wcta-plus{
+  width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+  font-size:1.55rem;font-weight:300;line-height:1;color:var(--gold);
+  border:1px solid rgba(199,154,75,.45);
+  transition:background .35s var(--ease),color .35s var(--ease),transform .45s var(--ease);
+}
+.wcard-cta:hover .wcta-plus{background:var(--gold);color:#fff;transform:rotate(90deg)}
+.wcta-h{display:block;font-family:var(--ff-display);font-weight:900;font-size:1.18rem;color:var(--navy);margin-top:17px}
+.wcta-p{display:block;color:var(--muted);font-size:.85rem;line-height:1.7;margin-top:8px;max-width:32ch}
+@media(max-width:1000px){.wgrid{grid-template-columns:repeat(2,1fr);gap:18px}}
+@media(max-width:640px){
+  .wgrid{grid-template-columns:1fr;gap:16px}
+  .wcard-cta .wlink{min-height:0;padding:30px 24px}
+}
 
 /* ============ موثوقية ============ */
 .trusted{background:var(--paper-2);padding:0 0 90px}
@@ -1020,13 +961,19 @@ html[dir="ltr"] .step.reveal{transform:translateX(-48px)}
 .tmarks.reveal.in .tmark:nth-child(4){transition-delay:.21s}
 .tmarks.reveal.in .tmark:nth-child(5){transition-delay:.28s}
 /* المعرض: دخول أعمق */
-.showcase.reveal{transform:translateY(44px) scale(.985);transition-duration:.9s}
+/* بطاقات الأعمال: تصعد بالتتابع */
+.wcard.reveal{transform:translateY(34px) scale(.98)}
+.wcard.reveal:nth-child(2){transition-delay:.07s}
+.wcard.reveal:nth-child(3){transition-delay:.14s}
+.wcard.reveal:nth-child(4){transition-delay:.07s}
+.wcard.reveal:nth-child(5){transition-delay:.14s}
+.wcard.reveal:nth-child(6){transition-delay:.21s}
 /* ضغطة زر ملموسة */
-.btn:active,.sc-arrow:active,.lang-btn:active{scale:.96}
+.btn:active,.lang-btn:active{scale:.96}
 
 @media(prefers-reduced-motion:reduce){
   .reveal:has(>h2.sec-title)>*,.tmarks.reveal .tmark,.feat.reveal,.step.reveal,
-  .plan.reveal,.t-card.reveal,.showcase.reveal{
+  .plan.reveal,.t-card.reveal,.wcard.reveal{
     opacity:1!important;transform:none!important;clip-path:none!important;transition:none!important}
   .cur-dot,.cur-ring{display:none}
 }
@@ -1075,62 +1022,24 @@ html[dir="ltr"] .step.reveal{transform:translateX(-48px)}
   </div>
 </header>
 
-<!-- ===================== HERO: مسرح البطاقات ===================== -->
+<!-- ===================== HERO ===================== -->
 <section class="hero-c" id="top">
-  <div class="hero-sticky">
-    <div class="hstage" id="hstage">
-
-      <!-- الشاشة الأولى: عنوان جانبي + بطاقات متتالية -->
-      <div class="hcopy hcopy-a" id="copyA">
-        <span class="eyebrow">استوديو تصميم مواقع · OS</span>
-        <h1>نعرض شغلك،<br>نبني ثقتك،<br>ونحوّل الزائر إلى <em>عميل</em>.</h1>
-        <p class="hero-sub">
-          نصمّم لك موقعًا احترافيًا يعكس هويتك ويجذب عملاءك — سريع، متوافق مع الجوال،
-          ويشمل الدومين والاستضافة لسنة كاملة. باقات تبدأ من <b class="num">1,000</b> ر.س.
-        </p>
-        <div class="hero-ctas">
-          <span class="btn-border-wrap">
-            <a class="btn btn-gold btn-fill" href="https://wa.me/966572929651?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9" target="_blank" rel="noopener"><span class="lbl">اطلب موقعك الآن</span></a>
-          </span>
-          <a class="btn btn-ghost" href="#works">شاهد أعمالنا</a>
-        </div>
+  <div class="container hero-in">
+    <div class="hcopy" id="copyA">
+      <span class="eyebrow">استوديو تصميم مواقع · OS</span>
+      <h1>نعرض شغلك،<br>نبني ثقتك،<br>ونحوّل الزائر إلى <em>عميل</em>.</h1>
+      <p class="hero-sub">
+        نصمّم لك موقعًا احترافيًا يعكس هويتك ويجذب عملاءك — سريع، متوافق مع الجوال،
+        ويشمل الدومين والاستضافة لسنة كاملة. باقات تبدأ من <b class="num">1,000</b> ر.س.
+      </p>
+      <div class="hero-ctas">
+        <span class="btn-border-wrap">
+          <a class="btn btn-gold btn-fill" href="https://wa.me/966572929651?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9" target="_blank" rel="noopener"><span class="lbl">اطلب موقعك الآن</span></a>
+        </span>
+        <a class="btn btn-ghost" href="#works">شاهد أعمالنا</a>
       </div>
-
-      <!-- الشاشة الثانية: عنوان مركزي + مروحة -->
-      <div class="hcopy hcopy-b" id="copyB">
-        <span class="eyebrow">من أعمالنا الحقيقية</span>
-        <h1>مكانٌ يليق بأعمالك —<br>مواقع تُصمَّم <em>لتبيع عنك</em>.</h1>
-        <div class="hero-ctas">
-          <span class="btn-border-wrap">
-            <a class="btn btn-gold btn-fill" href="https://wa.me/966572929651?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9" target="_blank" rel="noopener"><span class="lbl">اطلب موقعك الآن</span></a>
-          </span>
-          <a class="btn btn-ghost" href="#works">شاهد أعمالنا</a>
-        </div>
-      </div>
-
-      <!-- مجموعة البطاقات: تتنقل بين التشكيلات -->
-      <div class="deck" id="deck" aria-label="مواقع من تصميمنا معروضة كبطاقات">
-        <div class="fcard" style="--i:0"><img src="assets/card-osama.jpg" alt="موقع أسامة — مونتير ومصمم موشن جرافيك"></div>
-        <div class="fcard" style="--i:1"><img src="assets/card-raghad.jpg" alt="موقع وكالة رغد للتسويق الرقمي"></div>
-        <div class="fcard" style="--i:2"><img src="assets/card-nibras.jpg" alt="موقع نبراس المساكن للخدمات العقارية"></div>
-        <div class="fcard" style="--i:3"><img src="assets/card-mohammed.jpg" alt="موقع محمد بديري — فيلم ميكر"></div>
-        <div class="fcard" style="--i:4"><img src="assets/card-os.jpg" alt="بوستر استوديو OS لتصميم المواقع"></div>
-        <div class="fcard" style="--i:5"><img src="assets/card-offer.jpg" alt="باقات تبدأ من 1000 ريال"></div>
-        <div class="fcard" style="--i:6"><img src="assets/card-drift.jpg" alt="موقع Drift — منصة تخطيط هادئة للإنتاجية"></div>
-      </div>
-
-      <!-- شارات الشاشة الأولى -->
-      <span class="fbadge ba b1">@نبراس المساكن</span>
-      <span class="fbadge ba b2">@وكالة رغد</span>
-      <!-- شارات الشاشة الثانية -->
-      <span class="fbadge bb b3">@OSAMA</span>
-      <span class="fbadge bb b4">@استوديو OS</span>
-      <span class="fpointer bb" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M4 2l16 7.5-7 2.1L9.5 19 4 2z"/></svg>
-        <b>أسامة</b>
-      </span>
-
     </div>
+    <a class="hero-cue" href="#works" aria-label="انزل إلى الأعمال"><i></i></a>
   </div>
 </section>
 
@@ -1153,39 +1062,79 @@ html[dir="ltr"] .step.reveal{transform:translateX(-48px)}
     <div class="works-head reveal">
       <span class="eyebrow">أعمالنا</span>
       <h2 class="sec-title">مواقع حقيقية، لعملاء حقيقيين</h2>
-      <p class="sec-sub">تصفّح كل موقع وهو يتحرك أمامك من أوله لآخره — هذا مستوى الشغل اللي بتستلمه.</p>
+      <p class="sec-sub">مرّر فوق أي بطاقة تشوف الصفحة كاملة، واضغط تفتح الموقع نفسه — كلها مواقع شغّالة سلّمناها لعملاء.</p>
     </div>
-    <div class="showcase reveal">
-      <div class="browser">
-        <div class="browser-bar">
-          <span class="dots"><i></i><i></i><i></i></span>
-          <span class="url" id="scUrl">unrivaled-quokka-126022.netlify.app</span>
-        </div>
-        <div class="shots" id="scShots">
-          <img src="assets/full-nibras.jpg" alt="موقع نبراس المساكن للخدمات العقارية" class="active">
-          <img src="assets/full-raghad.jpg" alt="موقع وكالة رغد للتسويق الرقمي">
-          <img src="assets/full-veldara.jpg" alt="موقع أسامة — مونتير ومصمم موشن جرافيك">
-          <img src="assets/full-mohammed.jpg" alt="موقع محمد بديري — فيلم ميكر">
-          <img src="assets/full-drift.jpg" alt="موقع Drift — منصة إنتاجية هادئة">
-        </div>
-      </div>
-      <button class="sc-arrow sc-prev" id="scPrev" aria-label="العمل السابق">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-      <button class="sc-arrow sc-next" id="scNext" aria-label="العمل التالي">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-      </button>
-      <div class="sc-info">
-        <div class="sc-meta">
-          <b id="scName">نبراس المساكن — للخدمات العقارية</b>
-          <span id="scTags">عقارات · متعدد الأقسام · وضع ليل/نهار</span>
-        </div>
-        <div class="sc-cta">
-          <span class="sc-dots" id="scDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
-          <a class="visit-link" id="scVisit" href="https://unrivaled-quokka-126022.netlify.app/" target="_blank" rel="noopener">زيارة الموقع ↗</a>
-          <a class="work-link" id="scWa" href="https://wa.me/966572929651?text=%D8%B9%D8%AC%D8%A8%D9%86%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20%D9%86%D8%A8%D8%B1%D8%A7%D8%B3%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D9%83%D9%86%20%D9%88%D8%A3%D8%A8%D8%BA%D9%89%20%D9%85%D8%AB%D9%84%D9%87" target="_blank" rel="noopener">أبغى موقع مثل هذا ←</a>
-        </div>
-      </div>
+    <div class="wgrid" id="wgrid">
+
+      <article class="wcard reveal" data-i="0">
+        <a class="wlink" href="https://unrivaled-quokka-126022.netlify.app/" target="_blank" rel="noopener">
+          <span class="wbar"><i></i><i></i><i></i><span class="wurl">unrivaled-quokka-126022.netlify.app</span></span>
+          <span class="wshot"><img src="assets/full-nibras.jpg" alt="موقع نبراس المساكن للخدمات العقارية" loading="lazy"></span>
+          <span class="wmeta">
+            <b class="wname">نبراس المساكن — للخدمات العقارية</b>
+            <span class="wtag">عقارات · متعدد الأقسام · وضع ليل/نهار</span>
+            <span class="wgo">زيارة الموقع <em>↗</em></span>
+          </span>
+        </a>
+      </article>
+
+      <article class="wcard reveal" data-i="1">
+        <a class="wlink" href="https://maoa11.github.io/raghad" target="_blank" rel="noopener">
+          <span class="wbar"><i></i><i></i><i></i><span class="wurl">maoa11.github.io/raghad</span></span>
+          <span class="wshot"><img src="assets/full-raghad.jpg" alt="موقع وكالة رغد للتسويق الرقمي" loading="lazy"></span>
+          <span class="wmeta">
+            <b class="wname">وكالة رغد — للتسويق الرقمي</b>
+            <span class="wtag">وكالة تسويق · هوية جريئة · أرقام ونتائج</span>
+            <span class="wgo">زيارة الموقع <em>↗</em></span>
+          </span>
+        </a>
+      </article>
+
+      <article class="wcard reveal" data-i="2">
+        <a class="wlink" href="https://maoa11.github.io/osa-flawer/" target="_blank" rel="noopener">
+          <span class="wbar"><i></i><i></i><i></i><span class="wurl">maoa11.github.io/osa-flawer</span></span>
+          <span class="wshot"><img src="assets/full-veldara.jpg" alt="موقع أسامة — مونتير ومصمم موشن جرافيك" loading="lazy"></span>
+          <span class="wmeta">
+            <b class="wname">Osama — بورتفوليو مونتير</b>
+            <span class="wtag">بورتفوليو شخصي · ستايل سينمائي · معرض فيديو</span>
+            <span class="wgo">زيارة الموقع <em>↗</em></span>
+          </span>
+        </a>
+      </article>
+
+      <article class="wcard reveal" data-i="3">
+        <a class="wlink" href="https://m7mdbedeiry.com" target="_blank" rel="noopener">
+          <span class="wbar"><i></i><i></i><i></i><span class="wurl">m7mdbedeiry.com</span></span>
+          <span class="wshot"><img src="assets/full-mohammed.jpg" alt="موقع محمد بديري — فيلم ميكر" loading="lazy"></span>
+          <span class="wmeta">
+            <b class="wname">M7MD Bedeiry — فيلم ميكر</b>
+            <span class="wtag">بورتفوليو مخرج · فيديو سينمائي · عرض أعمال</span>
+            <span class="wgo">زيارة الموقع <em>↗</em></span>
+          </span>
+        </a>
+      </article>
+
+      <article class="wcard reveal" data-i="4">
+        <a class="wlink" href="https://drift-os.ai.studio" target="_blank" rel="noopener">
+          <span class="wbar"><i></i><i></i><i></i><span class="wurl">drift-os.ai.studio</span></span>
+          <span class="wshot"><img src="assets/full-drift.jpg" alt="موقع Drift — منصة إنتاجية هادئة" loading="lazy"></span>
+          <span class="wmeta">
+            <b class="wname">Drift — منصة إنتاجية هادئة</b>
+            <span class="wtag">SaaS · تطبيق ويب · ADHD-Friendly · تصميم هادئ</span>
+            <span class="wgo">زيارة الموقع <em>↗</em></span>
+          </span>
+        </a>
+      </article>
+
+      <article class="wcard wcard-cta reveal">
+        <a class="wlink" href="https://wa.me/966572929651?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%85%D9%88%D9%82%D8%B9" target="_blank" rel="noopener">
+          <span class="wcta-plus" aria-hidden="true">+</span>
+          <b class="wcta-h">موقعك القادم هنا</b>
+          <span class="wcta-p">خلّ مشروعك يكون البطاقة السادسة — أول استشارة مجانية وبدون التزام.</span>
+          <span class="wgo">اطلب موقعك <em>←</em></span>
+        </a>
+      </article>
+
     </div>
   </div>
 </section>
@@ -1755,119 +1704,10 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', 'false');
 }));
 
-/* ===== مسرح البطاقات: متتالية ← رزمة ← مروحة (بأسلوب المرجع) ===== */
+/* ===== أدوات الحركة المشتركة ===== */
 const lerp = (a, b, t) => a + (b - a) * t;
 const smoothstep = t => t * t * (3 - 2 * t);
-const LERP_SPEED = 0.085; // أقل = أنعم (نفس أسلوب موقع المونتير)
-const hstage = document.getElementById('hstage');
-const heroC = document.querySelector('.hero-c');
-const deckEl = document.getElementById('deck');
-const deckCards = [...document.querySelectorAll('#deck .fcard')];
-const copyA = document.getElementById('copyA');
-const copyB = document.getElementById('copyB');
-/* التشكيلة الأولى: تتالٍ نازل يسارًا (معكوس المرجع لأننا RTL) */
-const P_A = [
-  {x:-70,  y:-186, r:-2},
-  {x:-178, y:-118, r:-8},
-  {x:-282, y:-50,  r:-14},
-  {x:-382, y:20,   r:-20},
-  {x:-476, y:98,   r:-26},
-  {x:-560, y:182,  r:-32},
-  {x:-638, y:260,  r:-38},
-];
-const Z_A = [11, 10, 9, 8, 7, 6, 5], S_A = .92;
-/* الرزمة الوسطية — البطاقات تنلمّ فوق بعض */
-const P_ST = [
-  {x:-14, y:32, r:-10},
-  {x:10,  y:26, r:7},
-  {x:-2,  y:22, r:-3},
-  {x:6,   y:34, r:10},
-  {x:-8,  y:30, r:-6},
-  {x:12,  y:24, r:4},
-  {x:4,   y:36, r:-8},
-];
-const Z_ST = [5, 7, 10, 8, 6, 9, 11], S_ST = .58;
-/* المروحة المركزية تحت العنوان الثاني */
-const P_B = [
-  {x:-396, y:238, r:-27},
-  {x:-264, y:204, r:-16},
-  {x:-132, y:176, r:-6},
-  {x:0,    y:166, r:0},
-  {x:132,  y:176, r:6},
-  {x:264,  y:204, r:16},
-  {x:396,  y:238, r:27},
-];
-const Z_B = [5, 6, 8, 9, 8, 6, 5], S_B = .95;
-function poseDeck(p){
-  const sw = Math.min(1, innerWidth / 1240);
-  const mob = innerWidth < 900;
-  const s1 = smoothstep(clamp((p - .22) / .20, 0, 1)); // متتالية ← رزمة
-  const s2 = smoothstep(clamp((p - .55) / .26, 0, 1)); // رزمة ← مروحة
-  // بالجوال: إزاحة فعلية (بعد التصغير) تنزّل البطاقات تحت النص، وتقل مع ظهور المروحة
-  const yOff = mob ? (215 - s2 * 150) : 0;
-  deckCards.forEach((c, i) => {
-    let x = lerp(P_A[i].x * (mob ? .45 : 1), P_ST[i].x, s1);
-    let y = lerp(P_A[i].y * (mob ? .55 : 1), P_ST[i].y, s1);
-    let r = lerp(P_A[i].r, P_ST[i].r, s1);
-    let s = lerp(S_A, S_ST, s1);
-    x = lerp(x, P_B[i].x * (mob ? .58 : 1), s2);
-    y = lerp(y, P_B[i].y * (mob ? .85 : 1), s2);
-    r = lerp(r, P_B[i].r, s2);
-    s = lerp(s, mob ? .92 : S_B, s2);
-    c.style.transform = `translate(${(x * sw).toFixed(1)}px, ${(y * sw + yOff).toFixed(1)}px) rotate(${r.toFixed(2)}deg) scale(${s.toFixed(3)})`;
-    c.style.zIndex = s2 > .5 ? Z_B[i] : (s1 > .55 ? Z_ST[i] : Z_A[i]);
-  });
-  // العنوان الأول يذوب مع تجمّع الرزمة، والثاني يطلع مع المروحة
-  const hA = 1 - smoothstep(clamp((p - .15) / .17, 0, 1));
-  const hB = smoothstep(clamp((p - .60) / .20, 0, 1));
-  copyA.style.opacity = hA.toFixed(3);
-  copyA.style.visibility = hA < .02 ? 'hidden' : 'visible';
-  if (!mob) copyA.style.transform = `translateY(calc(-50% - ${((1 - hA) * 46).toFixed(1)}px))`;
-  copyB.style.opacity = hB.toFixed(3);
-  copyB.style.visibility = hB < .02 ? 'hidden' : 'visible';
-  copyB.style.transform = `translateY(${((1 - hB) * 46).toFixed(1)}px)`;
-  hstage.classList.toggle('pa', p < .30);
-  hstage.classList.toggle('pb', p > .64);
-}
-poseDeck(0);
-requestAnimationFrame(() => {
-  hstage.classList.add('pa');
-  // أثناء المقدمة السينمائية يُؤجَّل دخول الهيرو حتى لحظة التسليم
-  if (!document.body.classList.contains('intro-live')) hstage.classList.add('go');
-});
-
-/* ===== رحلة البطاقات: من المروحة تطير وتتجمّع في كومة الجملة ثم تسلّمها ===== */
-const pileEl = document.querySelector('.rv-pile');
-const pileImgs = [...document.querySelectorAll('.rv-pile img')];
-// تكديس 6 بطاقات في هيئة الكومة الصغيرة (إزاحات بالبكسل حول مركزها)
-const FLY_DX = [-34,-20,-7,7,20,34,46], FLY_DY = [5,-3,2,-4,3,0,-2], FLY_ROT = [-13,-7,-2,3,8,13,17], FLY_Z = [4,5,7,6,5,4,3];
-function poseFly(t){
-  if (!pileEl) return;
-  const vw = innerWidth, vh = innerHeight;
-  const sw = Math.min(1, vw / 1240), mob = vw < 900;
-  const pr = pileEl.getBoundingClientRect();
-  const cx = pr.left + pr.width / 2 - vw / 2;   // مركز الكومة نسبة لمركز الشاشة
-  const cy = pr.top + pr.height / 2 - vh / 2;
-  const fcw = deckCards[0].offsetWidth || 200;
-  const es = clamp(46 / fcw, .12, .4);          // حجم البطاقة النهائي = حجم صورة الكومة
-  const e = smoothstep(t);                       // الموضع والدوران
-  const eS = smoothstep(clamp(t * 1.35, 0, 1));  // الحجم يصغُر أبكر → تطير صغيرة فلا تغطّي النص
-  deckCards.forEach((c, i) => {
-    const bx = P_B[i].x * (mob ? .58 : 1) * sw, by = P_B[i].y * (mob ? .85 : 1) * sw, br = P_B[i].r, bs = mob ? .92 : S_B;
-    const x = lerp(bx, cx + FLY_DX[i], e), y = lerp(by, cy + FLY_DY[i], e);
-    const rr = lerp(br, FLY_ROT[i], e), ss = lerp(bs, es, eS);
-    c.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rr.toFixed(2)}deg) scale(${ss.toFixed(3)})`;
-    c.style.zIndex = FLY_Z[i];
-  });
-}
-// عند اقتراب الوصول: كومة الجملة الحقيقية تظهر والبطاقات الطائرة تتلاشى (تسليم سلس)
-function pileHandoff(t){
-  const h = clamp((t - .66) / .22, 0, 1);
-  for (const im of pileImgs) im.style.opacity = h.toFixed(3);
-  return h;
-}
-if (!reduced) pileHandoff(0);
-
+const LERP_SPEED = 0.085; // أقل = أنعم
 /* ===== تقسيم جمل الكشف إلى كلمات ===== */
 function splitWords(el){
   const words = [];
@@ -1893,86 +1733,6 @@ function splitWords(el){
 let rvGroups = [...document.querySelectorAll('.rv')].map(el => ({el, words: splitWords(el)}));
 if (reduced) rvGroups.forEach(g => g.words.forEach(w => w.classList.add('on')));
 
-/* ===== معرض الأعمال (سلايدر بتمرير بطيء) ===== */
-const SITES = [
-  {name:'نبراس المساكن — للخدمات العقارية', tags:'عقارات · متعدد الأقسام · وضع ليل/نهار', url:'unrivaled-quokka-126022.netlify.app',
-   live:'https://unrivaled-quokka-126022.netlify.app/',
-   wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع نبراس المساكن وأبغى مثله')},
-  {name:'وكالة رغد — للتسويق الرقمي', tags:'وكالة تسويق · هوية جريئة · أرقام ونتائج', url:'maoa11.github.io/raghad',
-   live:'https://maoa11.github.io/raghad',
-   wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع وكالة رغد وأبغى مثله')},
-  {name:'Osama — بورتفوليو مونتير', tags:'بورتفوليو شخصي · ستايل سينمائي · معرض فيديو', url:'maoa11.github.io/osa-flawer',
-   live:'https://maoa11.github.io/osa-flawer/',
-   wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع البورتفوليو وأبغى مثله')},
-  {name:'M7MD Bedeiry — فيلم ميكر', tags:'بورتفوليو مخرج · فيديو سينمائي · عرض أعمال', url:'m7mdbedeiry.com',
-   live:'https://m7mdbedeiry.com',
-   wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع محمد بديري وأبغى مثله')},
-  {name:'Drift — منصة إنتاجية هادئة', tags:'SaaS · تطبيق ويب · ADHD-Friendly · تصميم هادئ', url:'drift-os.ai.studio',
-   live:'https://drift-os.ai.studio',
-   wa:'https://wa.me/966572929651?text=' + encodeURIComponent('عجبني موقع Drift وأبغى مثله')},
-];
-const scImgs = [...document.querySelectorAll('#scShots img')];
-const scName = document.getElementById('scName');
-const scTags = document.getElementById('scTags');
-const scUrl  = document.getElementById('scUrl');
-const scWa   = document.getElementById('scWa');
-const scVisit= document.getElementById('scVisit');
-const scDots = [...document.querySelectorAll('#scDots i')];
-let scIdx = 0, scSeq = 0;
-function scrollDist(img){
-  const win = img.closest('.shots');
-  return Math.max(0, img.clientHeight - win.clientHeight);
-}
-function whenReady(img, cb){
-  if (img.complete && img.naturalWidth) cb();
-  else img.addEventListener('load', cb, {once:true});
-}
-function showSite(i){
-  scIdx = (i + SITES.length) % SITES.length;
-  const my = ++scSeq;
-  scImgs.forEach((im, n) => {
-    im.classList.toggle('active', n === scIdx);
-    if (n !== scIdx){ im.getAnimations().forEach(a => a.cancel()); im.style.transform = 'translateY(0)'; im.style.clipPath = ''; }
-  });
-  const s = SITES[scIdx];
-  scName.textContent = s.name;
-  scTags.textContent = s.tags;
-  scUrl.textContent  = s.url;
-  scWa.href = s.wa;
-  scVisit.href = s.live;
-  scDots.forEach((d, n) => d.classList.toggle('on', n === scIdx));
-  const img = scImgs[scIdx];
-  // انتقال سينمائي: النص يتدرج والشاشة الجديدة تنكشف بمسح من الأعلى
-  if (window.gsap && !reduced){
-    gsap.fromTo([scName, scTags, scUrl, scVisit], {opacity:0, y:14},
-      {opacity:1, y:0, duration:.55, ease:'power3.out', stagger:.06, overwrite:'auto', clearProps:'opacity,transform'});
-    gsap.fromTo(img, {clipPath:'inset(0 0 100% 0)'},
-      {clipPath:'inset(0 0 0% 0)', duration:.85, ease:'power4.out', overwrite:'auto',
-       onComplete: () => { img.style.clipPath = ''; }});
-  }
-  whenReady(img, () => {
-    if (my !== scSeq) return;
-    if (reduced){
-      setTimeout(() => { if (my === scSeq) showSite(scIdx + 1); }, 5000);
-      return;
-    }
-    const dist = scrollDist(img);
-    const dur = clamp(dist * 6.5, 6500, 15000);
-    const anim = img.animate(
-      [{transform:'translateY(0)'}, {transform:`translateY(${-dist}px)`}],
-      {duration:dur, easing:'ease-in-out', fill:'forwards'}
-    );
-    anim.finished.then(() => {
-      if (my !== scSeq) return;
-      setTimeout(() => { if (my === scSeq) showSite(scIdx + 1); }, 1300);
-    }).catch(() => {});
-  });
-}
-document.getElementById('scNext').addEventListener('click', () => showSite(scIdx + 1));
-document.getElementById('scPrev').addEventListener('click', () => showSite(scIdx - 1));
-scDots.forEach((d, n) => d.addEventListener('click', () => showSite(n)));
-showSite(0);
-
 /* ===== عداد المدارات ===== */
 const clientsSec = document.getElementById('clients');
 const coreNum = document.getElementById('coreNum');
@@ -1992,8 +1752,7 @@ function runCounter(){
    نفس أسلوب موقع المونتير — كل القيم تُلحق هدفها بنعومة بدل القفز */
 const revealEls = [...document.querySelectorAll('.reveal')];
 const craftSec = document.getElementById('craft');
-let heroRange = 1;
-let lFan = 0, lFly = 0, lCraft = 0;
+let lCraft = 0;
 
 /* ===== اليد: تسلسل صور يُقلَّب بالسكرول على canvas (سلس بلا تقطيع) ===== */
 const craftCanvas = document.getElementById('craftCanvas');
@@ -2034,9 +1793,7 @@ function drawCraft(f){
 loadCraftFrames();
 let lWords = rvGroups.map(() => 0);
 
-function measure(){
-  heroRange = Math.max(1, heroC.offsetHeight - innerHeight);
-}
+function measure(){}
 function mainLoop(){
   const vh = innerHeight;
 
@@ -2047,24 +1804,6 @@ function mainLoop(){
   }
 
   if (!reduced){
-    // مسرح البطاقات: تشكيلات المروحة داخل الهيرو
-    const tFan = clamp(scrollY / heroRange, 0, 1);
-    lFan = lerp(lFan, tFan, LERP_SPEED);
-    poseDeck(lFan);
-
-    // مرحلة الطيران: البطاقات تغادر المروحة وتتجمّع في كومة الجملة (يقودها موضع الكومة)
-    let h = 0;
-    if (pileEl){
-      const pr = pileEl.getBoundingClientRect();
-      const pileCY = pr.top + pr.height / 2;
-      const t4 = clamp((vh * .9 - pileCY) / (vh * .45), 0, 1);
-      lFly = lerp(lFly, t4, LERP_SPEED * 1.3);
-      if (lFly > .002) poseFly(lFly); // يتجاوز وضع المروحة نحو الكومة
-      h = pileHandoff(lFly);
-    }
-    // البطاقات ظاهرة طوال رحلتها، وتتلاشى فقط لحظة تسليم الكومة
-    deckEl.style.opacity = (1 - h).toFixed(3);
-
     // كشف الكلمات المتدرج
     rvGroups.forEach((g, gi) => {
       const r = g.el.getBoundingClientRect();
@@ -2104,12 +1843,6 @@ requestAnimationFrame(mainLoop);
 if (reduced){
   clientsSec.classList.add('in');
   runCounter();
-  // بدون حركة: كومة الجملة ظاهرة، والمروحة معروضة في الهيرو، والبطاقات الطائرة مخفية
-  pileImgs.forEach(im => im.style.opacity = 1);
-  poseDeck(1);
-  hstage.classList.add('go', 'pb');
-  hstage.classList.remove('pa');
-  deckEl.style.opacity = '1';
 }
 
 /* ===== نموذج واتساب ===== */
@@ -2139,8 +1872,6 @@ ar:{
   heroAH1:'نعرض شغلك،<br>نبني ثقتك،<br>ونحوّل الزائر إلى <em>عميل</em>.',
   heroASub:'نصمّم لك موقعًا احترافيًا يعكس هويتك ويجذب عملاءك — سريع، متوافق مع الجوال، ويشمل الدومين والاستضافة لسنة كاملة. باقات تبدأ من <b class="num">1,000</b> ر.س.',
   heroCta1:'اطلب موقعك الآن',heroCta2:'شاهد أعمالنا',
-  heroBEye:'من أعمالنا الحقيقية',
-  heroBH1:'مكانٌ يليق بأعمالك —<br>مواقع تُصمَّم <em>لتبيع عنك</em>.',
   rv1Before:'سواء كنت صاحب نشاط يبغى موقعًا *يبيع* عنه،',
   rv1Mid:'أو مشروعًا جديدًا يبغى حضورًا يليق فيه —',
   rv1Badge:'استوديو OS',
@@ -2148,9 +1879,11 @@ ar:{
   rv2:'موثوقين من *الأفضل* في مجالاتهم.',
   craftRv:'ما نلمس قوالب جاهزة — كل موقع *يُصنع* بأيدينا، بكسل بكسل، ليشبه *علامتك*.',
   worksEye:'أعمالنا',worksH2:'مواقع حقيقية، لعملاء حقيقيين',
-  worksSub:'تصفّح كل موقع وهو يتحرك أمامك من أوله لآخره — هذا مستوى الشغل اللي بتستلمه.',
-  visitLink:'زيارة الموقع ↗',
-  workLink:'أبغى موقع مثل هذا ←',
+  worksSub:'مرّر فوق أي بطاقة تشوف الصفحة كاملة، واضغط تفتح الموقع نفسه — كلها مواقع شغّالة سلّمناها لعملاء.',
+  visitLink:'زيارة الموقع',
+  ctaCardH:'موقعك القادم هنا',
+  ctaCardP:'خلّ مشروعك يكون البطاقة السادسة — أول استشارة مجانية وبدون التزام.',
+  ctaCardBtn:'اطلب موقعك',
   featEye:'لماذا نحن',featH2:'تفاصيل تفرّق بين موقع… وموقع يشتغل',
   featSub:'ما نسلّمك "صفحة على الإنترنت" — نسلّمك أداة تسويق كاملة مبنية على أساس صح.',
   feats:[
@@ -2236,8 +1969,6 @@ en:{
   heroAH1:'We showcase your work,<br>build your trust,<br>and turn visitors into <em>clients</em>.',
   heroASub:'We craft a professional website that reflects your identity and attracts your clients — fast, mobile-ready, and includes domain & hosting for a full year. Packages starting from <b class="num">1,000</b> SAR.',
   heroCta1:'Start Your Site Now',heroCta2:'See Our Work',
-  heroBEye:'From Our Real Portfolio',
-  heroBH1:'A place worthy of your work —<br>sites designed <em>to sell for you</em>.',
   rv1Before:"Whether you're a business owner who needs a site that *sells* for you,",
   rv1Mid:'or a new venture ready for a presence that fits —',
   rv1Badge:'OS Studio',
@@ -2245,9 +1976,11 @@ en:{
   rv2:'Trusted by the *best* in their fields.',
   craftRv:'No templates touched — every site is *crafted* by hand, pixel by pixel, to match *your brand*.',
   worksEye:'Our Work',worksH2:'Real sites, for real clients',
-  worksSub:"Browse each site as it scrolls from start to finish — this is the quality you'll receive.",
-  visitLink:'Visit Website ↗',
-  workLink:'I want a site like this →',
+  worksSub:'Hover any card to see the full page, click to open the live site — every one is a real, shipped project.',
+  visitLink:'Visit Website',
+  ctaCardH:'Your site goes here',
+  ctaCardP:'Make your project the sixth card — first consultation is free, no commitment.',
+  ctaCardBtn:'Start your site',
   featEye:'Why Us',featH2:'Details that separate a site… from a site that works',
   featSub:"We don't hand you 'a page on the internet' — we hand you a complete marketing tool built on a solid foundation.",
   feats:[
@@ -2377,15 +2110,6 @@ function setLang(lang){
   }
 
   /* hero B */
-  const cb=document.getElementById('copyB');
-  if(cb){
-    cb.querySelector('.eyebrow').textContent=t.heroBEye;
-    cb.querySelector('h1').innerHTML=t.heroBH1;
-    const bs=cb.querySelectorAll('.hero-ctas a');
-    if(bs[0]){const lb=bs[0].querySelector('.lbl');(lb||bs[0]).textContent=t.heroCta1;}
-    if(bs[1]) bs[1].textContent=t.heroCta2;
-  }
-
   /* rv1 — rebuild DOM then re-split via rvGroups rebuild below */
   const rv1El=document.getElementById('rv1');
   if(rv1El){
@@ -2409,15 +2133,20 @@ function setLang(lang){
     ws.querySelector('.eyebrow').textContent=t.worksEye;
     ws.querySelector('.sec-title').textContent=t.worksH2;
     ws.querySelector('.sec-sub').textContent=t.worksSub;
-    const vl=document.getElementById('scVisit');if(vl) vl.textContent=t.visitLink;
-    const wl=document.getElementById('scWa');if(wl) wl.textContent=t.workLink;
-    const prev=document.getElementById('scPrev'),nxt=document.getElementById('scNext');
-    if(prev) prev.setAttribute('aria-label',lang==='ar'?'العمل السابق':'Previous work');
-    if(nxt) nxt.setAttribute('aria-label',lang==='ar'?'العمل التالي':'Next work');
-    SITES_T[lang].forEach((s,i)=>{if(SITES[i]){SITES[i].name=s.name;SITES[i].tags=s.tags;}});
-    const nm=document.getElementById('scName'),tg=document.getElementById('scTags');
-    if(nm&&SITES[scIdx]) nm.textContent=SITES[scIdx].name;
-    if(tg&&SITES[scIdx]) tg.textContent=SITES[scIdx].tags;
+    /* بطاقات الشبكة: الاسم والتصنيف من جدول الترجمة، وزر الزيارة موحّد */
+    ws.querySelectorAll('.wcard[data-i]').forEach(card=>{
+      const s=SITES_T[lang][+card.dataset.i];
+      if(!s) return;
+      card.querySelector('.wname').textContent=s.name;
+      card.querySelector('.wtag').textContent=s.tags;
+      card.querySelector('.wgo').innerHTML=t.visitLink+' <em>↗</em>';
+    });
+    const cta=ws.querySelector('.wcard-cta');
+    if(cta){
+      cta.querySelector('.wcta-h').textContent=t.ctaCardH;
+      cta.querySelector('.wcta-p').textContent=t.ctaCardP;
+      cta.querySelector('.wgo').innerHTML=t.ctaCardBtn+' <em>'+(lang==='ar'?'←':'→')+'</em>';
+    }
   }
 
   /* features */
@@ -2583,10 +2312,8 @@ const g = window.gsap;
 (function runIntro(){
   const intro = document.getElementById('osIntro');
   if (!intro) return;
-  const stage = document.getElementById('hstage');
   const done = () => {
-    document.body.classList.remove('intro-live');
-    if (stage) stage.classList.add('go');
+    document.body.classList.remove('intro-live'); // يُشغّل حركات دخول نصوص الهيرو
     intro.remove();
   };
   if (!document.body.classList.contains('intro-live') || !g){ done(); return; }
@@ -2609,7 +2336,6 @@ const g = window.gsap;
     if (ended) return;
     ended = true;
     document.body.classList.remove('intro-live');   // الناف ونصوص الهيرو تدخل تحت الستار
-    if (stage) stage.classList.add('go');           // البطاقات تتوالى أثناء ارتفاعه
     intro.classList.add('lifting');
     intro.style.pointerEvents = 'none';
     g.timeline({onComplete: () => intro.remove()})
@@ -2698,15 +2424,15 @@ if (fine && !reduced2 && g){
   }, {passive:true});
   addEventListener('pointerdown', () => ring.classList.add('down'));
   addEventListener('pointerup',   () => ring.classList.remove('down'));
-  const HOT = 'a,button,[role="button"],input,textarea,select,label,summary,.sc-dots i';
+  const HOT = 'a,button,[role="button"],input,textarea,select,label,summary';
   document.addEventListener('pointerover', e => { if (e.target.closest(HOT)) ring.classList.add('on'); });
   document.addEventListener('pointerout',  e => { if (e.target.closest(HOT)) ring.classList.remove('on'); });
 }
 
 /* ---------- 4) أزرار مغناطيسية ---------- */
 if (fine && !reduced2 && g){
-  document.querySelectorAll('.btn,.sc-arrow,.lang-btn,.wa-float,.craft-cta,.craft-badge,.work-link,.visit-link').forEach(el => {
-    const str = el.classList.contains('sc-arrow') ? .32 : .2;
+  document.querySelectorAll('.btn,.lang-btn,.wa-float,.craft-cta,.craft-badge').forEach(el => {
+    const str = .2;
     const qx = g.quickTo(el, 'x', {duration:.35, ease:'power3.out'});
     const qy = g.quickTo(el, 'y', {duration:.35, ease:'power3.out'});
     el.addEventListener('pointermove', e => {
@@ -2718,20 +2444,6 @@ if (fine && !reduced2 && g){
   });
 }
 
-/* ---------- 5) إمالة ثلاثية على إطار المتصفح (الأعمال) ---------- */
-if (fine && !reduced2 && g){
-  const br = document.querySelector('.works .browser');
-  if (br){
-    g.set(br, {transformPerspective:1100});
-    br.addEventListener('pointermove', e => {
-      const r = br.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width  - .5;
-      const py = (e.clientY - r.top)  / r.height - .5;
-      g.to(br, {rotationY:px*4.5, rotationX:-py*3.5, duration:.6, ease:'power2.out'});
-    });
-    br.addEventListener('pointerleave', () => g.to(br, {rotationY:0, rotationX:0, duration:.8, ease:'power3.out'}));
-  }
-}
 })();
 </script>
 </body>
