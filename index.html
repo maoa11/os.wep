@@ -971,6 +971,28 @@ html[dir="ltr"] .step.reveal{transform:translateX(-48px)}
 /* ضغطة زر ملموسة */
 .btn:active,.lang-btn:active{scale:.96}
 
+/* ============ ضبط النصوص: أسطر متوازنة بلا كلمات يتيمة ============ */
+/* العناوين توزّع أسطرها بالتساوي، والفقرات تمنع بقاء كلمة وحيدة بآخر سطر */
+h1,h2.sec-title,.rv,.wcta-h,.wname,.plan h3,.feat h3{text-wrap:balance}
+.hero-sub,.sec-sub,.feat p,.wtag,.wcta-p,.contact .lead,.step p,.t-card p{text-wrap:pretty}
+
+/* القيم الوسطى في clamp تتجمّد تحت ~650–890px، فتبقى الخطوط بحجم الديسكتوب
+   وتلزق أسطرها بالحواف على الجوال. هذي القيم تكمل التدرّج في نطاق الجوال
+   (الحد الأعلى لكل قاعدة = قيمة الديسكتوب عند 760px تمامًا فلا تحصل قفزة). */
+@media(max-width:760px){
+  .hcopy h1{font-size:clamp(1.62rem,7.2vw,2.47rem);line-height:1.34}
+  h2.sec-title{font-size:clamp(1.42rem,6.1vw,1.9rem);line-height:1.36}
+  .rv{font-size:clamp(1.24rem,5.4vw,1.72rem);line-height:1.62}
+  .trusted .rv{font-size:clamp(1.16rem,5vw,1.5rem)}
+  .craft .rv{font-size:clamp(1.15rem,4.9vw,1.45rem);line-height:1.55}
+  .hcopy .hero-sub{font-size:.97rem;line-height:1.78}
+  .sec-sub{font-size:.96rem;line-height:1.75}
+  .feat p,.step p{font-size:.93rem;line-height:1.75}
+}
+@media(max-width:400px){
+  .container{padding-inline:20px}
+}
+
 @media(prefers-reduced-motion:reduce){
   .reveal:has(>h2.sec-title)>*,.tmarks.reveal .tmark,.feat.reveal,.step.reveal,
   .plan.reveal,.t-card.reveal,.wcard.reveal{
