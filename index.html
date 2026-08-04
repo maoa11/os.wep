@@ -968,6 +968,13 @@ html[dir="ltr"] .step.reveal{transform:translateX(-48px)}
 .wcard.reveal:nth-child(4){transition-delay:.07s}
 .wcard.reveal:nth-child(5){transition-delay:.14s}
 .wcard.reveal:nth-child(6){transition-delay:.21s}
+/* وصول: كل وضعيات البداية أعلاه تُلغى عند .in.
+   `.reveal.in{transform:none}` الأصلية بأولوية (0,2,0) وتسبق هذه القواعد في
+   الترتيب، فكانت تخسر أمامها — والبطاقات تبقى مزاحة للأبد (الخطوات كانت
+   تخرج 28px عن حافة الشاشة على الجوال ويُقصّ نصها). */
+.feat.reveal.in,.plan.reveal.in,.wcard.reveal.in,
+.t-card.reveal.in,.t-card.reveal.in:nth-of-type(even),
+html[dir="rtl"] .step.reveal.in,html[dir="ltr"] .step.reveal.in{transform:none}
 /* ضغطة زر ملموسة */
 .btn:active,.lang-btn:active{scale:.96}
 
