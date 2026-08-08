@@ -60,7 +60,7 @@
      واحدة فقط لكل جلسة. الرابط يبقى نظيفًا بلا أي ?v= . -->
 <script>
 (function(){
-  var BUILD = '2026-08-05-1';   // يُزاد مع version.txt عند كل تعديل منشور
+  var BUILD = '2026-08-05-2';   // يُزاد مع version.txt عند كل تعديل منشور
   var KEY = 'os-build-reload';
   if (!window.fetch || !window.sessionStorage) return;
   try { if (sessionStorage.getItem(KEY) === BUILD) return; } catch(e){ return; }
@@ -90,10 +90,38 @@
     send_page_view: true
   });
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zain:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Marcellus&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<!-- خطوط ثمانية — محليّة، فلا اتصال بخوادم جوجل ولا تأخير في أول رسم -->
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/thmanyahserifdisplay-Black.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/thmanyahseriftext-Regular.woff2" crossorigin>
 <style>
+/* ============ خط ثمانية ============
+   العائلة كاملة من ثمانية: Serif Display للعناوين، وSerif Text للنصوص —
+   الأخير مرسوم خصيصًا ليُقرأ في الأحجام الصغيرة، فيبقى الموقع كله بخط واحد
+   دون أن تتعب العين في الفقرات. */
+@font-face{
+  font-family:'Thmanyah Display';src:url('assets/fonts/thmanyahserifdisplay-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Thmanyah Display';src:url('assets/fonts/thmanyahserifdisplay-Bold.woff2') format('woff2');
+  font-weight:600 800;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Thmanyah Display';src:url('assets/fonts/thmanyahserifdisplay-Black.woff2') format('woff2');
+  font-weight:900;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Thmanyah Text';src:url('assets/fonts/thmanyahseriftext-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Thmanyah Text';src:url('assets/fonts/thmanyahseriftext-Medium.woff2') format('woff2');
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Thmanyah Text';src:url('assets/fonts/thmanyahseriftext-Bold.woff2') format('woff2');
+  font-weight:600 800;font-style:normal;font-display:swap;
+}
 /* ============ TOKENS ============ */
 :root{
   --night:#0A182F;
@@ -113,9 +141,9 @@
   --sub-d:#9FB3D6;
   --line-d:rgba(228,193,121,.16);
   --wa:#1FA855;
-  --ff-display:'Zain','IBM Plex Sans Arabic',sans-serif;
-  --ff-body:'IBM Plex Sans Arabic',sans-serif;
-  --ff-num:'Marcellus','Zain',serif;
+  --ff-display:'Thmanyah Display','Thmanyah Text',serif;
+  --ff-body:'Thmanyah Text','Thmanyah Display',serif;
+  --ff-num:'Thmanyah Display','Thmanyah Text',serif;
   --radius:18px;
   --shadow-l:0 18px 44px rgba(15,35,80,.10);
   --shadow-d:0 22px 54px rgba(3,10,25,.45);
@@ -521,7 +549,7 @@ section{padding:96px 0}
 /* نبراس المساكن — أيقونة + اسم على كحلي داكن */
 .f-nibras{background:linear-gradient(158deg,#12264A,#0A1730)}
 .f-nibras .ico{width:calc(var(--s,58px)*.4);height:calc(var(--s,58px)*.4)}
-.f-nibras .txt{font-family:'Amiri',serif;font-weight:700;color:#C9A84C;font-size:calc(var(--s,58px)*.135)}
+.f-nibras .txt{font-family:var(--ff-display);font-weight:700;color:#C9A84C;font-size:calc(var(--s,58px)*.135)}
 /* وكالة رغد — wordmark عنابي على كريمي */
 .f-raghad{background:#FAF4EF}
 .f-raghad .txt{color:#7A2E43;font-size:calc(var(--s,58px)*.34)}
@@ -867,10 +895,8 @@ footer{background:#071120;border-top:1px solid var(--line-d);padding:44px 0 34px
 .lang-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(199,154,75,.07)}
 
 /* ============ ENGLISH MODE ============ */
-html[lang="en"]{
-  --ff-display:'Instrument Serif',Georgia,serif;
-  --ff-body:'Inter',system-ui,-apple-system,sans-serif;
-}
+/* الوضع الإنجليزي يبقى على ثمانية أيضًا — الخط يحمل حروفًا لاتينية،
+   فتبقى الهوية واحدة في اللغتين بدل القفز إلى وجه آخر. */
 html[lang="en"] body{direction:ltr;text-align:left}
 html[lang="en"] .eyebrow{flex-direction:row}
 html[lang="en"] .hero-sub{max-width:52ch}
@@ -904,7 +930,7 @@ body.intro-live .hcopy :is(.eyebrow,h1,.hero-sub,.hero-ctas){animation-play-stat
 
 /* المونوغرام وخيط التقدم */
 .imono{position:absolute;top:38px;left:50%;translate:-50%;z-index:3;
-  font-family:'Marcellus',serif;font-size:.72rem;letter-spacing:5px;color:var(--gold-2);
+  font-family:var(--ff-display);font-size:.72rem;letter-spacing:5px;color:var(--gold-2);
   direction:ltr;white-space:nowrap;opacity:0}
 .iline{position:absolute;top:72px;left:50%;translate:-50%;z-index:3;
   width:120px;height:1px;background:rgba(228,193,121,.16);overflow:hidden}
@@ -1209,7 +1235,7 @@ h1,h2.sec-title,.rv,.wcta-h,.wname,.plan h3,.feat h3{text-wrap:balance}
   <div class="container trusted-in">
     <p class="rv" id="rv2">موثوقين من *الأفضل* في مجالاتهم.</p>
     <div class="tmarks reveal">
-      <span class="tmark" style="font-family:'Amiri',serif">نبراس المساكن <small>خدمات عقارية</small></span>
+      <span class="tmark">نبراس المساكن <small>خدمات عقارية</small></span>
       <span class="tmark">وكالة رغد <small>تسويق رقمي</small></span>
       <span class="tmark latin">OSAMA · VIDEO EDITOR</span>
       <span class="tmark latin">M7MD BEDEIRY · FILMMAKER</span>
