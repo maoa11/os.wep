@@ -60,7 +60,7 @@
      واحدة فقط لكل جلسة. الرابط يبقى نظيفًا بلا أي ?v= . -->
 <script>
 (function(){
-  var BUILD = '2026-08-05-2';   // يُزاد مع version.txt عند كل تعديل منشور
+  var BUILD = '2026-08-05-3';   // يُزاد مع version.txt عند كل تعديل منشور
   var KEY = 'os-build-reload';
   if (!window.fetch || !window.sessionStorage) return;
   try { if (sessionStorage.getItem(KEY) === BUILD) return; } catch(e){ return; }
@@ -1828,13 +1828,20 @@ if (reduced) rvGroups.forEach(g => g.words.forEach(w => w.classList.add('on')));
 const clientsSec = document.getElementById('clients');
 const coreNum = document.getElementById('coreNum');
 let clientsOn = false;
+let counterTotal = 8; // تضبطه لوحة التحكم عبر content.json
+window.setCounterTotal = function(n){
+  n = parseInt(n, 10);
+  if (!isFinite(n) || n < 0) return;
+  counterTotal = n;
+  if (clientsOn && coreNum) coreNum.textContent = '+' + counterTotal;
+};
 function runCounter(){
-  if (reduced){ coreNum.textContent = '+8'; return; }
+  if (reduced){ coreNum.textContent = '+' + counterTotal; return; }
   const t0 = performance.now() + 300, DUR = 2000;
   requestAnimationFrame(function step(t){
     if (t < t0){ requestAnimationFrame(step); return; }
     const p = clamp((t - t0) / DUR, 0, 1);
-    coreNum.textContent = '+' + Math.round((1 - Math.pow(1 - p, 3)) * 8);
+    coreNum.textContent = '+' + Math.round((1 - Math.pow(1 - p, 3)) * counterTotal);
     if (p < 1) requestAnimationFrame(step);
   });
 }
@@ -2406,8 +2413,237 @@ document.getElementById('langBtn').addEventListener('click',()=>{
   setLang(document.documentElement.lang==='ar'?'en':'ar');
 });
 
-/* init from localStorage */
-(function(){const saved=localStorage.getItem('os-lang');if(saved&&saved!=='ar')setLang(saved);})();
+/* ===================== ربط لوحة التحكم =====================
+   content.json هو مصدر المحتوى. النصوص المكتوبة أعلاه تبقى كنسخة احتياطية:
+   لو تعذّر جلب الملف لأي سبب يظهر الموقع بمحتواه الحالي بدل أن ينهار. */
+
+/* أقسام الموقع مكتوبة بعدد ثابت من البطاقات، بينما لوحة التحكم تسمح
+   بالإضافة والحذف. هذي الدالة تُطابق عدد العناصر في الصفحة مع عدد
+   العناصر في المحتوى — تستنسخ أول عنصر كقالب وتزيد أو تنقص — ثم تتكفّل
+   setLang بتعبئة النصوص. بدونها تُحفظ الإضافة ولا تظهر للزائر. */
+function syncCount(container, selector, n){
+  if (!container) return;
+  const nodes = [...container.querySelectorAll(selector)];
+  if (!nodes.length || !isFinite(n) || n < 1) return;
+  const tpl = nodes[0];
+  for (let i = nodes.length; i > n; i--) nodes[i-1].remove();
+  for (let i = nodes.length; i < n; i++){
+    const c = tpl.cloneNode(true);
+    c.classList.remove('in');
+    /* البطاقات المستنسخة يجب أن تدخل قائمة الكشف وإلا بقيت مخفية */
+    if (typeof revealEls !== 'undefined' && c.classList.contains('reveal')) revealEls.push(c);
+    nodes[nodes.length-1].parentNode.insertBefore(c, nodes[nodes.length-1].nextSibling);
+    nodes.push(c);
+  }
+}
+
+/* يعيد ضبط أطوال كل القوائم المتغيّرة قبل تعبئة النصوص */
+function syncLists(t){
+  if (!t) return;
+  const q = s => document.querySelector(s);
+  if (t.feats)      syncCount(q('.feat-grid'), '.feat:not(.dark)', t.feats.length);
+  if (t.steps)      syncCount(q('.steps'), '.step', t.steps.length);
+  if (t.testis)     syncCount(q('.testi-grid'), '.t-card', t.testis.length);
+  if (t.faqs)       syncCount(q('.faq-wrap'), 'details', t.faqs.length);
+  if (t.notes)      syncCount(q('.notes ul'), 'li', t.notes.length);
+  if (t.extrasRows) syncCount(q('.extras table tbody') || q('.extras table'), 'tr', t.extrasRows.length);
+  if (t.footLinks)  syncCount(q('.foot-nav'), 'a', t.footLinks.length);
+  if (t.ribbon)     document.querySelectorAll('.rb').forEach(rb => syncCount(rb, 'span', t.ribbon.length));
+  if (t.plans){
+    syncCount(q('.price-grid'), '.plan', t.plans.length);
+    document.querySelectorAll('.price-grid .plan').forEach((pl, i) => {
+      const p = t.plans[i];
+      if (p && Array.isArray(p.items)) syncCount(pl, 'li', p.items.length);
+      /* سطر التمهيد يظهر فقط للباقات التي تملكه */
+      const note = pl.querySelector('.plan-note');
+      if (note) note.hidden = !(p && p.note);
+    });
+  }
+  if (t.fPlanOpts){
+    const sel = document.getElementById('fPlan');
+    if (sel){
+      const opts = [...sel.options];
+      for (let i = opts.length; i > t.fPlanOpts.length; i--) sel.remove(i-1);
+      for (let i = opts.length; i < t.fPlanOpts.length; i++) sel.add(new Option('', ''));
+      [...sel.options].forEach((o, i) => { o.textContent = t.fPlanOpts[i]; o.value = t.fPlanOpts[i]; });
+    }
+  }
+}
+
+/* دمج عميق: قيم الملف تغلب، وأي مفتاح غير موجود فيه يحتفظ بقيمته الأصلية */
+function deepMerge(base, over){
+  if (!over || typeof over !== 'object') return base;
+  if (Array.isArray(over)) return over.slice();
+  const out = Object.assign({}, base);
+  for (const k in over){
+    const v = over[k];
+    out[k] = (v && typeof v === 'object' && !Array.isArray(v) && base && typeof base[k] === 'object' && !Array.isArray(base[k]))
+      ? deepMerge(base[k], v) : v;
+  }
+  return out;
+}
+
+const WA_BASE = 'https://wa.me/';
+function waLink(num, text){
+  return WA_BASE + String(num).replace(/[^\d]/g,'') + (text ? '?text=' + encodeURIComponent(text) : '');
+}
+
+/* بطاقات الأعمال تُبنى من المحتوى، فالإضافة والحذف والترتيب تعمل فعليًا */
+function renderProjects(list, lang){
+  const grid = document.getElementById('wgrid');
+  if (!grid || !Array.isArray(list)) return;
+  const cta = grid.querySelector('.wcard-cta');
+  grid.querySelectorAll('.wcard[data-i]').forEach(n => n.remove());
+  const t = T[lang] || T.ar;
+  const frag = document.createDocumentFragment();
+  list.filter(p => p && p.visible !== false).forEach((p, i) => {
+    const art = document.createElement('article');
+    art.className = 'wcard reveal';
+    art.dataset.i = i;
+    const nm = (p.name && (p.name[lang] || p.name.ar)) || '';
+    const tg = (p.tags && (p.tags[lang] || p.tags.ar)) || '';
+    const a = document.createElement('a');
+    a.className = 'wlink'; a.target = '_blank'; a.rel = 'noopener';
+    a.href = p.live || '#';
+    const bar = document.createElement('span');
+    bar.className = 'wbar';
+    bar.innerHTML = '<i></i><i></i><i></i>';
+    const url = document.createElement('span');
+    url.className = 'wurl'; url.textContent = p.url || '';
+    bar.appendChild(url);
+    const shot = document.createElement('span');
+    shot.className = 'wshot';
+    const img = document.createElement('img');
+    img.src = p.image || ''; img.alt = p.alt || nm; img.loading = 'lazy';
+    shot.appendChild(img);
+    const meta = document.createElement('span');
+    meta.className = 'wmeta';
+    const b = document.createElement('b'); b.className = 'wname'; b.textContent = nm;
+    const sp = document.createElement('span'); sp.className = 'wtag'; sp.textContent = tg;
+    const go = document.createElement('span'); go.className = 'wgo';
+    go.innerHTML = (t.visitLink || 'زيارة الموقع') + ' <em>↗</em>';
+    meta.append(b, sp, go);
+    a.append(bar, shot, meta);
+    art.appendChild(a);
+    frag.appendChild(art);
+  });
+  cta ? grid.insertBefore(frag, cta) : grid.appendChild(frag);
+  /* الشبكة الجديدة خارج قائمة الكشف المُلتقطة عند التحميل — نضمّها ونكشفها */
+  if (typeof revealEls !== 'undefined'){
+    grid.querySelectorAll('.wcard').forEach(el => {
+      if (!revealEls.includes(el)) revealEls.push(el);
+      if (el.getBoundingClientRect().top < innerHeight * .95) el.classList.add('in');
+    });
+  }
+}
+
+/* روابط التواصل: القنوات، وكل أزرار واتساب، والزر العائم */
+function applyContact(c){
+  if (!c) return;
+  const t = T[document.documentElement.lang] || T.ar;
+  const wa = c.whatsapp ? String(c.whatsapp).replace(/[^\d]/g,'') : '';
+  if (wa){
+    document.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
+      const q = a.href.split('?')[1];
+      a.href = WA_BASE + wa + (q ? '?' + q : '');
+    });
+    const box = document.querySelector('.channels a[href*="wa.me"] span');
+    if (box) box.textContent = '+' + wa.replace(/^(\d{3})(\d{2})(\d{3})(\d{4})$/, '$1 $2 $3 $4');
+  }
+  const mail = document.querySelector('.channels a[href^="mailto:"]');
+  if (mail && c.email){ mail.href = 'mailto:' + c.email; const s = mail.querySelector('span'); if (s) s.textContent = c.email; }
+  const ig = document.querySelector('.channels a[href*="instagram.com"]');
+  if (ig && c.instagram){
+    const h = String(c.instagram).replace(/^@/,'');
+    ig.href = 'https://www.instagram.com/' + h;
+    const s = ig.querySelector('span'); if (s) s.textContent = '@' + h;
+  }
+  /* قنوات إضافية تُبنى فقط إن عُبّئت، وتأخذ شكل القنوات الموجودة */
+  const wrap = document.querySelector('.channels');
+  if (!wrap) return;
+  wrap.querySelectorAll('.channel[data-extra]').forEach(n => n.remove());
+  const EXTRA = [
+    ['tiktok','TikTok','https://www.tiktok.com/@'],
+    ['linkedin','LinkedIn','https://www.linkedin.com/in/'],
+    ['behance','Behance','https://www.behance.net/'],
+    ['x','X','https://x.com/'],
+    ['youtube','YouTube','https://www.youtube.com/@']
+  ];
+  EXTRA.forEach(([key,label,base]) => {
+    const v = c[key]; if (!v) return;
+    const handle = String(v).replace(/^@/,'');
+    const a = document.createElement('a');
+    a.className = 'channel'; a.dataset.extra = key; a.target = '_blank'; a.rel = 'noopener';
+    a.href = /^https?:/i.test(v) ? v : base + handle;
+    a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20z"/></svg>';
+    const d = document.createElement('div');
+    const b = document.createElement('b'); b.textContent = label;
+    const s = document.createElement('span'); s.textContent = '@' + handle;
+    d.append(b, s); a.appendChild(d);
+    wrap.appendChild(a);
+  });
+}
+
+function applySections(map){
+  if (!map) return;
+  for (const id in map){
+    const el = document.getElementById(id) || document.querySelector('.' + id);
+    if (el) el.hidden = map[id] === false;
+  }
+}
+
+let CMS = null;
+function applyContent(c){
+  if (!c) return;
+  CMS = c;
+  if (c.i18n){
+    if (c.i18n.ar) T.ar = deepMerge(T.ar, c.i18n.ar);
+    if (c.i18n.en) T.en = deepMerge(T.en, c.i18n.en);
+  }
+  if (Array.isArray(c.projects)){
+    const vis = c.projects.filter(p => p && p.visible !== false);
+    SITES_T.ar = vis.map(p => ({name:(p.name&&p.name.ar)||'', tags:(p.tags&&p.tags.ar)||''}));
+    SITES_T.en = vis.map(p => ({name:(p.name&&p.name.en)||'', tags:(p.tags&&p.tags.en)||''}));
+  }
+  if (typeof c.counter === 'number' && window.setCounterTotal) window.setCounterTotal(c.counter);
+  applySections(c.sections);
+  setLang(document.documentElement.lang || 'ar');
+}
+
+/* init: اللغة المحفوظة أولًا، ثم المحتوى فوقها */
+(function(){
+  const saved = localStorage.getItem('os-lang');
+  if (saved && saved !== 'ar') setLang(saved);
+  fetch('content.json?t=' + Date.now(), {cache:'no-store'})
+    .then(r => r.ok ? r.json() : null)
+    .then(c => { if (c) applyContent(c); })
+    .catch(function(){ /* بلا محتوى خارجي يبقى الموقع على نصوصه المدمجة */ });
+})();
+
+/* setLang تعيد بناء الأقسام النصية — نعيد بناء الأعمال والتواصل بعدها */
+const _setLang = setLang;
+setLang = function(lang){
+  /* الأطوال أولًا ثم النصوص: setLang تملأ ما هو موجود فقط */
+  if (CMS) syncLists(T[lang] || T.ar);
+  _setLang(lang);
+  if (CMS){
+    renderProjects(CMS.projects, lang);
+    applyContact(CMS.contact);
+  }
+};
+
+/* واجهة صغيرة تستعملها لوحة التحكم للمعاينة الحيّة داخل إطار */
+window.OSCMS = {
+  apply: applyContent,
+  current: function(){ return CMS; },
+  setLang: function(l){ setLang(l); }
+};
+addEventListener('message', function(e){
+  /* المعاينة تُرسل من نفس الأصل فقط */
+  if (e.origin !== location.origin || !e.data || e.data.type !== 'os-preview') return;
+  if (e.data.content) applyContent(e.data.content);
+  if (e.data.lang) setLang(e.data.lang);
+});
 
 })();
 </script>

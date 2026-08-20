@@ -1,0 +1,704 @@
+{
+  "schema": 1,
+  "updated": "2026-08-20T09:08:41.779Z",
+  "contact": {
+    "whatsapp": "966572929651",
+    "email": "mjlyyy2007@gmail.com",
+    "instagram": "os.websites",
+    "tiktok": "",
+    "linkedin": "",
+    "behance": "",
+    "x": "",
+    "youtube": ""
+  },
+  "about": {
+    "enabled": false,
+    "name": "",
+    "image": "",
+    "bio": {
+      "ar": "",
+      "en": ""
+    }
+  },
+  "sections": {
+    "rvsec": true,
+    "works": true,
+    "trusted": true,
+    "features": true,
+    "process": true,
+    "clients": true,
+    "craft": true,
+    "pricing": true,
+    "ribbon": true,
+    "testi": true,
+    "faq": true,
+    "contact": true
+  },
+  "counter": 8,
+  "projects": [
+    {
+      "id": "p1",
+      "visible": true,
+      "live": "https://unrivaled-quokka-126022.netlify.app/",
+      "url": "unrivaled-quokka-126022.netlify.app",
+      "image": "assets/full-nibras.jpg",
+      "alt": "موقع نبراس المساكن للخدمات العقارية",
+      "name": {
+        "ar": "نبراس المساكن — للخدمات العقارية",
+        "en": "Nibras Al-Masakin — Real Estate Services"
+      },
+      "tags": {
+        "ar": "عقارات · متعدد الأقسام · وضع ليل/نهار",
+        "en": "Real Estate · Multi-section · Dark/Light Mode"
+      }
+    },
+    {
+      "id": "p2",
+      "visible": true,
+      "live": "https://maoa11.github.io/raghad",
+      "url": "maoa11.github.io/raghad",
+      "image": "assets/full-raghad.jpg",
+      "alt": "موقع وكالة رغد للتسويق الرقمي",
+      "name": {
+        "ar": "وكالة رغد — للتسويق الرقمي",
+        "en": "Raghad Agency — Digital Marketing"
+      },
+      "tags": {
+        "ar": "وكالة تسويق · هوية جريئة · أرقام ونتائج",
+        "en": "Marketing Agency · Bold Identity · Numbers & Results"
+      }
+    },
+    {
+      "id": "p3",
+      "visible": true,
+      "live": "https://maoa11.github.io/osa-flawer/",
+      "url": "maoa11.github.io/osa-flawer",
+      "image": "assets/full-veldara.jpg",
+      "alt": "موقع أسامة — مونتير ومصمم موشن جرافيك",
+      "name": {
+        "ar": "Osama — بورتفوليو مونتير",
+        "en": "Osama — Video Editor Portfolio"
+      },
+      "tags": {
+        "ar": "بورتفوليو شخصي · ستايل سينمائي · معرض فيديو",
+        "en": "Personal Portfolio · Cinematic Style · Video Gallery"
+      }
+    },
+    {
+      "id": "p4",
+      "visible": true,
+      "live": "https://m7mdbedeiry.com",
+      "url": "m7mdbedeiry.com",
+      "image": "assets/full-mohammed.jpg",
+      "alt": "موقع محمد بديري — فيلم ميكر",
+      "name": {
+        "ar": "M7MD Bedeiry — فيلم ميكر",
+        "en": "M7MD Bedeiry — Filmmaker"
+      },
+      "tags": {
+        "ar": "بورتفوليو مخرج · فيديو سينمائي · عرض أعمال",
+        "en": "Director Portfolio · Cinematic Video · Project Showcase"
+      }
+    },
+    {
+      "id": "p5",
+      "visible": true,
+      "live": "https://drift-os.ai.studio",
+      "url": "drift-os.ai.studio",
+      "image": "assets/full-drift.jpg",
+      "alt": "موقع Drift — منصة إنتاجية هادئة",
+      "name": {
+        "ar": "Drift — منصة إنتاجية هادئة",
+        "en": "Drift — Calm Productivity Platform"
+      },
+      "tags": {
+        "ar": "SaaS · تطبيق ويب · ADHD-Friendly · تصميم هادئ",
+        "en": "SaaS · Web App · ADHD-Friendly · Calm Design"
+      }
+    }
+  ],
+  "i18n": {
+    "ar": {
+      "nav": {
+        "works": "أعمالنا",
+        "why": "لماذا نحن",
+        "clients": "عملاؤنا",
+        "pricing": "الباقات",
+        "faq": "الأسئلة",
+        "cta": "اطلب موقعك"
+      },
+      "heroAEye": "استوديو تصميم مواقع · OS",
+      "heroAH1": "نعرض شغلك،<br>نبني ثقتك،<br>ونحوّل الزائر إلى <em>عميل</em>.",
+      "heroASub": "نصمّم لك موقعًا احترافيًا يعكس هويتك ويجذب عملاءك — سريع، متوافق مع الجوال، ويشمل الدومين والاستضافة لسنة كاملة. باقات تبدأ من <b class=\"num\">1,000</b> ر.س.",
+      "heroCta1": "اطلب موقعك الآن",
+      "heroCta2": "شاهد أعمالنا",
+      "rv1Before": "سواء كنت صاحب نشاط يبغى موقعًا *يبيع* عنه،",
+      "rv1Mid": "أو مشروعًا جديدًا يبغى حضورًا يليق فيه —",
+      "rv1Badge": "استوديو OS",
+      "rv1After": "يوصلك لموقعٍ يشتغل لك *24/7* ويحوّل زوّارك إلى *عملاء*.",
+      "rv2": "موثوقين من *الأفضل* في مجالاتهم.",
+      "craftRv": "ما نلمس قوالب جاهزة — كل موقع *يُصنع* بأيدينا، بكسل بكسل، ليشبه *علامتك*.",
+      "worksEye": "أعمالنا",
+      "worksH2": "مواقع حقيقية، لعملاء حقيقيين",
+      "worksSub": "مرّر فوق أي بطاقة تشوف الصفحة كاملة، واضغط تفتح الموقع نفسه — كلها مواقع شغّالة سلّمناها لعملاء.",
+      "visitLink": "زيارة الموقع",
+      "ctaCardH": "موقعك القادم هنا",
+      "ctaCardP": "خلّ مشروعك يكون البطاقة السادسة — أول استشارة مجانية وبدون التزام.",
+      "ctaCardBtn": "اطلب موقعك",
+      "featEye": "لماذا نحن",
+      "featH2": "تفاصيل تفرّق بين موقع… وموقع يشتغل",
+      "featSub": "ما نسلّمك \"صفحة على الإنترنت\" — نسلّمك أداة تسويق كاملة مبنية على أساس صح.",
+      "feats": [
+        {
+          "h3": "سرعة تحميل عالية",
+          "p": "كود نظيف وصور مضغوطة — لأن كل ثانية تأخير تخسّرك زائر، وقوقل يحب المواقع السريعة."
+        },
+        {
+          "h3": "الجوال أولًا",
+          "p": "أغلب زوّارك من الجوال — نصمم التجربة عليه أولًا، وتطلع مثالية على كل المقاسات."
+        },
+        {
+          "h3": "جاهز لمحركات البحث",
+          "p": "بنية سليمة وعناوين ووصف مضبوط لكل صفحة — عشان عملاءك يلقونك لما يبحثون."
+        },
+        {
+          "h3": "تصميم مخصص — مو قالب",
+          "p": "هويتك وألوانك وشخصية نشاطك — ما نبيع قوالب جاهزة تشوفها عند غيرك."
+        },
+        {
+          "h3": "دومين واستضافة سنة كاملة",
+          "p": "كل الباقات الأساسية تشمل حجز الدومين والاستضافة لسنة — تستلم موقعك شغّال، مو ملفات."
+        },
+        {
+          "h3": "دعم بعد التسليم",
+          "p": "تعديلات مضمونة ضمن باقتك، ودعم فني شهر كامل مع الباقة الاحترافية — ما نختفي بعد الاستلام."
+        }
+      ],
+      "featDarkH3": "تبغى دليل على مستوى شغلنا؟",
+      "featDarkP": "أنت تتصفحه الآن — هذا الموقع من تصميمنا وتطويرنا.",
+      "featDarkBtn": "اطلب موقعك الآن",
+      "procEye": "خطوات العمل",
+      "procH2": "من أول رسالة… إلى موقع منشور",
+      "procSub": "طريقة عمل واضحة تعرف فيها وش يصير في كل مرحلة — بدون غموض وبدون مفاجآت.",
+      "steps": [
+        {
+          "h3": "نسمع منك",
+          "p": "ترسل لنا على واتساب: وش نشاطك، وش هدفك من الموقع، وأمثلة تعجبك إن وجدت.",
+          "em": "المدة: جلسة واحدة"
+        },
+        {
+          "h3": "نتفق بوضوح",
+          "p": "نرسل لك عرض سعر مفصّل: الباقة، المدة، طريقة الدفع — كل شيء مكتوب قبل بداية أي شغل.",
+          "em": "بدون أي التزام مسبق"
+        },
+        {
+          "h3": "نصمّم ونراجع معك",
+          "p": "نبني الموقع ونرسل لك نسخة للمراجعة، وتعديلاتك محسوبة ضمن الباقة حتى ترضى عن النتيجة.",
+          "em": "أنت شريك في كل خطوة"
+        },
+        {
+          "h3": "نطلق ونسلّم",
+          "p": "نرفع الموقع، نربط الدومين، ونسلّمك كل شيء جاهز وشغّال — مع دعم بعد التسليم حسب باقتك.",
+          "em": "موقعك صار على الهواء"
+        }
+      ],
+      "clientsEye": "عملاؤنا",
+      "clientsH2": "علامات وثقت فينا… ومواقعها تشتغل لها",
+      "clientsSub": "من العقارات إلى التسويق وصناعة المحتوى — كل شعار يدور هنا وراه موقع حقيقي سلّمناه وصاحبه راضٍ عنه.",
+      "coreLabel": "مواقع مُسلَّمة",
+      "craftBadge": "+8 مواقع مُسلَّمة لعملاء حقيقيين",
+      "craftSub": "موقعك القادم يبدأ من رسالة واحدة.",
+      "craftCta": "اطلب تصميم موقعك",
+      "priceEye": "باقات وأسعار 2026",
+      "priceH2": "باقات واضحة… تعرف وش تدفع ووش تستلم",
+      "priceSub": "كل الباقات الأساسية تشمل دومين واستضافة لسنة كاملة. الأسعار نطاقات تقديرية ويُحدد السعر النهائي حسب متطلبات مشروعك.",
+      "plans": [
+        {
+          "name": "باقة البداية",
+          "who": "مناسبة للأفراد والمستقلين (فريلانسرز)",
+          "note": null,
+          "items": [
+            "موقع احترافي كامل",
+            "من 3 إلى 5 صفحات",
+            "تصميم مخصص",
+            "متوافق مع الجوال والكمبيوتر",
+            "نموذج تواصل",
+            "ربط وسائل التواصل",
+            "دومين لمدة سنة",
+            "استضافة لمدة سنة",
+            "تعديلان بعد التسليم"
+          ],
+          "btn": "اطلب باقة البداية"
+        },
+        {
+          "name": "باقة الأعمال",
+          "who": "مناسبة للشركات الصغيرة",
+          "note": "تشمل كل مزايا باقة البداية، بالإضافة إلى:",
+          "items": [
+            "حتى 8 صفحات",
+            "تصميم Premium أكثر تميزًا",
+            "حركات (Animations) احترافية",
+            "معرض أعمال",
+            "قسم خدمات",
+            "قسم آراء العملاء",
+            "قسم الأسئلة الشائعة",
+            "نموذج طلب خدمة",
+            "3 تعديلات بعد التسليم"
+          ],
+          "btn": "اطلب باقة الأعمال"
+        },
+        {
+          "name": "الباقة الاحترافية",
+          "who": "مناسبة للشركات والعلامات التجارية",
+          "note": "تشمل كل مزايا باقة الأعمال، بالإضافة إلى:",
+          "items": [
+            "صفحات حسب الحاجة",
+            "تصميم UI مخصص بالكامل",
+            "أنيميشن مخصص للموقع",
+            "أقسام تفاعلية أكثر",
+            "دعم اللغتين (عربي / إنجليزي)",
+            "نموذج طلب عرض سعر",
+            "رفع الموقع بالكامل وتسليمه جاهزًا",
+            "شهر دعم فني",
+            "5 تعديلات بعد التسليم"
+          ],
+          "btn": "اطلب الباقة الاحترافية"
+        },
+        {
+          "name": "الباقة الخاصة",
+          "who": "لأي طلبات خارج الباقات",
+          "note": "حلول مصمّمة خصيصًا لنشاطك، مثل:",
+          "items": [
+            "موقع مخصص بالكامل",
+            "تصميم فريد 100%",
+            "عدد صفحات كبير",
+            "أفكار وأقسام خاصة حسب نشاطك",
+            "أي مزايا إضافية حسب الاتفاق"
+          ],
+          "btn": "كلّمنا عن مشروعك"
+        }
+      ],
+      "extrasH3": "خدمات إضافية (اختيارية)",
+      "extrasRows": [
+        {
+          "left": "صفحة إضافية",
+          "right": "<span class=\"num\">150 – 250</span> ر.س"
+        },
+        {
+          "left": "لغة إضافية",
+          "right": "<span class=\"num\">300 – 500</span> ر.س"
+        },
+        {
+          "left": "كتابة المحتوى",
+          "right": "حسب الاتفاق",
+          "flex": true
+        },
+        {
+          "left": "مونتاج فيديو للموقع",
+          "right": "حسب الاتفاق",
+          "flex": true
+        },
+        {
+          "left": "تعديل بعد انتهاء فترة التعديلات",
+          "right": "<span class=\"num\">100</span> ر.س / تعديل"
+        }
+      ],
+      "notesH3": "ملاحظات مهمة",
+      "notes": [
+        "جميع الباقات الأساسية تشمل دومينًا واستضافة لمدة سنة كاملة.",
+        "الأسعار نطاقات تقديرية، ويُحدَّد السعر النهائي حسب متطلبات المشروع.",
+        "تُتَّفق مدة التنفيذ وطريقة الدفع قبل بدء العمل."
+      ],
+      "ribbon": [
+        "نصمّم مواقع تبيع",
+        "هوية تليق باسمك",
+        "تسليم ملتزم بالموعد",
+        "دعم بعد الإطلاق",
+        "دومين واستضافة سنة مجانًا"
+      ],
+      "testiEye": "آراء العملاء",
+      "testiH2": "بتلقى نفسك معنا",
+      "testiSub": "اللي جرّبوا الشغل… هم أفضل من يتكلم عنه.",
+      "testis": [
+        {
+          "p": "احترافية بالتفاصيل من أول تواصل — فهموا طبيعة السوق العقاري وطلع الموقع أفخم من توقعي، والعملاء صاروا يوصلوننا من الموقع مباشرة.",
+          "name": "نبراس المساكن",
+          "role": "مكتب خدمات عقارية — جدة"
+        },
+        {
+          "p": "أبغى هوية جريئة تشبهنا كوكالة تسويق، ومن أول نسخة حسّيت إن الموقع \"يتكلم بلساننا\". التسليم كان بالموعد والتعديلات سريعة.",
+          "name": "وكالة رغد",
+          "role": "وكالة تسويق رقمي"
+        },
+        {
+          "p": "طلبت بورتفوليو يعرض شغلي بشكل سينمائي يليق بمجال المونتاج — النتيجة فاقت الخيال، صار الموقع نفسه جزء من أعمالي اللي أفتخر فيها.",
+          "name": "أسامة",
+          "role": "مونتير ومصمم موشن جرافيك"
+        },
+        {
+          "p": "كنت أبغى موقع يليق بشغلي كمخرج ويعرض أعمالي بأسلوب سينمائي — طلع الموقع تحفة، بصفحة استقبال بالفيديو ومعرض أعمال يخطف النظر. صار كرت تعريفي أرسله لأي عميل.",
+          "name": "محمد بديري",
+          "role": "مخرج وصانع أفلام — جدة"
+        },
+        {
+          "p": "أبغى موقع لتطبيق SaaS يعكس الهدوء والأناقة اللي نبنيه عليهم — جاء التصميم بالضبط بهذا الشعور، هادئ ومريح ومقنع. النسخ التجريبية تحولت لعملاء بعد إطلاق الموقع مباشرة.",
+          "name": "Drift Inc.",
+          "role": "منصة إنتاجية هادئة — AI Planner"
+        }
+      ],
+      "faqs": [
+        {
+          "q": "كم يستغرق تصميم الموقع؟",
+          "a": "يعتمد على حجم الباقة ومتطلباتك — المواقع التعريفية غالبًا تجهز خلال أيام إلى أسابيع قليلة. المهم: نتفق على مدة واضحة قبل بدء العمل ونلتزم فيها."
+        },
+        {
+          "q": "هل الأسعار المعروضة نهائية؟",
+          "a": "الأسعار نطاقات تقديرية تعطيك صورة واضحة من البداية، والسعر النهائي يُحدَّد بعد فهم متطلبات مشروعك بالضبط — وتستلم عرض سعر مكتوب قبل أي التزام."
+        },
+        {
+          "q": "هل السعر يشمل الدومين والاستضافة؟",
+          "a": "نعم — جميع الباقات الأساسية تشمل حجز الدومين والاستضافة لمدة سنة كاملة. تستلم موقعك شغّال على رابطه الرسمي، مو مجرد ملفات تصميم."
+        },
+        {
+          "q": "كيف تكون طريقة الدفع؟",
+          "a": "نتفق على طريقة الدفع ومراحله قبل بدء العمل، وكل شيء يكون مكتوبًا وواضحًا في الاتفاق — بدون أي مفاجآت."
+        },
+        {
+          "q": "ماذا لو احتجت تعديلًا بعد انتهاء التعديلات المجانية؟",
+          "a": "كل باقة تشمل عددًا من التعديلات المجانية بعد التسليم (من تعديلين حتى 5 حسب الباقة). بعد انتهائها، أي تعديل إضافي بـ 100 ر.س فقط."
+        },
+        {
+          "q": "عندي طلب خاص ما يدخل تحت أي باقة — تقدرون تنفذونه؟",
+          "a": "أكيد — الباقة الخاصة موجودة لهذا الغرض بالضبط: موقع مخصص بالكامل بتصميم فريد وأقسام مبنية حسب نشاطك. كلّمنا على واتساب واشرح لنا فكرتك."
+        }
+      ],
+      "faqEye": "الأسئلة الشائعة",
+      "faqH2": "كل اللي تحتاج تعرفه قبل ما تبدأ",
+      "contactEye": "تواصل معنا",
+      "contactH2": "جاهز تبدأ مشروعك؟",
+      "contactLead": "اختر الباقة المناسبة أو خلّنا نصمم لك باقة خاصة — أول استشارة مجانية وبدون أي التزام.",
+      "selfProof": "تبغى دليل على مستوى شغلنا؟ <b>أنت تتصفحه الآن</b> — هذا الموقع من تصميمنا.",
+      "waLabel": "واتساب — الأسرع للرد",
+      "emailLabel": "البريد الإلكتروني",
+      "instaLabel": "إنستغرام",
+      "formH3": "اطلب عرض سعر",
+      "formP": "عبّي النموذج ويوصلنا طلبك على واتساب مباشرة — نرد عليك بعرض واضح.",
+      "fName": "اسمك",
+      "fNamePH": "مثال: محمد العتيبي",
+      "fBiz": "نوع نشاطك",
+      "fBizPH": "مثال: مكتب عقاري، متجر عطور، بورتفوليو شخصي…",
+      "fPlan": "الباقة اللي تفكر فيها",
+      "fPlanOpts": [
+        "ما حددت بعد — أبغى استشارة",
+        "باقة البداية (1,000 – 2,000 ر.س)",
+        "باقة الأعمال (2,000 – 3,000 ر.س)",
+        "الباقة الاحترافية (3,000 – 4,000 ر.س)",
+        "الباقة الخاصة (تبدأ من 4,000 ر.س)"
+      ],
+      "fMsg": "احكِ لنا عن مشروعك (اختياري)",
+      "fMsgPH": "وش تبغى يكون في موقعك؟ عندك أمثلة تعجبك؟",
+      "submitBtn": "أرسل الطلب عبر واتساب",
+      "formHint": "يفتح واتساب برسالة جاهزة — تقدر تعدلها قبل الإرسال",
+      "footBrand": "استوديو تصميم المواقع",
+      "footLinks": [
+        "أعمالنا",
+        "الباقات",
+        "خطوات العمل",
+        "الأسئلة الشائعة",
+        "تواصل معنا"
+      ],
+      "footCopy": "© {y} استوديو OS لتصميم المواقع — جميع الحقوق محفوظة · <b>هذا الموقع من تصميمنا وتطويرنا</b>"
+    },
+    "en": {
+      "nav": {
+        "works": "Portfolio",
+        "why": "Why Us",
+        "clients": "Clients",
+        "pricing": "Pricing",
+        "faq": "FAQ",
+        "cta": "Start Your Site"
+      },
+      "heroAEye": "Web Design Studio · OS",
+      "heroAH1": "We showcase your work,<br>build your trust,<br>and turn visitors into <em>clients</em>.",
+      "heroASub": "We craft a professional website that reflects your identity and attracts your clients — fast, mobile-ready, and includes domain & hosting for a full year. Packages starting from <b class=\"num\">1,000</b> SAR.",
+      "heroCta1": "Start Your Site Now",
+      "heroCta2": "See Our Work",
+      "rv1Before": "Whether you're a business owner who needs a site that *sells* for you,",
+      "rv1Mid": "or a new venture ready for a presence that fits —",
+      "rv1Badge": "OS Studio",
+      "rv1After": "gets you a site that works *24/7* and turns visitors into *clients*.",
+      "rv2": "Trusted by the *best* in their fields.",
+      "craftRv": "No templates touched — every site is *crafted* by hand, pixel by pixel, to match *your brand*.",
+      "worksEye": "Our Work",
+      "worksH2": "Real sites, for real clients",
+      "worksSub": "Hover any card to see the full page, click to open the live site — every one is a real, shipped project.",
+      "visitLink": "Visit Website",
+      "ctaCardH": "Your site goes here",
+      "ctaCardP": "Make your project the sixth card — first consultation is free, no commitment.",
+      "ctaCardBtn": "Start your site",
+      "featEye": "Why Us",
+      "featH2": "Details that separate a site… from a site that works",
+      "featSub": "We don't hand you 'a page on the internet' — we hand you a complete marketing tool built on a solid foundation.",
+      "feats": [
+        {
+          "h3": "Fast Loading Speed",
+          "p": "Clean code and compressed assets — every second of delay costs you a visitor, and Google loves fast sites."
+        },
+        {
+          "h3": "Mobile First",
+          "p": "Most of your visitors are on mobile — we design for mobile first, and it looks perfect on every screen size."
+        },
+        {
+          "h3": "SEO Ready",
+          "p": "Sound structure, proper titles and descriptions for every page — so your clients find you when they search."
+        },
+        {
+          "h3": "Custom Design — No Templates",
+          "p": "Your identity, your colors, your business personality — we don't sell ready-made templates seen elsewhere."
+        },
+        {
+          "h3": "Domain & Hosting — Full Year",
+          "p": "All core packages include domain registration and hosting for a year — you receive a live site, not just files."
+        },
+        {
+          "h3": "Post-Launch Support",
+          "p": "Revisions guaranteed within your package, plus a full month of technical support with the Pro package — we don't disappear after delivery."
+        }
+      ],
+      "featDarkH3": "Want proof of our quality?",
+      "featDarkP": "You're browsing it right now — this site is our own design and build.",
+      "featDarkBtn": "Start Your Site Now",
+      "procEye": "How We Work",
+      "procH2": "From first message… to a live website",
+      "procSub": "A clear workflow where you know what happens at every stage — no ambiguity, no surprises.",
+      "steps": [
+        {
+          "h3": "We listen",
+          "p": "Send us a WhatsApp message: your business type, your site goals, and any examples you like.",
+          "em": "Duration: one session"
+        },
+        {
+          "h3": "We agree clearly",
+          "p": "We send you a detailed quote: package, timeline, payment terms — everything written before any work begins.",
+          "em": "No upfront commitment"
+        },
+        {
+          "h3": "We design & review together",
+          "p": "We build the site and send you a review copy; revisions are included in your package until you're satisfied.",
+          "em": "You're a partner at every step"
+        },
+        {
+          "h3": "We launch & deliver",
+          "p": "We deploy the site, connect the domain, and hand over everything live and ready — with post-launch support per your package.",
+          "em": "Your site is now live"
+        }
+      ],
+      "clientsEye": "Our Clients",
+      "clientsH2": "Brands that trusted us… with sites that work for them",
+      "clientsSub": "From real estate to marketing and content creation — every logo here is a real site we delivered, with a happy client behind it.",
+      "coreLabel": "Sites Delivered",
+      "craftBadge": "+8 Sites Delivered to Real Clients",
+      "craftSub": "Your next site starts with a single message.",
+      "craftCta": "Request Your Site Design",
+      "priceEye": "Packages & Pricing 2026",
+      "priceH2": "Clear packages… you know what you pay and what you get",
+      "priceSub": "All core packages include domain & hosting for a full year. Prices are indicative ranges; the final price is set per your project requirements.",
+      "plans": [
+        {
+          "name": "Starter Package",
+          "who": "For freelancers & individuals",
+          "note": null,
+          "items": [
+            "Professional full website",
+            "3 to 5 pages",
+            "Custom design",
+            "Mobile & desktop compatible",
+            "Contact form",
+            "Social media links",
+            "Domain for 1 year",
+            "Hosting for 1 year",
+            "2 revisions after delivery"
+          ],
+          "btn": "Get Starter Package"
+        },
+        {
+          "name": "Business Package",
+          "who": "For small businesses",
+          "note": "Includes all Starter features, plus:",
+          "items": [
+            "Up to 8 pages",
+            "Premium design",
+            "Professional animations",
+            "Portfolio gallery",
+            "Services section",
+            "Client testimonials",
+            "FAQ section",
+            "Service request form",
+            "3 revisions after delivery"
+          ],
+          "btn": "Get Business Package"
+        },
+        {
+          "name": "Pro Package",
+          "who": "For companies & brands",
+          "note": "Includes all Business features, plus:",
+          "items": [
+            "Pages as needed",
+            "Fully custom UI design",
+            "Custom site animations",
+            "More interactive sections",
+            "Bilingual support (Arabic / English)",
+            "Quote request form",
+            "Full site deployment & handover",
+            "1 month technical support",
+            "5 revisions after delivery"
+          ],
+          "btn": "Get Pro Package"
+        },
+        {
+          "name": "Custom Package",
+          "who": "For requests outside standard packages",
+          "note": "Tailored solutions for your business, such as:",
+          "items": [
+            "Fully custom site",
+            "100% unique design",
+            "Large page count",
+            "Custom sections per your business",
+            "Any extra features by agreement"
+          ],
+          "btn": "Talk to us about your project"
+        }
+      ],
+      "extrasH3": "Add-on Services (Optional)",
+      "extrasRows": [
+        {
+          "left": "Extra page",
+          "right": "<span class=\"num\">150 – 250</span> SAR"
+        },
+        {
+          "left": "Extra language",
+          "right": "<span class=\"num\">300 – 500</span> SAR"
+        },
+        {
+          "left": "Content writing",
+          "right": "By agreement",
+          "flex": true
+        },
+        {
+          "left": "Video editing",
+          "right": "By agreement",
+          "flex": true
+        },
+        {
+          "left": "Revision after included ones",
+          "right": "<span class=\"num\">100</span> SAR / revision"
+        }
+      ],
+      "notesH3": "Important Notes",
+      "notes": [
+        "All core packages include domain & hosting for a full year.",
+        "Prices are indicative ranges; the final price is set per project requirements.",
+        "Timeline and payment terms are agreed upon before work begins."
+      ],
+      "ribbon": [
+        "Sites that sell",
+        "An identity worthy of your name",
+        "On-time delivery",
+        "Post-launch support",
+        "Domain & hosting — free for a year"
+      ],
+      "testiEye": "Client Reviews",
+      "testiH2": "You'll feel at home with us",
+      "testiSub": "Those who've experienced our work are the best to speak about it.",
+      "testis": [
+        {
+          "p": "Professional in every detail from first contact — they understood the real estate market and the site exceeded my expectations; clients now reach us directly through the website.",
+          "name": "Nibras Al-Masakin",
+          "role": "Real Estate Services — Jeddah"
+        },
+        {
+          "p": "I wanted a bold identity that speaks for us as a marketing agency, and from the very first version I felt the site \"spoke our language\". Delivery was on time and revisions were quick.",
+          "name": "Raghad Agency",
+          "role": "Digital Marketing Agency"
+        },
+        {
+          "p": "I asked for a portfolio showcasing my work cinematically, fitting for the editing field — the result exceeded all imagination; the site itself became part of my work I'm proud of.",
+          "name": "Osama",
+          "role": "Video Editor & Motion Designer"
+        },
+        {
+          "p": "I wanted a site worthy of my work as a director, showcasing my projects cinematically — the result was a masterpiece, with a video welcome page and a portfolio that captures the eye. It became my calling card for every client.",
+          "name": "Mohammed Bedeiry",
+          "role": "Director & Filmmaker — Jeddah"
+        },
+        {
+          "p": "I wanted a SaaS site reflecting the calm and elegance we built it on — the design came with exactly that feeling: calm, comfortable, and convincing. Trial users converted to clients right after the site launched.",
+          "name": "Drift Inc.",
+          "role": "Calm Productivity Platform — AI Planner"
+        }
+      ],
+      "faqs": [
+        {
+          "q": "How long does site design take?",
+          "a": "Depends on the package and your requirements — informational sites are typically ready within days to a few weeks. What matters: we agree on a clear timeline before starting and we commit to it."
+        },
+        {
+          "q": "Are the listed prices final?",
+          "a": "The prices are indicative ranges giving you a clear picture from the start; the final price is set after understanding your project requirements exactly — and you receive a written quote before any commitment."
+        },
+        {
+          "q": "Does the price include domain and hosting?",
+          "a": "Yes — all core packages include domain registration and hosting for a full year. You receive a live site on its official domain, not just design files."
+        },
+        {
+          "q": "How does payment work?",
+          "a": "We agree on payment method and milestones before work begins, and everything is written and clear in the agreement — no surprises."
+        },
+        {
+          "q": "What if I need a revision after the included ones are used?",
+          "a": "Each package includes free revisions after delivery (from 2 to 5 depending on the package). After that, any extra revision is just 100 SAR."
+        },
+        {
+          "q": "I have a special request that doesn't fit any package — can you do it?",
+          "a": "Absolutely — the Custom Package exists exactly for this: a fully custom site with a unique design and sections built for your business. Message us on WhatsApp and describe your idea."
+        }
+      ],
+      "faqEye": "FAQ",
+      "faqH2": "Everything you need to know before you start",
+      "contactEye": "Contact Us",
+      "contactH2": "Ready to start your project?",
+      "contactLead": "Choose a suitable package or let us design a custom one — your first consultation is free and with no commitment.",
+      "selfProof": "Want proof of our quality? <b>You're browsing it right now</b> — this site is our own design.",
+      "waLabel": "WhatsApp — Fastest Response",
+      "emailLabel": "Email",
+      "instaLabel": "Instagram",
+      "formH3": "Request a Quote",
+      "formP": "Fill the form and your request arrives on WhatsApp directly — we reply with a clear quote.",
+      "fName": "Your Name",
+      "fNamePH": "Example: Mohammed Al-Otaibi",
+      "fBiz": "Your Business Type",
+      "fBizPH": "Example: real estate office, perfume store, personal portfolio…",
+      "fPlan": "Package you're considering",
+      "fPlanOpts": [
+        "Not decided yet — I want a consultation",
+        "Starter Package (1,000 – 2,000 SAR)",
+        "Business Package (2,000 – 3,000 SAR)",
+        "Pro Package (3,000 – 4,000 SAR)",
+        "Custom Package (starting from 4,000 SAR)"
+      ],
+      "fMsg": "Tell us about your project (optional)",
+      "fMsgPH": "What do you want in your site? Any examples you like?",
+      "submitBtn": "Send Request via WhatsApp",
+      "formHint": "Opens WhatsApp with a ready message — you can edit before sending",
+      "footBrand": "Web Design Studio",
+      "footLinks": [
+        "Portfolio",
+        "Pricing",
+        "How We Work",
+        "FAQ",
+        "Contact Us"
+      ],
+      "footCopy": "© {y} OS Web Design Studio — All rights reserved · <b>This site is our own design and build</b>"
+    }
+  }
+}

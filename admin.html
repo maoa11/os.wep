@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة التحكم · استوديو OS</title>
+<link rel="icon" href="assets/logo.png">
+<style>
+@font-face{font-family:'Thmanyah Display';src:url('assets/fonts/thmanyahserifdisplay-Bold.woff2') format('woff2');font-weight:600 800;font-display:swap}
+@font-face{font-family:'Thmanyah Display';src:url('assets/fonts/thmanyahserifdisplay-Black.woff2') format('woff2');font-weight:900;font-display:swap}
+@font-face{font-family:'Thmanyah Text';src:url('assets/fonts/thmanyahseriftext-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Thmanyah Text';src:url('assets/fonts/thmanyahseriftext-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Thmanyah Text';src:url('assets/fonts/thmanyahseriftext-Bold.woff2') format('woff2');font-weight:600 800;font-display:swap}
+
+:root{
+  --navy:#0F2350; --navy-2:#16305F; --night:#0A182F;
+  --gold:#C79A4B; --gold-2:#E4C179;
+  --paper:#FBF8F1; --paper-2:#F4EFE4; --card:#fff;
+  --ink:#171520; --muted:#54515C; --line:#EAE5DA;
+  --ok:#1FA855; --err:#C0392B;
+  --ff-d:'Thmanyah Display',serif; --ff-t:'Thmanyah Text',serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--ff-t);background:var(--paper);color:var(--ink);line-height:1.7;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--navy)}
+
+/* ============ شاشة الدخول ============ */
+#gate{min-height:100svh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(900px 520px at 50% -10%,rgba(199,154,75,.18),transparent 62%),var(--paper)}
+.gate-card{width:100%;max-width:470px;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:38px 30px;box-shadow:0 24px 60px rgba(15,35,80,.10)}
+.gate-card img{width:54px;height:54px;object-fit:contain;margin-bottom:18px}
+.gate-card h1{font-family:var(--ff-d);font-weight:900;font-size:1.6rem;color:var(--navy);margin-bottom:6px}
+.gate-card .sub{color:var(--muted);font-size:.93rem;margin-bottom:24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:var(--ff-d);font-weight:800;font-size:.88rem;color:var(--navy);margin-bottom:7px}
+.field input,.field select,.field textarea{width:100%;background:var(--paper);border:1px solid var(--line);
+  border-radius:12px;padding:12px 14px;font-size:.94rem;transition:border-color .2s,box-shadow .2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(199,154,75,.15)}
+.field textarea{resize:vertical;min-height:88px;line-height:1.75}
+.field .hint{font-size:.79rem;color:var(--muted);margin-top:6px;line-height:1.6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;
+  font-family:var(--ff-d);font-weight:800;font-size:.94rem;border:none;border-radius:999px;
+  padding:12px 26px;transition:transform .2s var(--ease),background .2s,box-shadow .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover:not(:disabled){background:var(--navy);box-shadow:0 6px 20px rgba(15,35,80,.2)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover:not(:disabled){background:var(--navy-2)}
+.btn-ghost{background:transparent;color:var(--navy);border:1px solid var(--line)}
+.btn-ghost:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:7px 15px;font-size:.83rem}
+.btn-danger{background:transparent;color:var(--err);border:1px solid rgba(192,57,43,.3)}
+.btn-danger:hover:not(:disabled){background:var(--err);color:#fff;border-color:var(--err)}
+.gate-steps{background:var(--paper-2);border-radius:14px;padding:16px 18px;margin-bottom:22px;font-size:.86rem}
+.gate-steps b{font-family:var(--ff-d);display:block;margin-bottom:8px;color:var(--navy)}
+.gate-steps ol{padding-inline-start:18px;color:var(--muted);line-height:1.9}
+.gate-steps a{color:var(--gold);font-weight:600}
+#advToggle{background:none;border:none;color:var(--muted);font-size:.83rem;cursor:pointer;
+  text-decoration:underline;padding:0;margin-top:4px}
+#adv{display:none}
+#adv.on{display:block}
+
+/* ============ الهيكل ============ */
+#app{display:none;min-height:100svh}
+#app.on{display:grid;grid-template-columns:250px 1fr}
+.side{background:var(--night);color:#EEF3FC;padding:22px 0;position:sticky;top:0;height:100svh;
+  overflow-y:auto;display:flex;flex-direction:column}
+.side-brand{display:flex;align-items:center;gap:11px;padding:0 22px 20px;
+  border-bottom:1px solid rgba(228,193,121,.16);margin-bottom:14px}
+.side-brand img{width:36px;height:36px;object-fit:contain}
+.side-brand b{font-family:var(--ff-d);font-weight:900;font-size:.98rem;line-height:1.25}
+.side-brand small{display:block;color:var(--gold-2);font-size:.68rem;letter-spacing:2px}
+.side nav{flex:1;padding:0 12px}
+.side nav button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;
+  cursor:pointer;color:#9FB3D6;font-family:var(--ff-d);font-weight:800;font-size:.9rem;
+  padding:11px 14px;border-radius:11px;text-align:start;transition:background .2s,color .2s;margin-bottom:2px}
+.side nav button:hover{background:rgba(159,179,214,.09);color:#EEF3FC}
+.side nav button.on{background:var(--gold);color:#fff}
+.side nav button .ic{font-size:1.05rem;line-height:1;flex:none}
+.side-foot{padding:14px 20px 0;border-top:1px solid rgba(228,193,121,.16);margin-top:14px}
+.side-foot button{width:100%;background:rgba(159,179,214,.1);border:none;color:#9FB3D6;
+  border-radius:10px;padding:9px;cursor:pointer;font-size:.83rem;font-family:var(--ff-t)}
+.side-foot button:hover{color:#fff;background:rgba(192,57,43,.35)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;background:rgba(251,248,241,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);padding:15px 28px;display:flex;align-items:center;
+  justify-content:space-between;gap:14px;flex-wrap:wrap}
+.top h2{font-family:var(--ff-d);font-weight:900;font-size:1.25rem;color:var(--navy)}
+.top .acts{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dirty-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:none}
+.dirty .dirty-dot{display:block}
+.wrap{padding:26px 28px 90px;max-width:1000px;width:100%}
+
+/* ============ بطاقات ============ */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px}
+.card>h3{font-family:var(--ff-d);font-weight:900;font-size:1.05rem;color:var(--navy);
+  margin-bottom:4px;display:flex;align-items:center;gap:9px;justify-content:space-between}
+.card>.desc{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lang-tag{font-family:var(--ff-d);font-size:.7rem;font-weight:800;letter-spacing:1px;
+  background:var(--paper-2);color:var(--muted);border-radius:6px;padding:2px 7px;margin-inline-start:7px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spacer{flex:1}
+
+/* عناصر قابلة للترتيب */
+.item{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;background:var(--paper)}
+.item.drag-over{border-color:var(--gold);border-style:dashed;background:rgba(199,154,75,.06)}
+.item.dragging{opacity:.45}
+.item-head{display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap}
+.item-head .idx{font-family:var(--ff-d);font-weight:900;color:var(--gold);font-size:1rem;min-width:22px}
+.item-head .ttl{font-family:var(--ff-d);font-weight:800;color:var(--navy);flex:1;min-width:120px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.handle{cursor:grab;color:var(--muted);font-size:1.1rem;user-select:none;padding:0 3px;line-height:1}
+.handle:active{cursor:grabbing}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:8px;width:30px;height:30px;
+  display:grid;place-items:center;cursor:pointer;font-size:.85rem;color:var(--muted);flex:none;line-height:1}
+.mini:hover{border-color:var(--gold);color:var(--gold)}
+.mini.del:hover{border-color:var(--err);color:var(--err)}
+.mini:disabled{opacity:.3;cursor:not-allowed}
+
+/* مفتاح إظهار/إخفاء */
+.sw{position:relative;display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:.87rem;user-select:none}
+.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw .track{width:42px;height:24px;border-radius:999px;background:#D5CEC0;transition:background .25s;flex:none;position:relative}
+.sw .track::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:18px;height:18px;
+  border-radius:50%;background:#fff;transition:transform .25s var(--ease);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.sw input:checked+.track{background:var(--ok)}
+html[dir="rtl"] .sw input:checked+.track::after{transform:translateX(-18px)}
+html[dir="ltr"] .sw input:checked+.track::after{transform:translateX(18px)}
+.sw input:focus-visible+.track{box-shadow:0 0 0 3px rgba(199,154,75,.3)}
+
+/* صور */
+.thumb{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;
+  border:1px solid var(--line);background:var(--paper-2);display:block}
+.img-slot{display:flex;gap:13px;align-items:flex-start}
+.img-slot .thumb{width:150px;flex:none}
+.img-actions{display:flex;flex-direction:column;gap:7px;min-width:0}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px}
+.media-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);position:relative}
+.media-item img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block}
+.media-item .nm{padding:8px 10px;font-size:.74rem;color:var(--muted);direction:ltr;text-align:left;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.media-item .cp{position:absolute;top:7px;inset-inline-end:7px;background:rgba(15,35,80,.85);color:#fff;
+  border:none;border-radius:7px;padding:4px 9px;font-size:.72rem;cursor:pointer;font-family:var(--ff-t)}
+
+/* حالات */
+#toast{position:fixed;bottom:22px;inset-inline-start:50%;transform:translate(50%,140%);z-index:200;
+  background:var(--navy);color:#fff;padding:13px 24px;border-radius:999px;font-size:.9rem;
+  box-shadow:0 14px 40px rgba(15,35,80,.3);transition:transform .4s var(--ease);max-width:90vw;text-align:center}
+html[dir="rtl"] #toast{transform:translate(50%,140%)}
+#toast.show{transform:translate(50%,0)}
+#toast.ok{background:var(--ok)} #toast.err{background:var(--err)}
+.spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+  border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.banner{border-radius:12px;padding:13px 16px;font-size:.87rem;margin-bottom:16px;display:none;line-height:1.7}
+.banner.show{display:block}
+.banner.err{background:rgba(192,57,43,.09);border:1px solid rgba(192,57,43,.3);color:#8E2A20}
+.banner.info{background:rgba(199,154,75,.1);border:1px solid rgba(199,154,75,.3);color:#7A5D25}
+.empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:.9rem}
+
+/* الجوال */
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;
+  width:40px;height:40px;cursor:pointer;font-size:1.1rem;line-height:1}
+@media(max-width:900px){
+  #app.on{grid-template-columns:1fr}
+  .side{position:fixed;inset-block:0;inset-inline-start:0;width:255px;z-index:60;
+    transform:translateX(105%);transition:transform .3s var(--ease)}
+  html[dir="ltr"] .side{transform:translateX(-105%)}
+  .side.open{transform:none}
+  .burger{display:grid;place-items:center}
+  .wrap{padding:20px 16px 80px}
+  .top{padding:12px 16px}
+  .grid2{grid-template-columns:1fr}
+  .img-slot{flex-direction:column}
+  .img-slot .thumb{width:100%}
+  #scrim{position:fixed;inset:0;background:rgba(10,24,47,.5);z-index:55;display:none}
+  #scrim.on{display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== الدخول ===================== -->
+<div id="gate">
+  <div class="gate-card">
+    <img src="assets/logo.png" alt="">
+    <h1>لوحة تحكم الموقع</h1>
+    <p class="sub">سجّل الدخول لتعديل محتوى موقعك.</p>
+
+    <div class="banner err" id="gateErr"></div>
+
+    <div class="gate-steps">
+      <b>أول مرة تدخل؟ اتبع هذي الخطوات مرة واحدة فقط:</b>
+      <ol>
+        <li>افتح <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">صفحة إنشاء المفتاح في GitHub</a></li>
+        <li>في Repository access اختر <b>Only select repositories</b> وحدّد مستودع موقعك</li>
+        <li>في Permissions افتح <b>Repository permissions</b> واجعل <b>Contents</b> = <b>Read and write</b></li>
+        <li>اضغط Generate token وانسخ المفتاح</li>
+        <li>الصقه بالأسفل — يُحفظ في متصفحك أنت فقط، ولا يُرسل لأي جهة أخرى</li>
+      </ol>
+    </div>
+
+    <div class="field">
+      <label for="tok">مفتاح GitHub</label>
+      <input type="password" id="tok" placeholder="github_pat_..." autocomplete="current-password" dir="ltr">
+      <div class="hint">يُخزَّن في هذا المتصفح فقط. تقدر تلغيه من GitHub في أي وقت.</div>
+    </div>
+
+    <button id="advToggle" type="button">إعدادات المستودع</button>
+    <div id="adv">
+      <div class="grid2" style="margin-top:12px">
+        <div class="field"><label for="owner">اسم الحساب</label><input id="owner" dir="ltr" placeholder="maoa11"></div>
+        <div class="field"><label for="repo">اسم المستودع</label><input id="repo" dir="ltr" placeholder="os.wep"></div>
+      </div>
+      <div class="field"><label for="branch">الفرع</label><input id="branch" dir="ltr" value="main"></div>
+    </div>
+
+    <button class="btn btn-gold" id="loginBtn" style="width:100%;margin-top:8px">دخول</button>
+  </div>
+</div>
+
+<!-- ===================== اللوحة ===================== -->
+<div id="app">
+  <div id="scrim"></div>
+  <aside class="side" id="side">
+    <div class="side-brand">
+      <img src="assets/logo.png" alt="">
+      <b>لوحة التحكم<small>OS · WEB STUDIO</small></b>
+    </div>
+    <nav id="tabs"></nav>
+    <div class="side-foot">
+      <button id="logout">تسجيل الخروج</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="top">
+      <div class="row">
+        <button class="burger" id="burger" aria-label="القائمة">☰</button>
+        <h2 id="tabTitle">الصفحة الرئيسية</h2>
+        <span class="dirty-dot" title="فيه تعديلات غير محفوظة"></span>
+      </div>
+      <div class="acts">
+        <a class="btn btn-ghost btn-sm" id="viewSite" href="index.html" target="_blank" rel="noopener">معاينة الموقع ↗</a>
+        <button class="btn btn-gold btn-sm" id="saveBtn">حفظ التعديلات</button>
+      </div>
+    </div>
+    <div class="wrap" id="view"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* =========================================================================
+   لوحة تحكم استوديو OS
+   التخزين: content.json داخل مستودع GitHub نفسه — بلا خدمة خارجية.
+   المصادقة: مفتاح وصول شخصي يُنشئه المالك ويُحفظ في متصفحه وحده،
+   فلا توجد أي كلمة سر داخل الكود.
+   ========================================================================= */
+
+const LS = { tok:'os-admin-token', repo:'os-admin-repo' };
+const FILE = 'content.json';
+const UPLOAD_DIR = 'assets/uploads';
+const MAX_UPLOAD = 4 * 1024 * 1024; /* حد GitHub العملي لرفع ملف عبر الـAPI */
+
+let cfg = { owner:'', repo:'', branch:'main', token:'' };
+let content = null;   /* نسخة العمل */
+let sha = null;       /* بصمة الملف — تمنع الكتابة فوق تعديل أحدث */
+let dirty = false;
+let mediaCache = null;
+
+/* ---------- أدوات ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const clone = o => JSON.parse(JSON.stringify(o));
+const uid = () => 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+
+let toastT;
+function toast(msg, kind){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.className = 'show' + (kind ? ' ' + kind : '');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.className = ''; }, kind === 'err' ? 6000 : 3000);
+}
+function markDirty(){
+  dirty = true;
+  document.querySelector('.top').classList.add('dirty');
+}
+addEventListener('beforeunload', e => { if (dirty){ e.preventDefault(); e.returnValue = ''; } });
+
+/* ---------- GitHub API ---------- */
+async function gh(path, opts){
+  opts = opts || {};
+  const url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + path;
+  const r = await fetch(url, Object.assign({}, opts, {
+    headers: Object.assign({
+      'Authorization': 'Bearer ' + cfg.token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    }, opts.headers || {})
+  }));
+  if (!r.ok){
+    let detail = '';
+    try { detail = (await r.json()).message || ''; } catch(e){}
+    const err = new Error(detail || ('HTTP ' + r.status));
+    err.status = r.status;
+    throw err;
+  }
+  return r.status === 204 ? null : r.json();
+}
+
+/* ترميز UTF-8 إلى base64 — btoa وحدها تفشل مع العربية */
+function b64(str){
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  const CH = 0x8000;
+  for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  return btoa(bin);
+}
+function unb64(b){
+  const bin = atob(b.replace(/\s/g,''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+async function loadContent(){
+  try {
+    const f = await gh('/contents/' + FILE + '?ref=' + encodeURIComponent(cfg.branch));
+    sha = f.sha;
+    return JSON.parse(unb64(f.content));
+  } catch(e){
+    if (e.status === 404){
+      /* الملف غير موجود في المستودع — نبدأ من نسخة الموقع المنشورة */
+      const r = await fetch(FILE + '?t=' + Date.now(), {cache:'no-store'});
+      if (!r.ok) throw new Error('تعذّر العثور على ملف المحتوى content.json');
+      sha = null;
+      return r.json();
+    }
+    throw e;
+  }
+}
+
+async function saveContent(){
+  content.updated = new Date().toISOString();
+  const body = {
+    message: 'تحديث محتوى الموقع من لوحة التحكم',
+    content: b64(JSON.stringify(content, null, 2)),
+    branch: cfg.branch
+  };
+  if (sha) body.sha = sha;
+  const res = await gh('/contents/' + FILE, {
+    method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+  });
+  sha = res.content.sha;
+}
+
+async function uploadImage(file){
+  if (file.size > MAX_UPLOAD) throw new Error('حجم الصورة ' + (file.size/1048576).toFixed(1) + 'MB — الحد 4MB. اضغطها ثم أعد المحاولة.');
+  if (!/^image\//.test(file.type)) throw new Error('الملف ليس صورة.');
+  const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const name = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,6) + '.' + ext;
+  const path = UPLOAD_DIR + '/' + name;
+  const data = await new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => res(String(fr.result).split(',')[1]);
+    fr.onerror = () => rej(new Error('تعذّرت قراءة الملف.'));
+    fr.readAsDataURL(file);
+  });
+  await gh('/contents/' + path, {
+    method:'PUT', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ message:'رفع صورة: ' + name, content:data, branch:cfg.branch })
+  });
+  mediaCache = null;
+  return path;
+}
+
+async function listMedia(){
+  if (mediaCache) return mediaCache;
+  const out = [];
+  for (const dir of ['assets', UPLOAD_DIR]){
+    try {
+      const files = await gh('/contents/' + dir + '?ref=' + encodeURIComponent(cfg.branch));
+      (Array.isArray(files) ? files : []).forEach(f => {
+        if (f.type === 'file' && /\.(jpe?g|png|webp|gif|avif|svg)$/i.test(f.name)) out.push(dir + '/' + f.name);
+      });
+    } catch(e){ /* المجلد قد لا يكون موجودًا بعد */ }
+  }
+  mediaCache = out;
+  return out;
+}
+
+/* =========================================================================
+   مخطّط الحقول — يجعل الواجهة مبنية من بيانات لا من HTML مكرّر
+   ========================================================================= */
+const HOME = [
+  { g:'القائمة العلوية', f:[
+    ['nav.works','رابط: أعمالنا'],['nav.why','رابط: لماذا نحن'],['nav.clients','رابط: عملاؤنا'],
+    ['nav.pricing','رابط: الباقات'],['nav.faq','رابط: الأسئلة'],['nav.cta','زر: اطلب موقعك']
+  ]},
+  { g:'الهيرو (أول ما يشوفه الزائر)', f:[
+    ['heroAEye','العنوان الصغير فوق'],
+    ['heroAH1','العنوان الرئيسي', 'rich'],
+    ['heroASub','الوصف تحت العنوان', 'rich'],
+    ['heroCta1','الزر الذهبي'],['heroCta2','الزر الثاني']
+  ]},
+  { g:'جملة الكشف', f:[
+    ['rv1Before','بداية الجملة','star'],['rv1Mid','وسط الجملة','star'],
+    ['rv1Badge','اسم الاستوديو داخل الجملة'],['rv1After','نهاية الجملة','star']
+  ]},
+  { g:'قسم الأعمال', f:[
+    ['worksEye','العنوان الصغير'],['worksH2','العنوان الرئيسي'],['worksSub','الوصف','area'],
+    ['visitLink','نص زر زيارة الموقع'],
+    ['ctaCardH','بطاقة الدعوة: العنوان'],['ctaCardP','بطاقة الدعوة: الوصف','area'],['ctaCardBtn','بطاقة الدعوة: الزر']
+  ]},
+  { g:'شريط الموثوقية', f:[['rv2','الجملة','star']]},
+  { g:'قسم لماذا نحن', f:[
+    ['featEye','العنوان الصغير'],['featH2','العنوان الرئيسي'],['featSub','الوصف','area'],
+    ['featDarkH3','البطاقة الداكنة: العنوان'],['featDarkP','البطاقة الداكنة: الوصف','area'],['featDarkBtn','البطاقة الداكنة: الزر']
+  ]},
+  { g:'قسم خطوات العمل', f:[
+    ['procEye','العنوان الصغير'],['procH2','العنوان الرئيسي'],['procSub','الوصف','area']
+  ]},
+  { g:'قسم العملاء', f:[
+    ['clientsEye','العنوان الصغير'],['clientsH2','العنوان الرئيسي'],['clientsSub','الوصف','area'],
+    ['coreLabel','كلمة تحت العدّاد']
+  ]},
+  { g:'قسم الصنعة', f:[
+    ['craftBadge','الشارة العلوية'],['craftRv','الجملة الكبيرة','star'],
+    ['craftSub','الوصف'],['craftCta','الزر']
+  ]},
+  { g:'قسم الباقات', f:[
+    ['priceEye','العنوان الصغير'],['priceH2','العنوان الرئيسي'],['priceSub','الوصف','area'],
+    ['extrasH3','عنوان الخدمات الإضافية'],['notesH3','عنوان الملاحظات']
+  ]},
+  { g:'قسم الآراء', f:[
+    ['testiEye','العنوان الصغير'],['testiH2','العنوان الرئيسي'],['testiSub','الوصف']
+  ]},
+  { g:'قسم الأسئلة', f:[['faqEye','العنوان الصغير'],['faqH2','العنوان الرئيسي']]},
+  { g:'قسم التواصل', f:[
+    ['contactEye','العنوان الصغير'],['contactH2','العنوان الرئيسي'],['contactLead','الوصف','area'],
+    ['selfProof','سطر الإثبات','rich'],
+    ['waLabel','عنوان قناة واتساب'],['emailLabel','عنوان قناة البريد'],['instaLabel','عنوان قناة إنستقرام']
+  ]},
+  { g:'نموذج طلب السعر', f:[
+    ['formH3','عنوان النموذج'],['formP','وصف النموذج','area'],
+    ['fName','حقل الاسم'],['fNamePH','مثال حقل الاسم'],
+    ['fBiz','حقل النشاط'],['fBizPH','مثال حقل النشاط'],
+    ['fPlan','حقل الباقة'],
+    ['fMsg','حقل الرسالة'],['fMsgPH','مثال حقل الرسالة'],
+    ['submitBtn','زر الإرسال'],['formHint','ملاحظة تحت الزر']
+  ]},
+  { g:'الفوتر', f:[['footBrand','اسم الاستوديو'],['footCopy','سطر الحقوق','rich']]}
+];
+
+const LISTS = {
+  feats:    { title:'الخدمات / المزايا', desc:'البطاقات الست في قسم «لماذا نحن».', fields:[['h3','اسم الخدمة'],['p','الوصف','area']], label:i=>i.h3 },
+  steps:    { title:'خطوات العمل', desc:'المراحل التي يمر بها العميل.', fields:[['h3','اسم الخطوة'],['p','الشرح','area'],['em','السطر الصغير']], label:i=>i.h3 },
+  plans:    { title:'الباقات والأسعار', desc:'باقاتك كما تظهر في قسم الأسعار.', fields:[['name','اسم الباقة'],['who','لمن هي؟'],['note','سطر تمهيدي (اختياري)'],['btn','نص الزر']], list:['items','مزايا الباقة'], label:i=>i.name },
+  testis:   { title:'آراء العملاء', desc:'الشهادات المعروضة في الموقع.', fields:[['p','نص الرأي','area'],['name','اسم العميل'],['role','صفته']], label:i=>i.name },
+  faqs:     { title:'الأسئلة الشائعة', desc:'سؤال وجواب.', fields:[['q','السؤال'],['a','الجواب','area']], label:i=>i.q },
+  extrasRows:{ title:'الخدمات الإضافية', desc:'جدول الأسعار الإضافية.', fields:[['left','الخدمة'],['right','السعر','rich']], label:i=>i.left },
+  ribbon:   { title:'الشريط الذهبي', desc:'العبارات المتحركة.', plain:true, label:i=>i },
+  notes:    { title:'ملاحظات الأسعار', desc:'النقاط تحت جدول الباقات.', plain:true, label:i=>i },
+  footLinks:{ title:'روابط الفوتر', desc:'أسماء الروابط أسفل الموقع.', plain:true, label:i=>i },
+  fPlanOpts:{ title:'خيارات الباقة في النموذج', desc:'القائمة المنسدلة في نموذج طلب السعر.', plain:true, label:i=>i }
+};
+
+const TABS = [
+  ['home','الصفحة الرئيسية','🏠'],
+  ['projects','المشاريع','💼'],
+  ['feats','الخدمات','⭐'],
+  ['plans','الباقات','💳'],
+  ['steps','خطوات العمل','📋'],
+  ['testis','آراء العملاء','💬'],
+  ['faqs','الأسئلة','❓'],
+  ['lists','قوائم أخرى','📝'],
+  ['about','من أنا','👤'],
+  ['contact','التواصل','📞'],
+  ['sections','إظهار الأقسام','👁'],
+  ['media','الصور','🖼']
+];
+
+let tab = 'home';
+
+/* ---------- قراءة/كتابة مسار داخل الكائن ---------- */
+function getPath(obj, path){
+  return path.split('.').reduce((o,k) => (o == null ? undefined : o[k]), obj);
+}
+function setPath(obj, path, val){
+  const ks = path.split('.');
+  let o = obj;
+  for (let i = 0; i < ks.length - 1; i++){ if (o[ks[i]] == null) o[ks[i]] = {}; o = o[ks[i]]; }
+  o[ks[ks.length - 1]] = val;
+}
+
+/* ---------- مولّدات الحقول ---------- */
+function fieldHTML(id, label, val, kind){
+  const hint = kind === 'rich'
+      ? '<div class="hint">يسمح بوسوم بسيطة مثل &lt;b&gt; و&lt;em&gt; و&lt;br&gt;</div>'
+    : kind === 'star'
+      ? '<div class="hint">النص بين *نجمتين* يظهر بلون ذهبي</div>' : '';
+  const input = (kind === 'area' || kind === 'rich')
+    ? '<textarea id="' + id + '">' + esc(val) + '</textarea>'
+    : '<input type="text" id="' + id + '" value="' + esc(val) + '">';
+  return '<div class="field"><label for="' + id + '">' + esc(label) + '</label>' + input + hint + '</div>';
+}
+/* حقل ثنائي اللغة */
+function bilingual(path, label, kind){
+  const idA = 'f_' + path.replace(/\W/g,'_') + '_ar';
+  const idE = 'f_' + path.replace(/\W/g,'_') + '_en';
+  return '<div class="grid2">' +
+    fieldHTML(idA, label + ' <span class="lang-tag">عربي</span>', getPath(content.i18n.ar, path), kind) +
+    fieldHTML(idE, label + ' <span class="lang-tag">EN</span>',  getPath(content.i18n.en, path), kind) +
+  '</div>';
+}
+function bindBilingual(scope){
+  scope.querySelectorAll('[id^="f_"]').forEach(el => {
+    el.addEventListener('input', () => {
+      const m = el.id.match(/^f_(.+)_(ar|en)$/);
+      if (!m) return;
+      const path = m[1].replace(/_/g,'.');
+      setPath(content.i18n[m[2]], path, el.value);
+      markDirty();
+    });
+  });
+}
+
+/* =========================================================================
+   العروض
+   ========================================================================= */
+function viewHome(){
+  let h = '<div class="banner info show">كل نص هنا له نسخة عربية ونسخة إنجليزية. عدّل ما تحتاجه واترك الباقي كما هو.</div>';
+  HOME.forEach(sec => {
+    h += '<div class="card"><h3>' + esc(sec.g) + '</h3><div class="desc"></div>';
+    sec.f.forEach(f => { h += bilingual(f[0], f[1], f[2]); });
+    h += '</div>';
+  });
+  $('#view').innerHTML = h;
+  bindBilingual($('#view'));
+}
+
+function viewProjects(){
+  const ps = content.projects || (content.projects = []);
+  let h = '<div class="banner info show">اسحب المشروع من المقبض ⠿ لتغيير ترتيبه، أو استخدم الأسهم. المخفي لا يظهر في الموقع.</div>' +
+    '<div class="row" style="margin-bottom:16px"><button class="btn btn-navy btn-sm" id="addProj">+ إضافة مشروع</button>' +
+    '<span class="spacer"></span><span style="color:var(--muted);font-size:.85rem">' + ps.length + ' مشروع</span></div>';
+  if (!ps.length) h += '<div class="empty">ما فيه مشاريع بعد. اضغط «إضافة مشروع» لتبدأ.</div>';
+  ps.forEach((p, i) => {
+    h += '<div class="item" draggable="true" data-i="' + i + '">' +
+      '<div class="item-head">' +
+        '<span class="handle" title="اسحب للترتيب">⠿</span>' +
+        '<span class="idx">' + (i+1) + '</span>' +
+        '<span class="ttl">' + esc((p.name && p.name.ar) || 'مشروع بلا اسم') + '</span>' +
+        '<label class="sw"><input type="checkbox" data-vis="' + i + '"' + (p.visible !== false ? ' checked' : '') + '><span class="track"></span>ظاهر</label>' +
+        '<button class="mini" data-up="' + i + '"' + (i === 0 ? ' disabled' : '') + ' title="أعلى">↑</button>' +
+        '<button class="mini" data-down="' + i + '"' + (i === ps.length-1 ? ' disabled' : '') + ' title="أسفل">↓</button>' +
+        '<button class="mini del" data-del="' + i + '" title="حذف">✕</button>' +
+      '</div>' +
+      '<div class="img-slot" style="margin-bottom:14px">' +
+        '<img class="thumb" src="' + esc(p.image || '') + '" alt="" onerror="this.style.opacity=.25">' +
+        '<div class="img-actions">' +
+          '<button class="btn btn-ghost btn-sm" data-pick="' + i + '">رفع صورة جديدة</button>' +
+          '<button class="btn btn-ghost btn-sm" data-lib="' + i + '">اختيار من الصور</button>' +
+          '<input class="field" style="width:100%" type="text" data-img="' + i + '" value="' + esc(p.image || '') + '" dir="ltr" placeholder="assets/...">' +
+        '</div>' +
+      '</div>' +
+      '<div class="grid2">' +
+        '<div class="field"><label>اسم المشروع <span class="lang-tag">عربي</span></label><input type="text" data-p="' + i + '.name.ar" value="' + esc((p.name&&p.name.ar)||'') + '"></div>' +
+        '<div class="field"><label>اسم المشروع <span class="lang-tag">EN</span></label><input type="text" data-p="' + i + '.name.en" value="' + esc((p.name&&p.name.en)||'') + '"></div>' +
+        '<div class="field"><label>التصنيف <span class="lang-tag">عربي</span></label><input type="text" data-p="' + i + '.tags.ar" value="' + esc((p.tags&&p.tags.ar)||'') + '"></div>' +
+        '<div class="field"><label>التصنيف <span class="lang-tag">EN</span></label><input type="text" data-p="' + i + '.tags.en" value="' + esc((p.tags&&p.tags.en)||'') + '"></div>' +
+        '<div class="field"><label>رابط الموقع</label><input type="text" data-p="' + i + '.live" value="' + esc(p.live||'') + '" dir="ltr" placeholder="https://..."></div>' +
+        '<div class="field"><label>العنوان الظاهر في شريط المتصفح</label><input type="text" data-p="' + i + '.url" value="' + esc(p.url||'') + '" dir="ltr" placeholder="example.com"></div>' +
+      '</div>' +
+    '</div>';
+  });
+  $('#view').innerHTML = h;
+  bindProjects();
+}
+
+function bindProjects(){
+  const v = $('#view'), ps = content.projects;
+  v.querySelector('#addProj').onclick = () => {
+    ps.push({ id:uid(), visible:true, live:'', url:'', image:'', alt:'',
+              name:{ar:'مشروع جديد',en:'New project'}, tags:{ar:'',en:''} });
+    markDirty(); viewProjects();
+  };
+  v.querySelectorAll('[data-p]').forEach(el => el.oninput = () => {
+    setPath(ps, el.dataset.p, el.value); markDirty();
+  });
+  v.querySelectorAll('[data-img]').forEach(el => el.oninput = () => {
+    ps[+el.dataset.img].image = el.value; markDirty();
+    const t = el.closest('.img-slot').querySelector('.thumb');
+    t.src = el.value; t.style.opacity = 1;
+  });
+  v.querySelectorAll('[data-vis]').forEach(el => el.onchange = () => {
+    ps[+el.dataset.vis].visible = el.checked; markDirty();
+  });
+  v.querySelectorAll('[data-del]').forEach(el => el.onclick = () => {
+    const i = +el.dataset.del;
+    if (!confirm('حذف «' + ((ps[i].name && ps[i].name.ar) || 'المشروع') + '»؟ لا يمكن التراجع بعد الحفظ.')) return;
+    ps.splice(i,1); markDirty(); viewProjects();
+  });
+  v.querySelectorAll('[data-up]').forEach(el => el.onclick = () => { move(ps, +el.dataset.up, -1); viewProjects(); });
+  v.querySelectorAll('[data-down]').forEach(el => el.onclick = () => { move(ps, +el.dataset.down, 1); viewProjects(); });
+  v.querySelectorAll('[data-pick]').forEach(el => el.onclick = () => pickAndUpload(p => {
+    ps[+el.dataset.pick].image = p; markDirty(); viewProjects();
+  }));
+  v.querySelectorAll('[data-lib]').forEach(el => el.onclick = () => openLibrary(p => {
+    ps[+el.dataset.lib].image = p; markDirty(); viewProjects();
+  }));
+  enableDrag(v, ps, viewProjects);
+}
+
+function move(arr, i, d){
+  const j = i + d;
+  if (j < 0 || j >= arr.length) return;
+  const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  markDirty();
+}
+
+/* سحب وإفلات للترتيب */
+function enableDrag(scope, arr, rerender){
+  let from = null;
+  scope.querySelectorAll('.item[draggable]').forEach(it => {
+    it.addEventListener('dragstart', e => {
+      from = +it.dataset.i; it.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setData('text/plain', String(from)); } catch(err){}
+    });
+    it.addEventListener('dragend', () => { it.classList.remove('dragging');
+      scope.querySelectorAll('.item').forEach(x => x.classList.remove('drag-over')); });
+    it.addEventListener('dragover', e => { e.preventDefault(); it.classList.add('drag-over'); });
+    it.addEventListener('dragleave', () => it.classList.remove('drag-over'));
+    it.addEventListener('drop', e => {
+      e.preventDefault();
+      const to = +it.dataset.i;
+      if (from == null || from === to) return;
+      const item = arr.splice(from,1)[0];
+      arr.splice(to, 0, item);
+      markDirty(); rerender();
+    });
+  });
+}
+
+/* ---------- قوائم عامة (خدمات/باقات/آراء/أسئلة…) ---------- */
+function viewList(key){
+  const spec = LISTS[key];
+  const arA = content.i18n.ar[key] || (content.i18n.ar[key] = []);
+  const arE = content.i18n.en[key] || (content.i18n.en[key] = []);
+  while (arE.length < arA.length) arE.push(spec.plain ? '' : {});
+  let h = '<div class="banner info show">' + esc(spec.desc) + ' العدد والترتيب مشترك بين اللغتين.</div>' +
+    '<div class="row" style="margin-bottom:16px"><button class="btn btn-navy btn-sm" id="addItem">+ إضافة</button>' +
+    '<span class="spacer"></span><span style="color:var(--muted);font-size:.85rem">' + arA.length + ' عنصر</span></div>';
+  if (!arA.length) h += '<div class="empty">القائمة فارغة.</div>';
+
+  arA.forEach((it, i) => {
+    const label = spec.plain ? (arA[i] || '') : (spec.label(it) || '');
+    h += '<div class="item" draggable="true" data-i="' + i + '">' +
+      '<div class="item-head"><span class="handle">⠿</span><span class="idx">' + (i+1) + '</span>' +
+      '<span class="ttl">' + esc(String(label).slice(0,60)) + '</span>' +
+      '<button class="mini" data-up="' + i + '"' + (i===0?' disabled':'') + '>↑</button>' +
+      '<button class="mini" data-down="' + i + '"' + (i===arA.length-1?' disabled':'') + '>↓</button>' +
+      '<button class="mini del" data-del="' + i + '">✕</button></div>';
+    if (spec.plain){
+      h += '<div class="grid2">' +
+        '<div class="field"><label>النص <span class="lang-tag">عربي</span></label><input type="text" data-l="ar.' + i + '" value="' + esc(arA[i]||'') + '"></div>' +
+        '<div class="field"><label>النص <span class="lang-tag">EN</span></label><input type="text" data-l="en.' + i + '" value="' + esc(arE[i]||'') + '"></div></div>';
+    } else {
+      spec.fields.forEach(f => {
+        const k = f[0], lab = f[1], kind = f[2];
+        const va = (arA[i]||{})[k], ve = (arE[i]||{})[k];
+        const inA = (kind==='area'||kind==='rich')
+          ? '<textarea data-l="ar.' + i + '.' + k + '">' + esc(va) + '</textarea>'
+          : '<input type="text" data-l="ar.' + i + '.' + k + '" value="' + esc(va) + '">';
+        const inE = (kind==='area'||kind==='rich')
+          ? '<textarea data-l="en.' + i + '.' + k + '">' + esc(ve) + '</textarea>'
+          : '<input type="text" data-l="en.' + i + '.' + k + '" value="' + esc(ve) + '">';
+        h += '<div class="grid2"><div class="field"><label>' + esc(lab) + ' <span class="lang-tag">عربي</span></label>' + inA + '</div>' +
+             '<div class="field"><label>' + esc(lab) + ' <span class="lang-tag">EN</span></label>' + inE + '</div></div>';
+      });
+      if (spec.list){
+        const lk = spec.list[0];
+        const la = (arA[i]||{})[lk] || [], le = (arE[i]||{})[lk] || [];
+        h += '<div class="field"><label>' + esc(spec.list[1]) + ' <span class="lang-tag">عربي</span></label>' +
+             '<textarea data-lines="ar.' + i + '.' + lk + '" rows="' + Math.max(3, la.length) + '">' + esc(la.join('\n')) + '</textarea>' +
+             '<div class="hint">كل ميزة في سطر منفصل</div></div>' +
+             '<div class="field"><label>' + esc(spec.list[1]) + ' <span class="lang-tag">EN</span></label>' +
+             '<textarea data-lines="en.' + i + '.' + lk + '" rows="' + Math.max(3, le.length) + '">' + esc(le.join('\n')) + '</textarea></div>';
+      }
+    }
+    h += '</div>';
+  });
+  $('#view').innerHTML = h;
+
+  const v = $('#view');
+  v.querySelector('#addItem').onclick = () => {
+    if (spec.plain){ arA.push(''); arE.push(''); }
+    else {
+      const blank = {}; spec.fields.forEach(f => blank[f[0]] = '');
+      if (spec.list) blank[spec.list[0]] = [];
+      arA.push(clone(blank)); arE.push(clone(blank));
+    }
+    markDirty(); viewList(key);
+  };
+  v.querySelectorAll('[data-l]').forEach(el => el.oninput = () => {
+    const p = el.dataset.l.split('.');
+    const lang = p.shift();
+    const target = content.i18n[lang][key];
+    if (p.length === 1) target[+p[0]] = el.value;
+    else target[+p[0]][p[1]] = el.value;
+    markDirty();
+  });
+  v.querySelectorAll('[data-lines]').forEach(el => el.oninput = () => {
+    const p = el.dataset.lines.split('.');
+    const lang = p.shift();
+    content.i18n[lang][key][+p[0]][p[1]] = el.value.split('\n').map(s => s.trim()).filter(Boolean);
+    markDirty();
+  });
+  v.querySelectorAll('[data-del]').forEach(el => el.onclick = () => {
+    const i = +el.dataset.del;
+    if (!confirm('حذف هذا العنصر؟')) return;
+    arA.splice(i,1); arE.splice(i,1); markDirty(); viewList(key);
+  });
+  v.querySelectorAll('[data-up]').forEach(el => el.onclick = () => {
+    const i = +el.dataset.up; move(arA,i,-1); move(arE,i,-1); viewList(key);
+  });
+  v.querySelectorAll('[data-down]').forEach(el => el.onclick = () => {
+    const i = +el.dataset.down; move(arA,i,1); move(arE,i,1); viewList(key);
+  });
+  /* السحب يحرّك اللغتين معًا */
+  let from = null;
+  v.querySelectorAll('.item[draggable]').forEach(it => {
+    it.addEventListener('dragstart', e => { from = +it.dataset.i; it.classList.add('dragging'); });
+    it.addEventListener('dragend', () => { it.classList.remove('dragging');
+      v.querySelectorAll('.item').forEach(x => x.classList.remove('drag-over')); });
+    it.addEventListener('dragover', e => { e.preventDefault(); it.classList.add('drag-over'); });
+    it.addEventListener('dragleave', () => it.classList.remove('drag-over'));
+    it.addEventListener('drop', e => {
+      e.preventDefault();
+      const to = +it.dataset.i;
+      if (from == null || from === to) return;
+      arA.splice(to, 0, arA.splice(from,1)[0]);
+      arE.splice(to, 0, arE.splice(from,1)[0]);
+      markDirty(); viewList(key);
+    });
+  });
+}
+
+function viewLists(){
+  const keys = ['extrasRows','notes','ribbon','footLinks','fPlanOpts'];
+  let h = '<div class="banner info show">قوائم صغيرة متفرقة في الموقع. اختر القائمة التي تريد تعديلها.</div><div class="card"><h3>اختر القائمة</h3><div class="row">';
+  keys.forEach(k => { h += '<button class="btn btn-ghost btn-sm" data-open="' + k + '">' + esc(LISTS[k].title) + '</button>'; });
+  h += '</div></div><div id="sublist"></div>';
+  $('#view').innerHTML = h;
+  $('#view').querySelectorAll('[data-open]').forEach(b => b.onclick = () => {
+    const k = b.dataset.open;
+    viewList(k);
+    $('#view').insertAdjacentHTML('afterbegin',
+      '<button class="btn btn-ghost btn-sm" id="backLists" style="margin-bottom:14px">← رجوع للقوائم</button>');
+    $('#backLists').onclick = viewLists;
+  });
+}
+
+function viewAbout(){
+  const a = content.about || (content.about = {enabled:false,name:'',image:'',bio:{ar:'',en:''}});
+  $('#view').innerHTML =
+    '<div class="banner info show">هذا القسم غير موجود في الموقع حاليًا. لو فعّلته سيظهر قسم «من أنا» بين قسم الأعمال وقسم لماذا نحن.</div>' +
+    '<div class="card"><h3>قسم من أنا</h3>' +
+    '<label class="sw" style="margin-bottom:18px"><input type="checkbox" id="abEn"' + (a.enabled?' checked':'') + '><span class="track"></span>تفعيل القسم وإظهاره في الموقع</label>' +
+    '<div class="field"><label>الاسم</label><input type="text" id="abName" value="' + esc(a.name) + '"></div>' +
+    '<div class="img-slot" style="margin-bottom:14px">' +
+      '<img class="thumb" src="' + esc(a.image||'') + '" alt="" onerror="this.style.opacity=.25">' +
+      '<div class="img-actions">' +
+        '<button class="btn btn-ghost btn-sm" id="abPick">رفع صورة</button>' +
+        '<button class="btn btn-ghost btn-sm" id="abLib">اختيار من الصور</button>' +
+        '<input type="text" id="abImg" value="' + esc(a.image||'') + '" dir="ltr" placeholder="assets/...">' +
+      '</div></div>' +
+    '<div class="grid2">' +
+      '<div class="field"><label>النبذة <span class="lang-tag">عربي</span></label><textarea id="abBioAr" rows="5">' + esc(a.bio&&a.bio.ar) + '</textarea></div>' +
+      '<div class="field"><label>النبذة <span class="lang-tag">EN</span></label><textarea id="abBioEn" rows="5">' + esc(a.bio&&a.bio.en) + '</textarea></div>' +
+    '</div></div>';
+  const v = $('#view');
+  v.querySelector('#abEn').onchange = e => { a.enabled = e.target.checked; markDirty(); };
+  v.querySelector('#abName').oninput = e => { a.name = e.target.value; markDirty(); };
+  v.querySelector('#abImg').oninput = e => { a.image = e.target.value; markDirty();
+    const t = v.querySelector('.thumb'); t.src = e.target.value; t.style.opacity = 1; };
+  v.querySelector('#abBioAr').oninput = e => { a.bio.ar = e.target.value; markDirty(); };
+  v.querySelector('#abBioEn').oninput = e => { a.bio.en = e.target.value; markDirty(); };
+  v.querySelector('#abPick').onclick = () => pickAndUpload(p => { a.image = p; markDirty(); viewAbout(); });
+  v.querySelector('#abLib').onclick  = () => openLibrary(p => { a.image = p; markDirty(); viewAbout(); });
+}
+
+function viewContact(){
+  const c = content.contact || (content.contact = {});
+  const F = [
+    ['whatsapp','رقم واتساب','مثال: 966572929651 — بدون + أو مسافات','966572929651'],
+    ['email','البريد الإلكتروني','','name@example.com'],
+    ['instagram','إنستقرام','اسم الحساب بدون @','os.websites'],
+    ['tiktok','تيك توك','اتركه فارغًا ليختفي من الموقع',''],
+    ['linkedin','لينكدإن','اتركه فارغًا ليختفي من الموقع',''],
+    ['behance','بيهانس','اتركه فارغًا ليختفي من الموقع',''],
+    ['x','X (تويتر)','اتركه فارغًا ليختفي من الموقع',''],
+    ['youtube','يوتيوب','اتركه فارغًا ليختفي من الموقع','']
+  ];
+  let h = '<div class="banner info show">رقم واتساب يُطبَّق تلقائيًا على كل أزرار «اطلب موقعك» في الموقع كله. الحقول الفارغة لا تظهر للزائر.</div><div class="card"><h3>بيانات التواصل</h3>';
+  F.forEach(f => {
+    h += '<div class="field"><label for="c_' + f[0] + '">' + esc(f[1]) + '</label>' +
+      '<input type="text" id="c_' + f[0] + '" value="' + esc(c[f[0]]||'') + '" dir="ltr" placeholder="' + esc(f[3]) + '">' +
+      (f[2] ? '<div class="hint">' + esc(f[2]) + '</div>' : '') + '</div>';
+  });
+  h += '</div><div class="card"><h3>عدّاد المواقع المُسلَّمة</h3>' +
+    '<div class="desc">الرقم الذي يظهر في قسم العملاء.</div>' +
+    '<div class="field"><label for="cnt">العدد</label><input type="number" id="cnt" min="0" value="' + (content.counter||0) + '"></div></div>';
+  $('#view').innerHTML = h;
+  F.forEach(f => $('#c_' + f[0]).oninput = e => { c[f[0]] = e.target.value.trim(); markDirty(); });
+  $('#cnt').oninput = e => { content.counter = parseInt(e.target.value,10) || 0; markDirty(); };
+}
+
+function viewSections(){
+  const NAMES = {
+    rvsec:'جملة الكشف', works:'الأعمال', trusted:'شريط الموثوقية', features:'لماذا نحن',
+    process:'خطوات العمل', clients:'العملاء والمدارات', craft:'الصنعة اليدوية',
+    pricing:'الباقات', ribbon:'الشريط الذهبي', testi:'آراء العملاء', faq:'الأسئلة', contact:'التواصل'
+  };
+  const s = content.sections || (content.sections = {});
+  let h = '<div class="banner info show">أطفئ أي قسم لإخفائه من الموقع دون حذف محتواه. تقدر ترجعه في أي وقت.</div><div class="card"><h3>أقسام الموقع</h3>';
+  Object.keys(NAMES).forEach(k => {
+    h += '<div class="row" style="padding:11px 0;border-bottom:1px solid var(--line)">' +
+      '<span style="flex:1;font-family:var(--ff-d);font-weight:800;color:var(--navy)">' + esc(NAMES[k]) + '</span>' +
+      '<label class="sw"><input type="checkbox" data-sec="' + k + '"' + (s[k] !== false ? ' checked' : '') + '><span class="track"></span></label></div>';
+  });
+  h += '</div>';
+  $('#view').innerHTML = h;
+  $('#view').querySelectorAll('[data-sec]').forEach(el => el.onchange = () => {
+    s[el.dataset.sec] = el.checked; markDirty();
+  });
+}
+
+async function viewMedia(){
+  $('#view').innerHTML = '<div class="card"><h3>الصور</h3><div class="desc">جاري التحميل…</div></div>';
+  let files = [];
+  try { files = await listMedia(); }
+  catch(e){ $('#view').innerHTML = '<div class="banner err show">تعذّر تحميل قائمة الصور: ' + esc(e.message) + '</div>'; return; }
+  let h = '<div class="banner info show">ارفع صورة جديدة، أو انسخ مسار أي صورة لاستخدامها في مشروع.</div>' +
+    '<div class="row" style="margin-bottom:16px"><button class="btn btn-navy btn-sm" id="upBtn">+ رفع صورة</button>' +
+    '<span class="spacer"></span><span style="color:var(--muted);font-size:.85rem">' + files.length + ' صورة</span></div>' +
+    '<div class="media-grid">';
+  files.forEach(f => {
+    h += '<div class="media-item"><img src="' + esc(f) + '" alt="" loading="lazy">' +
+      '<button class="cp" data-cp="' + esc(f) + '">نسخ المسار</button>' +
+      '<div class="nm">' + esc(f.split('/').pop()) + '</div></div>';
+  });
+  h += '</div>';
+  $('#view').innerHTML = h;
+  $('#upBtn').onclick = () => pickAndUpload(() => viewMedia());
+  $('#view').querySelectorAll('[data-cp]').forEach(b => b.onclick = () => {
+    navigator.clipboard.writeText(b.dataset.cp)
+      .then(() => toast('نُسخ المسار', 'ok'))
+      .catch(() => toast('تعذّر النسخ', 'err'));
+  });
+}
+
+/* ---------- رفع صورة ومكتبة ---------- */
+function pickAndUpload(cb){
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = async () => {
+    const f = inp.files && inp.files[0];
+    if (!f) return;
+    toast('جاري رفع الصورة…');
+    try {
+      const path = await uploadImage(f);
+      toast('تم رفع الصورة', 'ok');
+      cb(path);
+    } catch(e){ toast('فشل الرفع: ' + e.message, 'err'); }
+  };
+  inp.click();
+}
+
+async function openLibrary(cb){
+  let files = [];
+  try { files = await listMedia(); }
+  catch(e){ toast('تعذّر تحميل الصور: ' + e.message, 'err'); return; }
+  if (!files.length){ toast('ما فيه صور بعد — ارفع صورة أولًا', 'err'); return; }
+  const ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(10,24,47,.62);z-index:150;display:grid;place-items:center;padding:20px';
+  ov.innerHTML = '<div style="background:#fff;border-radius:18px;padding:22px;max-width:760px;width:100%;max-height:82svh;overflow:auto">' +
+    '<div class="row" style="margin-bottom:14px"><b style="font-family:var(--ff-d);font-size:1.05rem;color:var(--navy)">اختر صورة</b>' +
+    '<span class="spacer"></span><button class="mini" id="lbX">✕</button></div><div class="media-grid" id="lbG"></div></div>';
+  document.body.appendChild(ov);
+  const g = ov.querySelector('#lbG');
+  files.forEach(f => {
+    const d = document.createElement('div');
+    d.className = 'media-item';
+    d.style.cursor = 'pointer';
+    d.innerHTML = '<img src="' + esc(f) + '" alt="" loading="lazy"><div class="nm">' + esc(f.split('/').pop()) + '</div>';
+    d.onclick = () => { cb(f); ov.remove(); };
+    g.appendChild(d);
+  });
+  ov.querySelector('#lbX').onclick = () => ov.remove();
+  ov.onclick = e => { if (e.target === ov) ov.remove(); };
+}
+
+/* =========================================================================
+   التنقّل والحفظ
+   ========================================================================= */
+function render(){
+  const t = TABS.find(x => x[0] === tab);
+  $('#tabTitle').textContent = t ? t[1] : '';
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === tab));
+  $('#side').classList.remove('open'); $('#scrim').classList.remove('on');
+  $('.wrap').scrollTop = 0; window.scrollTo(0,0);
+  if (tab === 'home') viewHome();
+  else if (tab === 'projects') viewProjects();
+  else if (tab === 'about') viewAbout();
+  else if (tab === 'contact') viewContact();
+  else if (tab === 'sections') viewSections();
+  else if (tab === 'media') viewMedia();
+  else if (tab === 'lists') viewLists();
+  else viewList(tab);
+}
+
+function buildTabs(){
+  $('#tabs').innerHTML = TABS.map(t =>
+    '<button data-t="' + t[0] + '"><span class="ic">' + t[2] + '</span>' + esc(t[1]) + '</button>').join('');
+  $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { tab = b.dataset.t; render(); });
+}
+
+async function doSave(){
+  const btn = $('#saveBtn');
+  btn.disabled = true;
+  const old = btn.innerHTML;
+  btn.innerHTML = '<span class="spin"></span> جاري الحفظ';
+  try {
+    await saveContent();
+    dirty = false;
+    document.querySelector('.top').classList.remove('dirty');
+    toast('تم الحفظ ✓ التعديلات تظهر على الموقع خلال دقيقة تقريبًا', 'ok');
+  } catch(e){
+    if (e.status === 409 || /sha/i.test(e.message)){
+      toast('الملف تغيّر من مكان آخر. حدّث الصفحة وأعد التعديل حتى لا يُفقد شيء.', 'err');
+    } else if (e.status === 401 || e.status === 403){
+      toast('المفتاح غير صالح أو لا يملك صلاحية الكتابة على المستودع.', 'err');
+    } else {
+      toast('تعذّر الحفظ: ' + e.message, 'err');
+    }
+  } finally {
+    btn.disabled = false; btn.innerHTML = old;
+  }
+}
+
+/* ---------- الدخول ---------- */
+function detectRepo(){
+  const m = location.hostname.match(/^([^.]+)\.github\.io$/i);
+  if (m){
+    const seg = location.pathname.split('/').filter(Boolean);
+    return { owner:m[1], repo: seg.length > 1 ? seg[0] : (m[1] + '.github.io'), branch:'main' };
+  }
+  return null;
+}
+
+async function enter(){
+  const err = $('#gateErr');
+  err.classList.remove('show');
+  const token = $('#tok').value.trim();
+  if (!token){ err.textContent = 'الصق المفتاح أولًا.'; err.classList.add('show'); return; }
+  cfg.token = token;
+  cfg.owner = $('#owner').value.trim();
+  cfg.repo  = $('#repo').value.trim();
+  cfg.branch = $('#branch').value.trim() || 'main';
+  if (!cfg.owner || !cfg.repo){
+    err.textContent = 'اكتب اسم الحساب واسم المستودع في «إعدادات المستودع».';
+    err.classList.add('show'); $('#adv').classList.add('on'); return;
+  }
+  const btn = $('#loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> جاري التحقق';
+  try {
+    content = await loadContent();
+    if (!content || !content.i18n) throw new Error('ملف المحتوى غير صالح.');
+    try {
+      localStorage.setItem(LS.tok, token);
+      localStorage.setItem(LS.repo, JSON.stringify({owner:cfg.owner, repo:cfg.repo, branch:cfg.branch}));
+    } catch(e){}
+    $('#gate').style.display = 'none';
+    $('#app').classList.add('on');
+    buildTabs(); render();
+  } catch(e){
+    let m = e.message;
+    if (e.status === 401) m = 'المفتاح غير صحيح أو منتهي.';
+    else if (e.status === 403) m = 'المفتاح لا يملك صلاحية الوصول لهذا المستودع.';
+    else if (e.status === 404) m = 'ما لقيت المستودع. تأكد من اسم الحساب واسم المستودع.';
+    err.textContent = m; err.classList.add('show');
+  } finally {
+    btn.disabled = false; btn.textContent = 'دخول';
+  }
+}
+
+/* ---------- التهيئة ---------- */
+(function init(){
+  const d = detectRepo();
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(LS.repo) || 'null'); } catch(e){}
+  const r = saved || d || {owner:'',repo:'',branch:'main'};
+  $('#owner').value = r.owner || '';
+  $('#repo').value = r.repo || '';
+  $('#branch').value = r.branch || 'main';
+  if (!r.owner || !r.repo) $('#adv').classList.add('on');
+  try {
+    const t = localStorage.getItem(LS.tok);
+    if (t) $('#tok').value = t;
+  } catch(e){}
+
+  $('#loginBtn').onclick = enter;
+  $('#tok').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+  $('#advToggle').onclick = () => $('#adv').classList.toggle('on');
+  $('#saveBtn').onclick = doSave;
+  $('#burger').onclick = () => { $('#side').classList.toggle('open'); $('#scrim').classList.toggle('on'); };
+  $('#scrim').onclick = () => { $('#side').classList.remove('open'); $('#scrim').classList.remove('on'); };
+  $('#logout').onclick = () => {
+    if (dirty && !confirm('فيه تعديلات غير محفوظة. الخروج الآن يفقدها. متأكد؟')) return;
+    try { localStorage.removeItem(LS.tok); } catch(e){}
+    location.reload();
+  };
+  addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's'){ e.preventDefault(); if (content) doSave(); }
+  });
+})();
+</script>
+</body>
+</html>
