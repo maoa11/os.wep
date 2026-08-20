@@ -98,10 +98,34 @@ a{color:var(--navy)}
 .dirty .dirty-dot{display:block}
 .wrap{padding:26px 28px 90px;max-width:1000px;width:100%}
 
+/* ============ بحث وتصفية ============ */
+.finder{position:sticky;top:64px;z-index:15;background:var(--paper);padding:2px 0 14px;margin-bottom:4px}
+.finder input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:12px 44px 12px 14px;font-size:.94rem;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2354515C' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:17px}
+html[dir="ltr"] .finder input{padding:12px 14px 12px 44px;background-position:left 14px center}
+.finder input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(199,154,75,.15)}
+.finder .count{font-size:.79rem;color:var(--muted);margin-top:6px;display:none}
+.finder .count.show{display:block}
+.hide{display:none !important}
+
 /* ============ بطاقات ============ */
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px}
 .card>h3{font-family:var(--ff-d);font-weight:900;font-size:1.05rem;color:var(--navy);
   margin-bottom:4px;display:flex;align-items:center;gap:9px;justify-content:space-between}
+
+/* مجموعة قابلة للطي */
+details.card{padding:0}
+details.card>summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;align-items:center;
+  gap:11px;font-family:var(--ff-d);font-weight:900;font-size:1.02rem;color:var(--navy);border-radius:16px;
+  transition:background .2s}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary:hover{background:var(--paper-2)}
+details.card>summary .chev{margin-inline-start:auto;color:var(--muted);font-size:.8rem;transition:transform .25s var(--ease)}
+details.card[open]>summary .chev{transform:rotate(180deg)}
+details.card>summary .n{font-size:.75rem;font-weight:500;color:var(--muted);
+  background:var(--paper-2);border-radius:999px;padding:2px 9px;font-family:var(--ff-t)}
+details.card>.body{padding:0 22px 20px}
 .card>.desc{color:var(--muted);font-size:.85rem;margin-bottom:18px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .lang-tag{font-family:var(--ff-d);font-size:.7rem;font-weight:800;letter-spacing:1px;
@@ -166,6 +190,11 @@ html[dir="rtl"] #toast{transform:translate(50%,140%)}
 .banner.info{background:rgba(199,154,75,.1);border:1px solid rgba(199,154,75,.3);color:#7A5D25}
 .empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:.9rem}
 
+/* طبقة تعتيم درج الجوال — ثابتة ومخفية دائمًا حتى لا تدخل شبكة الصفحة
+   وتسرق عمودًا على الديسكتوب */
+#scrim{position:fixed;inset:0;background:rgba(10,24,47,.5);z-index:55;display:none}
+#scrim.on{display:block}
+
 /* الجوال */
 .burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;
   width:40px;height:40px;cursor:pointer;font-size:1.1rem;line-height:1}
@@ -181,8 +210,6 @@ html[dir="rtl"] #toast{transform:translate(50%,140%)}
   .grid2{grid-template-columns:1fr}
   .img-slot{flex-direction:column}
   .img-slot .thumb{width:100%}
-  #scrim{position:fixed;inset:0;background:rgba(10,24,47,.5);z-index:55;display:none}
-  #scrim.on{display:block}
 }
 </style>
 </head>
@@ -542,14 +569,47 @@ function bindBilingual(scope){
    العروض
    ========================================================================= */
 function viewHome(){
-  let h = '<div class="banner info show">كل نص هنا له نسخة عربية ونسخة إنجليزية. عدّل ما تحتاجه واترك الباقي كما هو.</div>';
-  HOME.forEach(sec => {
-    h += '<div class="card"><h3>' + esc(sec.g) + '</h3><div class="desc"></div>';
-    sec.f.forEach(f => { h += bilingual(f[0], f[1], f[2]); });
-    h += '</div>';
+  let h = '<div class="banner info show">كل نص له نسخة عربية وإنجليزية. اضغط على اسم القسم لفتحه، أو ابحث عن الحقل مباشرة.</div>' +
+    '<div class="finder"><input type="search" id="find" placeholder="ابحث عن حقل… مثال: العنوان الرئيسي، الزر، واتساب">' +
+    '<div class="count" id="findCount"></div></div>';
+  HOME.forEach((sec, i) => {
+    h += '<details class="card"' + (i === 0 ? ' open' : '') + ' data-group>' +
+      '<summary>' + esc(sec.g) +
+        '<span class="n">' + sec.f.length + ' حقل</span>' +
+        '<span class="chev">▼</span>' +
+      '</summary><div class="body">';
+    sec.f.forEach(f => {
+      h += '<div class="fgroup" data-label="' + esc(f[1] + ' ' + sec.g) + '">' + bilingual(f[0], f[1], f[2]) + '</div>';
+    });
+    h += '</div></details>';
   });
   $('#view').innerHTML = h;
   bindBilingual($('#view'));
+
+  /* البحث يصفّي الحقول ويفتح المجموعات التي تحتوي نتائج */
+  const inp = $('#find'), cnt = $('#findCount');
+  inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase();
+    if (!q){
+      $('#view').querySelectorAll('.fgroup,[data-group]').forEach(el => el.classList.remove('hide'));
+      $('#view').querySelectorAll('[data-group]').forEach((d, i) => { d.open = (i === 0); });
+      cnt.classList.remove('show');
+      return;
+    }
+    let hits = 0;
+    $('#view').querySelectorAll('[data-group]').forEach(d => {
+      let any = 0;
+      d.querySelectorAll('.fgroup').forEach(fg => {
+        const match = fg.dataset.label.toLowerCase().includes(q);
+        fg.classList.toggle('hide', !match);
+        if (match){ any++; hits++; }
+      });
+      d.classList.toggle('hide', !any);
+      d.open = !!any;
+    });
+    cnt.textContent = hits ? hits + ' حقل مطابق' : 'ما فيه حقل بهذا الاسم';
+    cnt.classList.add('show');
+  });
 }
 
 function viewProjects(){
