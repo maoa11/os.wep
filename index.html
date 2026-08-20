@@ -60,7 +60,7 @@
      واحدة فقط لكل جلسة. الرابط يبقى نظيفًا بلا أي ?v= . -->
 <script>
 (function(){
-  var BUILD = '2026-08-05-4';   // يُزاد مع version.txt عند كل تعديل منشور
+  var BUILD = '2026-08-05-5';   // يُزاد مع version.txt عند كل تعديل منشور
   var KEY = 'os-build-reload';
   if (!window.fetch || !window.sessionStorage) return;
   try { if (sessionStorage.getItem(KEY) === BUILD) return; } catch(e){ return; }
@@ -2348,7 +2348,12 @@ function setLang(lang){
       const tt=t.testis[i];if(!tt)return;
       const p=card.querySelector('p');if(p)p.textContent=tt.p;
       const b=card.querySelector('.t-who b');if(b)b.textContent=tt.name;
-      const sp=card.querySelector('.t-who span');if(sp)sp.textContent=tt.role;
+      /* الصفة داخل الـdiv تحديدًا — '.t-who span' كان يلتقط .avatar ويحشر
+         النص داخل دائرة الحرف */
+      const sp=card.querySelector('.t-who div span');if(sp)sp.textContent=tt.role;
+      /* حرف الدائرة يُشتق من الاسم ليصحّ مع أي رأي يضيفه المالك */
+      const av=card.querySelector('.t-who .avatar');
+      if(av&&tt.name){const ch=tt.name.trim().charAt(0);if(ch)av.textContent=ch;}
     });
   }
 
